@@ -1,0 +1,136 @@
+---
+import Layout from "../layouts/Layout.astro";
+import config from "../config.json";
+
+import { Image } from "astro:assets";
+import heroImg from "../assets/images/hero.jpg";
+
+import introImg1 from "../assets/images/intro/1.jpg";
+import introImg2 from "../assets/images/intro/2.jpg";
+import introImg3 from "../assets/images/intro/3.jpg";
+
+import myStoryImg from "../assets/images/myStory.jpg";
+---
+
+<Layout title={config.businessName}>
+  <section
+    class="h-screen w-full relative bg-black flex flex-col items-center justify-center"
+  >
+    <Image
+      src={heroImg}
+      alt="hero"
+      class="w-full h-full object-cover absolute top-0 left-0 grayscale-[100] opacity-50"
+    />
+    <div class="flex flex-col relative z-10 text-center items-center">
+      <h2 class="text-primary uppercase text-2xl tracking-widest font-medium">
+        Stay Uncomfortable
+      </h2>
+      <div class="uppercase text-8xl max-md:text-6xl text-white font-extrabold">
+        <h1>mindset and</h1>
+        <h1>lifestyle coaching</h1>
+      </div>
+      <a href="/contact" class="btn uppercase w-fit mt-8 btn-lg"
+        >Start the journey today</a
+      >
+    </div>
+  </section>
+  <section>
+    <div class="max-w-screen-xl mx-auto py-16 flex flex-col gap-16 px-4">
+      <div class="grid grid-cols-2 max-md:grid-cols-1 gap-16 pb-96 max-md:pb-0">
+        <h1 class="font-bold text-5xl">
+          A MINDSET AND LIFESTYLE COACHING EXPERIENCE
+        </h1>
+        <p class="text-right font-light text-4xl" id="introText">
+          Invest in yourself by understanding who you are and how you move. Take
+          accountability and stay open-minded. Be teachable, not a know-it-all.
+          Reach out for help, recognising that investing in you means seeking
+          guidance. Learn when to push yourself and when you might be falling
+          into a victim mindset. Share your problems to lighten the load. Avoid
+          self-deception and make a genuine commitment to personal growth.
+        </p>
+      </div>
+      <div
+        class="grid grid-cols-2 grid-rows-1 w-full gap-x-8 max-md:gap-x-4 max-w-screen-lg mx-auto"
+      >
+        <Image
+          src={introImg1}
+          alt="intro"
+          class="w-full h-full object-cover row-span-2 grayscale-[100]"
+        />
+        <div
+          class="flex flex-col h-full w-full justify-between gap-8 max-md:gap-4"
+        >
+          <Image
+            src={introImg2}
+            alt="intro"
+            class="w-full aspect-square object-cover grayscale-[100]"
+          />
+          <Image
+            src={introImg3}
+            alt="intro"
+            class="w-full aspect-square object-cover grayscale-[100]"
+          />
+        </div>
+      </div>
+    </div>
+  </section>
+  <section class="flex flex-col py-16 px-4">
+    <div
+      class="max-w-screen-xl mx-auto grid grid-cols-2 gap-16 max-md:grid-cols-1"
+    >
+      <div class="flex flex-col gap-8">
+        <h1 class="text-6xl font-bold text-primary uppercase">My Story</h1>
+        <p class="font-light text-2xl">
+          I grew up in street gangs, committing crime, addicted to drugs and
+          alcohol with no set routine everyday, just in autopilot and saw no
+          potential in myself. <br /><br />
+          This led me to ongoing excuses and living in a victim state. <br /><br
+          />
+          I fell in love with boxing but quickly noticed it was my life and mindset
+          out side of the gym that was hindering my growth and potential. <br
+          /><br />
+          I had some honest chats with myself and with others i looked up to. I did
+          all the hard work myself gathering tools like meditation, breath work,
+          affirmations and dove head first into discipline. <br /><br />
+          I changed my life completely, went all the way with boxing winning some
+          of the most prestigious tournaments in NZ. <br /><br />
+          I took my roll as a father and husband more seriously, provided a legit
+          income and i'm now entering my second year completely sober.
+        </p>
+      </div>
+      <Image
+        src={myStoryImg}
+        alt="my story"
+        class="h-full object-cover grayscale-[100]"
+      />
+    </div>
+  </section>
+</Layout>
+
+<script>
+  import gsap from "gsap";
+  import SplitType from "split-type";
+
+  import { ScrollTrigger } from "gsap/ScrollTrigger";
+  gsap.registerPlugin(ScrollTrigger);
+
+  new SplitType("#introText", { types: "lines" });
+
+  const introTl = gsap.timeline();
+  introTl.fromTo(
+    ".line",
+    {
+      color: "#d1d1d1",
+    },
+    {
+      color: "#000000",
+      scrollTrigger: {
+        trigger: "#introText",
+        start: "top 50%",
+        end: "bottom 50%",
+        scrub: true,
+      },
+      stagger: 0.1,
+    }
+  );
+</script>
