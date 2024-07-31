@@ -7,8 +7,8 @@ export default {
   daisyui: {
     themes: [
       {
-        cmyk: {
-          ...require("daisyui/src/theming/themes")["cmyk"],
+        lofi: {
+          ...require("daisyui/src/theming/themes")["lofi"],
           primary: "#FF0000",
         },
       },

@@ -10,6 +10,71 @@ import introImg2 from "../assets/images/intro/2.jpg";
 import introImg3 from "../assets/images/intro/3.jpg";
 
 import myStoryImg from "../assets/images/myStory.jpg";
+import programBgImg from "../assets/images/programBg.jpg";
+
+import { Icon } from "astro-icon/components";
+
+const programs = [
+  {
+    name: "Ultimate Mindset",
+    attributes: [
+      "12-week program",
+      "Weekly video check-ins",
+      "Support via messages",
+      "Document current habits",
+      "Implement life tools",
+      "Create new routines",
+      "Set and achieve goals",
+      "Break bad cycles",
+      "Extended support options",
+      "Improve life skills",
+    ],
+    url: "/programs/ultimate-mindset",
+  },
+  {
+    name: "Mindset Refresh",
+    attributes: [
+      "45-minute video call",
+      "For course graduates",
+      "Re-motivation session",
+      "Prepare questions beforehand",
+      "Email or DM to book",
+    ],
+    url: "/programs/mindset-refresh",
+  },
+  {
+    name: "Mindset Buddy",
+    attributes: [
+      "3, 6, 12 month options",
+      "Daily check-ins",
+      "Weekly video calls",
+      "Monthly meet-ups in Auckland",
+      "Access to UM program",
+      "Networking with professionals",
+      "Focus on personal goals",
+    ],
+    url: "/programs/mindset-buddy",
+  },
+];
+
+const faq = [
+  {
+    q: "Who should do RE:3",
+    a: "Everyone",
+  },
+  {
+    q: "Who should do RE:3",
+    a: "Everyone",
+  },
+  {
+    q: "Who should do RE:3",
+    a: "Everyone",
+  },
+  {
+    q: "Who should do RE:3",
+    a: "Everyone",
+  },
+];
 ---
 
 <Layout title={config.businessName}>
@@ -102,6 +167,62 @@ import myStoryImg from "../assets/images/myStory.jpg";
         alt="my story"
         class="h-full object-cover grayscale-[100]"
       />
+    </div>
+  </section>
+  <section class="py-16 bg-base-200 px-4">
+    <div class="max-w-screen-xl mx-auto flex flex-col gap-16">
+      <h1 class="text-6xl font-bold text-primary text-center uppercase">
+        Our Programs
+      </h1>
+      <div
+        class="grid grid-cols-2 max-md:grid-cols-1 grid-rows-2 place-items-center w-full max-w-screen-sm gap-8 mx-auto"
+      >
+        {
+          programs.map((program) => (
+            <div class="flex flex-col w-full h-full relative bg-black">
+              <div class="relative z-20 text-white flex flex-col p-8 gap-4 h-full">
+                <h1 class="mx-auto underline text-3xl">{program.name}</h1>
+                <ul class="my-auto">
+                  {program.attributes.map((attribute) => (
+                    <li class="flex items-center gap-2">
+                      <span>
+                        <Icon name="mdi:check-bold" class="text-green-500" />
+                      </span>
+                      <h2 class="font-extralight">{attribute}</h2>
+                    </li>
+                  ))}
+                </ul>
+                <a
+                  href={program.url}
+                  class="btn mt-auto btn-primary text-white"
+                >
+                  Learn More
+                </a>
+              </div>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+  <section class="py-16 px-4">
+    <div class="max-w-screen-xl mx-auto flex flex-col gap-16">
+      <h1 class="text-6xl font-bold text-center uppercase">
+        Frequently Asked Questions
+      </h1>
+      <div class="max-w-screen-md w-full flex flex-col gap-2 mx-auto">
+        {
+          faq.map((q, index) => (
+            <div class="collapse collapse-arrow bg-base-200">
+              <input type="radio" name="my-accordion" />
+              <div class="collapse-title text-xl font-medium">{q.q}</div>
+              <div class="collapse-content">
+                <p>{q.a}</p>
+              </div>
+            </div>
+          ))
+        }
+      </div>
     </div>
   </section>
 </Layout>
