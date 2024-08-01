@@ -55,6 +55,11 @@ const programs = [
     ],
     url: "/programs/mindset-buddy",
   },
+  {
+    name: "Mindset Youth",
+    attributes: [],
+    url: "/programs/mindset-youth",
+  },
 ];
 
 const faq = [
@@ -105,14 +110,23 @@ const faq = [
         <h1 class="font-bold text-5xl">
           A MINDSET AND LIFESTYLE COACHING EXPERIENCE
         </h1>
-        <p class="text-right font-light text-4xl" id="introText">
-          Invest in yourself by understanding who you are and how you move. Take
-          accountability and stay open-minded. Be teachable, not a know-it-all.
-          Reach out for help, recognising that investing in you means seeking
-          guidance. Learn when to push yourself and when you might be falling
-          into a victim mindset. Share your problems to lighten the load. Avoid
-          self-deception and make a genuine commitment to personal growth.
-        </p>
+        <div class="flex flex-col w-full gap-8">
+          <p class="text-right font-light text-4xl" id="introText1">
+            Learn how to RE:program your life of pain, suffering, and lack of
+            direction into a life of success, happiness, and freedom.
+          </p>
+          <p class="text-right font-light text-4xl" id="introText2">
+            Invest in yourself by understanding who you are and how you move.
+            Take accountability and stay open-minded. Be teachable, not a
+            know-it-all. Reach out for help, recognising that investing in you
+            means seeking guidance.
+          </p>
+          <p class="text-right font-light text-4xl" id="introText3">
+            Learn when to push yourself and when you might be falling into a
+            victim mindset. Share your problems to lighten the load. Avoid
+            self-deception and make a genuine commitment to personal growth.
+          </p>
+        </div>
       </div>
       <div
         class="grid grid-cols-2 grid-rows-1 w-full gap-x-8 max-md:gap-x-4 max-w-screen-lg mx-auto"
@@ -234,18 +248,55 @@ const faq = [
   import { ScrollTrigger } from "gsap/ScrollTrigger";
   gsap.registerPlugin(ScrollTrigger);
 
-  new SplitType("#introText", { types: "lines" });
+  new SplitType("#introText1", { types: "lines", lineClass: "line1" });
+  new SplitType("#introText2", { types: "lines", lineClass: "line2" });
+  new SplitType("#introText3", { types: "lines", lineClass: "line3" });
 
-  const introTl = gsap.timeline();
-  introTl.fromTo(
-    ".line",
+  const introTl1 = gsap.timeline();
+  const introTl2 = gsap.timeline();
+  const introTl3 = gsap.timeline();
+
+  introTl1.fromTo(
+    ".line1",
     {
       color: "#d1d1d1",
     },
     {
       color: "#000000",
       scrollTrigger: {
-        trigger: "#introText",
+        trigger: "#introText1",
+        start: "top 50%",
+        end: "bottom 50%",
+        scrub: true,
+      },
+      stagger: 0.1,
+    }
+  );
+  introTl2.fromTo(
+    ".line2",
+    {
+      color: "#d1d1d1",
+    },
+    {
+      color: "#000000",
+      scrollTrigger: {
+        trigger: "#introText2",
+        start: "top 50%",
+        end: "bottom 50%",
+        scrub: true,
+      },
+      stagger: 0.1,
+    }
+  );
+  introTl3.fromTo(
+    ".line3",
+    {
+      color: "#d1d1d1",
+    },
+    {
+      color: "#000000",
+      scrollTrigger: {
+        trigger: "#introText3",
         start: "top 50%",
         end: "bottom 50%",
         scrub: true,
