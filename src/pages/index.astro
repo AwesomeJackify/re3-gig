@@ -79,6 +79,17 @@ const faq = [
     q: "Who should do RE:3",
     a: "Everyone",
   },
+  {
+    q: "Who should do RE:3",
+    a: "Everyone",
+  },
+];
+
+const fields = [
+  { name: "firstName", text: "First Name" },
+  { name: "lastName", text: "Last Name" },
+  { name: "email", text: "Email" },
+  { name: "message", text: "Message" },
 ];
 ---
 
@@ -99,7 +110,7 @@ const faq = [
         <h1>mindset and</h1>
         <h1>lifestyle coaching</h1>
       </div>
-      <a href="/contact" class="btn uppercase w-fit mt-8 btn-lg"
+      <a href="/#contact" class="btn uppercase w-fit mt-8 btn-lg"
         >Start the journey today</a
       >
     </div>
@@ -183,7 +194,7 @@ const faq = [
       />
     </div>
   </section>
-  <section class="py-16 bg-base-200 px-4">
+  <section class="py-16 bg-base-200 px-4" id="programs">
     <div class="max-w-screen-xl mx-auto flex flex-col gap-16">
       <h1 class="text-6xl font-bold text-primary text-center uppercase">
         Our Programs
@@ -193,8 +204,8 @@ const faq = [
       >
         {
           programs.map((program) => (
-            <div class="flex flex-col w-full h-full relative bg-black">
-              <div class="relative z-20 text-white flex flex-col p-8 gap-4 h-full">
+            <div class="flex flex-col w-full h-full relative bg-gray-300">
+              <div class="relative z-20 text-black flex flex-col p-8 gap-4 h-full">
                 <h1 class="mx-auto underline text-3xl">{program.name}</h1>
                 <ul class="my-auto">
                   {program.attributes.map((attribute) => (
@@ -219,23 +230,70 @@ const faq = [
       </div>
     </div>
   </section>
-  <section class="py-16 px-4">
+  <section class="py-16 px-4" id="contact">
     <div class="max-w-screen-xl mx-auto flex flex-col gap-16">
-      <h1 class="text-6xl font-bold text-center uppercase">
-        Frequently Asked Questions
+      <h1 class="text-6xl font-bold text-center text-primary uppercase">
+        FAQ and Contact
       </h1>
-      <div class="max-w-screen-md w-full flex flex-col gap-2 mx-auto">
-        {
-          faq.map((q, index) => (
-            <div class="collapse collapse-arrow bg-base-200">
-              <input type="radio" name="my-accordion" />
-              <div class="collapse-title text-xl font-medium">{q.q}</div>
-              <div class="collapse-content">
-                <p>{q.a}</p>
+      <div class="grid grid-cols-2 max-md:grid-cols-1 gap-16">
+        <div class="max-w-screen-md w-full flex flex-col gap-4 mx-auto">
+          {
+            faq.map((q, index) => (
+              <div class="collapse collapse-arrow bg-base-200">
+                <input type="radio" name="my-accordion" checked={index == 0} />
+                <div class="collapse-title text-xl font-medium">{q.q}</div>
+                <div class="collapse-content">
+                  <p>{q.a}</p>
+                </div>
               </div>
-            </div>
-          ))
-        }
+            ))
+          }
+        </div>
+        <form
+          name="contact"
+          method="POST"
+          data-netlify="true"
+          class="w-full flex flex-col gap-2 text-2xl max-md:text-xl font-light"
+        >
+          <div class="rounded-2xl border-2 border-black p-8 px-8 max-md:px-4">
+            {
+              fields.map((field, index) => (
+                <div
+                  class={`flex gap-4 items-center ${index != fields.length - 1 && "border-b-2"} border-black py-2`}
+                >
+                  <label
+                    for={field.name}
+                    class="whitespace-nowrap min-w-24 max-md:min-w-12"
+                  >
+                    {field.text}
+                  </label>
+                  {field.name === "message" ? (
+                    <textarea
+                      id={field.name}
+                      name={field.name}
+                      class="bg-transparent form-input px-4 h-32 py-3 w-full rounded focus:outline-none font-extralight"
+                    />
+                  ) : (
+                    <input
+                      autocomplete="on"
+                      type="text"
+                      id={field.name}
+                      name={field.name}
+                      class="bg-transparent form-input px-4 py-3 w-full rounded focus:outline-none font-extralight"
+                    />
+                  )}
+                </div>
+              ))
+            }
+          </div>
+          <div class="flex text-[#e4ab97] w-full justify-center my-6">
+            <input
+              type="submit"
+              value="Submit"
+              class="btn btn-primary btn-lg"
+            />
+          </div>
+        </form>
       </div>
     </div>
   </section>

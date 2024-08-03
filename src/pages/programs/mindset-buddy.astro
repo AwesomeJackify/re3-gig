@@ -1,0 +1,42 @@
+---
+import ProgramLayout from "../../layouts/ProgramLayout.astro";
+import { Image } from "astro:assets";
+
+import heroImg from "../../assets/images/hero.jpg";
+---
+
+<ProgramLayout title="Mindset Buddy" heroImg={heroImg}>
+  <section class="px-4 flex flex-col py-16">
+    <div class="max-w-screen-xl mx-auto flex flex-col gap-16">
+      <h1 class="text-9xl font-bold max-md:text-7xl">
+        Welcome to the Mindset Buddy program.
+      </h1>
+      <div
+        class="max-w-2xl bg-primary text-white p-8 text-xl gap-4 flex flex-col"
+      >
+        <p>
+          For those that want to take mindset and coaching to the next level! If
+          you have completed the Ultimate Mindset program and you're wanting to
+          take things even further by having a full time coach or mindset buddy
+          - this is for you!
+        </p>
+        <p>
+          We can offer 3, 6 or 12 month subscriptions which contains:
+          <div class="ml-4">
+            <li class="list-item">Daily check in's</li>
+            <li>Weekly video calls</li>
+            <li>Monthly meet ups (if in Auckland)</li>
+            <li>Constant accessibility to the UM program</li>
+            <li>Shared connections for networking i.e., business mentors</li>
+          </div>
+        </p>
+        <p>
+          Think of it like an accountability buddy but with more purpose and
+          direction. We can focus on the areas that you want to improve on
+          weather that is business goals, mental health wellness, sports or
+          fitness achievements
+        </p>
+      </div>
+    </div>
+  </section>
+</ProgramLayout>

@@ -1,0 +1,47 @@
+---
+import ProgramLayout from "../../layouts/ProgramLayout.astro";
+import { Image } from "astro:assets";
+
+import heroImg from "../../assets/images/hero.jpg";
+---
+
+<ProgramLayout title="Mindset Refresh" heroImg={heroImg}>
+  <section class="px-4 flex flex-col py-16">
+    <div class="max-w-screen-xl mx-auto flex flex-col gap-16">
+      <h1 class="text-9xl font-bold max-md:text-7xl">
+        Welcome to the Mindset Refresh program.
+      </h1>
+      <div
+        class="max-w-2xl bg-primary text-white p-8 text-xl gap-4 flex flex-col"
+      >
+        <p>
+          This is a 'drop in' session for those that have done the 12 week
+          course and feel they might have slipped off track and need a refresh
+          or pep talk to get back on track.
+        </p>
+        <p>
+          Although you will learn to get yourself back on track as part of the
+          Ultimate Mindset program we understand life happens and sometimes we
+          need someone to give us a boot up the arse!
+        </p>
+        <p>
+          This is a 45 min video call with Tim so please schedule this call for
+          the end of your week so you can prepare questions ect for Tim and he
+          can make the most out of the session with you.
+        </p>
+        <p>
+          Shoot an email through to <a
+            href="mailto:stay.uncomfortable01@gmail.com"
+            target="_blank"
+            class="link link-secondary link-hover"
+            >stay.uncomfortable01@gmail.com</a
+          > or DM on instagram <a
+            href="https://www.instagram.com/ree_three/?hl=en"
+            target="_blank"
+            class="link link-secondary link-hover">@ree_three</a
+          > to book your session.
+        </p>
+      </div>
+    </div>
+  </section>
+</ProgramLayout>

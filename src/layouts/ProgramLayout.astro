@@ -1,0 +1,31 @@
+---
+import Layout from "./Layout.astro";
+import { Image } from "astro:assets";
+
+const { title, heroImg } = Astro.props;
+---
+
+<Layout title={title}>
+  <section class="h-screen max-md:h-[calc(80vh)] w-full overflow-hidden">
+    <div class="h-72 w-full bg-black flex items-end">
+      <h1
+        class="uppercase text-9xl text-white pl-16 font-bold max-md:text-7xl max-md:pl-4"
+      >
+        {title.split(" ")[0]}
+      </h1>
+    </div>
+    <div class="h-full w-full relative">
+      <h1
+        class="uppercase text-9xl text-primary pl-16 font-bold max-md:text-7xl max-md:pl-4"
+      >
+        {title.split(" ")[1]}
+      </h1>
+      <Image
+        src={heroImg}
+        alt="hero"
+        class="w-full h-full object-cover absolute top-0 left-0 grayscale-[100] -z-10"
+      />
+    </div>
+  </section>
+  <slot />
+</Layout>

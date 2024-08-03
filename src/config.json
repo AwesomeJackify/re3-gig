@@ -8,11 +8,11 @@
     },
     {
       "name": "Programs",
-      "url": "/programs"
+      "url": "/#programs"
     },
     {
       "name": "Contact",
-      "url": "/contact"
+      "url": "/#contact"
     }
   ]
 }
