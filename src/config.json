@@ -14,5 +14,13 @@
       "name": "Contact",
       "url": "/#contact"
     }
+  ],
+  "mail": "stay.uncomfortable01@gmail.com",
+  "socials": [
+    {
+      "name": "Instagram",
+      "icon": "mdi:instagram",
+      "url": "https://www.instagram.com/ree_three/?hl=en"
+    }
   ]
 }

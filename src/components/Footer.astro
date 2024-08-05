@@ -1,0 +1,33 @@
+---
+import { Image } from "astro:assets";
+import { Icon } from "astro-icon/components";
+import config from "../config.json";
+
+import logoImg from "../assets/images/logo.png";
+---
+
+<footer class="footer text-black items-center p-4 pt-16">
+  <aside class="flex flex-col">
+    <Image
+      src={logoImg}
+      alt="logo"
+      class="bg-black w-32 max-md:w-24 object-contain"
+    />
+    <p>Copyright © {new Date().getFullYear()} - All right reserved</p>
+  </aside>
+  <nav class="grid-flow-col gap-4 md:place-self-center md:justify-self-end">
+    {
+      config.socials.map((social) => (
+        <a href={social.url} target="_blank">
+          <Icon
+            name={social.icon}
+            class="text-4xl hover:text-primary transition"
+          />
+        </a>
+      ))
+    }
+    <a href={`mailto:${config.mail}`}>
+      <Icon name="mdi:email" class="text-4xl hover:text-primary transition" />
+    </a>
+  </nav>
+</footer>
