@@ -9,7 +9,9 @@ import logoImg from "../assets/images/logo.png";
 
 <div class="drawer">
   <input id="my-drawer" type="checkbox" class="drawer-toggle" />
-  <div class="drawer-content flex items-center p-8 max-md:p-4 absolute z-50">
+  <div
+    class="drawer-content w-full flex items-center p-8 max-md:p-4 absolute z-50"
+  >
     <!-- Page content here -->
     <label for="my-drawer"
       ><Icon
@@ -17,7 +19,23 @@ import logoImg from "../assets/images/logo.png";
         class="text-4xl max-md:text-2xl text-white cursor-pointer"
       /></label
     >
-    <Image src={logoImg} alt="logo" class="w-32 max-md:w-24 object-contain" />
+    <a href="/">
+      <Image src={logoImg} alt="logo" class="w-32 max-md:w-24 object-contain" />
+    </a>
+  </div>
+  <div
+    class="drawer-content-mobile w-full flex items-center p-1 pl-4 -top-full fixed z-50"
+  >
+    <!-- Page content here -->
+    <label for="my-drawer"
+      ><Icon
+        name="mdi:menu"
+        class="text-4xl max-md:text-2xl text-white cursor-pointer"
+      /></label
+    >
+    <a href="/">
+      <Image src={logoImg} alt="logo" class="w-32 max-md:w-24 object-contain" />
+    </a>
   </div>
   <div class="drawer-side z-50">
     <label for="my-drawer" aria-label="close sidebar" class="drawer-overlay"
@@ -44,3 +62,37 @@ import logoImg from "../assets/images/logo.png";
     </ul>
   </div>
 </div>
+<script>
+  import gsap from "gsap";
+  const viewportHeight = window.innerHeight;
+
+  function debounce<T extends (...args: any[]) => void>(
+    func: T,
+    wait: number
+  ): (...args: Parameters<T>) => void {
+    let timeout: ReturnType<typeof setTimeout>;
+    return (...args: Parameters<T>) => {
+      clearTimeout(timeout);
+      timeout = setTimeout(() => func(...args), wait);
+    };
+  }
+
+  const handleScroll = debounce(() => {
+    // Check if the user has scrolled past the height of the viewport
+    if (window.scrollY > viewportHeight) {
+      gsap.to(".drawer-content-mobile", {
+        top: 0,
+        backgroundColor: "black",
+        ease: "power2.out",
+      });
+    } else {
+      gsap.to(".drawer-content-mobile", {
+        top: -100,
+        backgroundColor: "transparent",
+        ease: "power2.out",
+      });
+    }
+  }, 5);
+
+  window.addEventListener("scroll", handleScroll);
+</script>
