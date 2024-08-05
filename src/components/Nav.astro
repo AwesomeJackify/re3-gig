@@ -27,10 +27,20 @@ import logoImg from "../assets/images/logo.png";
       {
         config.pages.map((page) => (
           <li>
-            <a href={page.url}>{page.name}</a>
+            <a
+              href={page.url}
+              class="uppercase text-2xl hover:font-bold transition"
+            >
+              {page.name}
+            </a>
           </li>
         ))
       }
+      <Image
+        src={logoImg}
+        alt="logo"
+        class="w-32 mt-auto object-contain bg-black"
+      />
     </ul>
   </div>
 </div>
