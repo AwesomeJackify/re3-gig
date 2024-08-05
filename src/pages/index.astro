@@ -126,17 +126,6 @@ const fields = [
             Learn how to RE:program your life of pain, suffering, and lack of
             direction into a life of success, happiness, and freedom.
           </p>
-          <p class="text-right font-light text-4xl" id="introText2">
-            Invest in yourself by understanding who you are and how you move.
-            Take accountability and stay open-minded. Be teachable, not a
-            know-it-all. Reach out for help, recognising that investing in you
-            means seeking guidance.
-          </p>
-          <p class="text-right font-light text-4xl" id="introText3">
-            Learn when to push yourself and when you might be falling into a
-            victim mindset. Share your problems to lighten the load. Avoid
-            self-deception and make a genuine commitment to personal growth.
-          </p>
         </div>
       </div>
       <div
@@ -192,6 +181,11 @@ const fields = [
         alt="my story"
         class="h-full object-cover grayscale-[100]"
       />
+      <p class="text-right font-light text-4xl" id="introText3">
+        Learn when to push yourself and when you might be falling into a victim
+        mindset. Share your problems to lighten the load. Avoid self-deception
+        and make a genuine commitment to personal growth.
+      </p>
     </div>
   </section>
   <section class="py-16 bg-base-200 px-4" id="programs">
@@ -228,6 +222,12 @@ const fields = [
           ))
         }
       </div>
+      <p class="text-right font-light text-4xl max-w-screen-md" id="introText2">
+        Invest in yourself by understanding who you are and how you move. Take
+        accountability and stay open-minded. Be teachable, not a know-it-all.
+        Reach out for help, recognising that investing in you means seeking
+        guidance.
+      </p>
     </div>
   </section>
   <section class="py-16 px-4" id="contact">
@@ -328,7 +328,7 @@ const fields = [
         scrub: true,
       },
       stagger: 0.1,
-    }
+    },
   );
   introTl2.fromTo(
     ".line2",
@@ -344,7 +344,7 @@ const fields = [
         scrub: true,
       },
       stagger: 0.1,
-    }
+    },
   );
   introTl3.fromTo(
     ".line3",
@@ -360,6 +360,6 @@ const fields = [
         scrub: true,
       },
       stagger: 0.1,
-    }
+    },
   );
 </script>
