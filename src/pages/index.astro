@@ -1,6 +1,8 @@
 ---
 import Layout from "../layouts/Layout.astro";
 import config from "../config.json";
+import { Cloudinary } from "@cloudinary/url-gen";
+import { Resize } from "@cloudinary/url-gen/actions";
 
 import { Image } from "astro:assets";
 import heroImg from "../assets/images/hero.jpg";
@@ -10,7 +12,6 @@ import introImg2 from "../assets/images/intro/2.jpg";
 import introImg3 from "../assets/images/intro/3.jpg";
 
 import myStoryImg from "../assets/images/myStory.jpg";
-import programBgImg from "../assets/images/programBg.jpg";
 
 import { Icon } from "astro-icon/components";
 
@@ -89,8 +90,19 @@ const fields = [
   { name: "firstName", text: "First Name" },
   { name: "lastName", text: "Last Name" },
   { name: "email", text: "Email" },
+  { name: "phone", text: "Phone" },
   { name: "message", text: "Message" },
 ];
+
+const cld = new Cloudinary({
+  cloud: {
+    cloudName: import.meta.env.CLOUDINARY_CLOUD_NAME,
+  },
+});
+
+const introVideo = cld.video("re3/intro");
+introVideo.resize(Resize.scale().width(1920));
+const introVideoURL = introVideo.toURL();
 ---
 
 <Layout title={config.businessName}>
@@ -117,24 +129,27 @@ const fields = [
   </section>
   <section>
     <div class="max-w-screen-xl mx-auto py-16 flex flex-col gap-16 px-4">
-      <div class="grid grid-cols-2 max-md:grid-cols-1 gap-16 pb-96 max-md:pb-0">
+      <div class="grid grid-cols-2 max-md:grid-cols-1 gap-16 max-md:pb-0 pb-96">
         <h1 class="font-bold text-5xl">
           A MINDSET AND LIFESTYLE COACHING EXPERIENCE
         </h1>
         <div class="flex flex-col w-full gap-8">
-          <p class="text-right font-light text-4xl" id="introText1">
+          <p
+            class="text-right font-light text-4xl max-md:text-3xl"
+            id="introText1"
+          >
             Learn how to RE:program your life of pain, suffering, and lack of
             direction into a life of success, happiness, and freedom.
           </p>
         </div>
       </div>
       <div
-        class="grid grid-cols-2 grid-rows-1 w-full gap-x-8 max-md:gap-x-4 max-w-screen-lg mx-auto"
+        class="grid grid-cols-2 grid-rows-1 w-full gap-8 max-md:gap-x-4 max-w-screen-lg mx-auto"
       >
         <Image
           src={introImg1}
           alt="intro"
-          class="w-full h-full object-cover row-span-2 grayscale-[100]"
+          class="w-full h-full object-cover grayscale-[100]"
         />
         <div
           class="flex flex-col h-full w-full justify-between gap-8 max-md:gap-4"
@@ -142,13 +157,36 @@ const fields = [
           <Image
             src={introImg2}
             alt="intro"
-            class="w-full aspect-square object-cover grayscale-[100]"
+            class="w-full h-full aspect-square object-cover grayscale-[100]"
           />
           <Image
             src={introImg3}
             alt="intro"
-            class="w-full aspect-square object-cover grayscale-[100]"
+            class="w-full h-full aspect-square object-cover grayscale-[100]"
           />
+        </div>
+        <div class="col-span-2 relative overflow-hidden">
+          <div
+            id="introVideoCover"
+            class="absolute top-0 left-0 w-full h-full bg-black z-10"
+          >
+            <h1
+              class="absolute top-1/2 left-1/2 w-full text-center -translate-x-1/2 -translate-y-1/2 text-7xl max-md:text-4xl text-white font-bold uppercase"
+            >
+              Hear my story
+            </h1>
+          </div>
+          <video
+            id="introVideo"
+            autoplay
+            loop
+            muted
+            controls
+            playsinline
+            class="w-full aspect-video max-md:h-96 object-cover"
+          >
+            <source src={introVideoURL} type="video/mp4" />
+          </video>
         </div>
       </div>
     </div>
@@ -181,7 +219,7 @@ const fields = [
         alt="my story"
         class="h-full object-cover grayscale-[100]"
       />
-      <p class="text-right font-light text-4xl" id="introText3">
+      <p class="text-right font-light text-4xl max-md:text-3xl" id="introText3">
         Learn when to push yourself and when you might be falling into a victim
         mindset. Share your problems to lighten the load. Avoid self-deception
         and make a genuine commitment to personal growth.
@@ -222,7 +260,10 @@ const fields = [
           ))
         }
       </div>
-      <p class="text-right font-light text-4xl max-w-screen-md" id="introText2">
+      <p
+        class="text-right font-light text-4xl max-w-screen-md max-md:text-3xl"
+        id="introText2"
+      >
         Invest in yourself by understanding who you are and how you move. Take
         accountability and stay open-minded. Be teachable, not a know-it-all.
         Reach out for help, recognising that investing in you means seeking
@@ -328,7 +369,7 @@ const fields = [
         scrub: true,
       },
       stagger: 0.1,
-    },
+    }
   );
   introTl2.fromTo(
     ".line2",
@@ -344,7 +385,7 @@ const fields = [
         scrub: true,
       },
       stagger: 0.1,
-    },
+    }
   );
   introTl3.fromTo(
     ".line3",
@@ -360,6 +401,17 @@ const fields = [
         scrub: true,
       },
       stagger: 0.1,
-    },
+    }
   );
+
+  const introVideoTimeline = gsap.timeline();
+  introVideoTimeline.to("#introVideoCover", {
+    xPercent: -100,
+    scrollTrigger: {
+      trigger: "#introVideo",
+      start: "top 50%",
+      end: "30% 50%",
+      scrub: true,
+    },
+  });
 </script>
