@@ -1,5 +1,8 @@
 ---
+export const prerender = false;
+import Layout from "../layouts/Layout.astro";
 import { supabase } from "../lib/supabase";
+import { Icon } from "astro-icon/components";
 
 const { cookies, redirect } = Astro;
 
@@ -26,11 +29,65 @@ if (error) {
   return redirect("/login");
 }
 
+const name = "Jack";
 const email = data.user?.email;
+
+const tasks = [
+  {
+    name: "Task 1",
+    status: "completed",
+  },
+  {
+    name: "Task 2",
+    status: "uncompleted",
+  },
+  {
+    name: "Task 3",
+    status: "uncompleted",
+  },
+];
 ---
 
-Hi, {email}! Welcome to your dashboard.
+<Layout title={`Hey, ${name}`} showNav={false} showFooter={false}>
+  <section class="max-w-screen-xl mx-auto pt-32 flex flex-col gap-16 px-4">
+    <h1 class="font-bold text-6xl">Hey, {name}!</h1>
+    <div
+      class="bg-base-200 w-full max-w-screen-sm p-8 flex flex-col gap-8 rounded-2xl"
+    >
+      <h1 class="text-4xl font-bold text-primary">My Little Wins</h1>
+      <ul class="flex flex-col gap-2">
+        {
+          tasks.map((task) => (
+            <li
+              class={`bg-white p-4 rounded-2xl flex items-center gap-4 ${task.status == "completed" ? "line-through  bg-primary/40 text-black/50" : ""}`}
+            >
+              <div
+                class={`rounded-full flex justify-center items-center w-6 aspect-square ${task.status == "completed" ? "bg-primary" : "bg-stone-300"} cursor-pointer`}
+              >
+                <Icon name="mdi:check" class="text-sm text-white" />
+              </div>
+              {task.name}
+            </li>
+          ))
+        }
+      </ul>
+      <label
+        class="input input-bordered text-xl flex items-center gap-2 p-4 rounded-2xl"
+      >
+        <span class="text-2xl font-bold">+</span>
+        <input
+          id="task"
+          name="task"
+          type="text"
+          class="grow"
+          required
+          placeholder="Add a task"
+        />
+      </label>
+    </div>
+  </section>
+</Layout>
 
-<form action="/api/auth/signout" method="get">
+<!-- <form action="/api/auth/signout" method="get">
   <button type="submit" class="btn btn-primary">Sign out</button>
-</form>
+</form> -->
