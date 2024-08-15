@@ -1,0 +1,100 @@
+---
+import Layout from "../layouts/Layout.astro";
+
+const { cookies, redirect } = Astro;
+
+const error = Astro.url.searchParams.get("error") || "";
+const status = Astro.url.searchParams.get("status") || "";
+
+const accessToken = cookies.get("sb-access-token");
+const refreshToken = cookies.get("sb-refresh-token");
+
+if (accessToken && refreshToken) {
+  return redirect("/dashboard");
+}
+---
+
+<Layout title="Login">
+  {
+    error && (
+      <div
+        role="alert"
+        class="alert alert-error absolute top-4 left-1/2 -translate-x-1/2 w-fit z-50"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          class="h-6 w-6 shrink-0 stroke-current"
+          fill="none"
+          viewBox="0 0 24 24"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"
+          />
+        </svg>
+        <span>{error}</span>
+      </div>
+    )
+  }{
+    status && (
+      <div
+        role="alert"
+        class="alert absolute top-4 left-1/2 -translate-x-1/2 w-fit z-50"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          class="stroke-info h-6 w-6 shrink-0"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+          />
+        </svg>
+        <span>{status}</span>
+      </div>
+    )
+  }
+  <section
+    class="h-screen bg-black w-full flex justify-center items-center px-4"
+  >
+    <form
+      action="/api/auth/login"
+      method="post"
+      class="max-w-screen-sm mx-auto bg-base-200 p-10 flex flex-col gap-8"
+    >
+      <h1 class="text-center font-bold text-4xl uppercase">Login</h1>
+      <div class="flex flex-col gap-1">
+        <label class="input input-bordered flex items-center gap-2">
+          Email
+          <input
+            id="email"
+            name="email"
+            type="email"
+            class="grow"
+            required
+            placeholder="RoboCop@ocp.com"
+          />
+        </label>
+        <label class="input input-bordered flex items-center gap-2">
+          Password
+          <input
+            name="password"
+            id="password"
+            type="password"
+            class="grow"
+            required
+            placeholder="•••••••••"
+          />
+        </label>
+      </div>
+      <button type="submit" class="btn btn-primary btn-sm mx-auto">ENTER</button
+      >
+    </form>
+  </section>
+</Layout>
