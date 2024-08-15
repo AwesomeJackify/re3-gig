@@ -6,6 +6,7 @@ const { cookies, redirect } = Astro;
 
 const error = Astro.url.searchParams.get("error") || "";
 const status = Astro.url.searchParams.get("status") || "";
+const success = Astro.url.searchParams.get("success") || "";
 
 const accessToken = cookies.get("sb-access-token");
 const refreshToken = cookies.get("sb-refresh-token");
@@ -13,6 +14,32 @@ const refreshToken = cookies.get("sb-refresh-token");
 if (accessToken && refreshToken) {
   return redirect("/dashboard");
 }
+
+// import { createClient } from "@supabase/supabase-js";
+
+// const supabase = createClient(
+//   import.meta.env.SUPABASE_URL,
+//   import.meta.env.SUPABASE_SERVICE_ROLE,
+//   {
+//     auth: {
+//       autoRefreshToken: false,
+//       persistSession: false,
+//     },
+//   }
+// );
+
+// const { data: user, error: adminError } =
+//   await supabase.auth.admin.updateUserById(
+//     "248012e1-4b47-4398-96d2-0eafaf451deb",
+//     {
+//       user_metadata: {
+//         first_name: "Otis",
+//         last_name: "Wales",
+//       },
+//     }
+//   );
+
+// console.log(user, adminError);
 ---
 
 <Layout title="Login">
@@ -36,6 +63,28 @@ if (accessToken && refreshToken) {
           />
         </svg>
         <span>{error}</span>
+      </div>
+    )
+  }{
+    success && (
+      <div
+        role="alert"
+        class="alert alert-success absolute top-4 left-1/2 -translate-x-1/2 w-fit z-50"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          class="h-6 w-6 shrink-0 stroke-current"
+          fill="none"
+          viewBox="0 0 24 24"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+          />
+        </svg>
+        <span>{success}</span>
       </div>
     )
   }{
@@ -94,8 +143,17 @@ if (accessToken && refreshToken) {
           />
         </label>
       </div>
-      <button type="submit" class="btn btn-primary btn-sm mx-auto">ENTER</button
-      >
+      <div class="flex flex-col gap-4">
+        <button type="submit" class="btn btn-primary btn-sm mx-auto"
+          >ENTER</button
+        >
+        <h1 class="flex gap-1 text-sm mx-auto">
+          <span>Don't have an account?</span><a
+            href="/register"
+            class="w-fit link link-primary">Sign up here</a
+          >
+        </h1>
+      </div>
     </form>
   </section>
 </Layout>

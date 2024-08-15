@@ -17,7 +17,7 @@ export const POST: APIRoute = async ({ request, cookies, redirect }) => {
   });
 
   if (error) {
-    return redirect("/login?error=Invalid email or password");
+    return redirect("/login?error=" + error.message);
   }
 
   const { access_token, refresh_token } = data.session;

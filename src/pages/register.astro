@@ -1,4 +1,5 @@
 ---
+export const prerender = false;
 import Layout from "../layouts/Layout.astro";
 
 const { cookies, redirect } = Astro;
@@ -64,11 +65,11 @@ if (accessToken && refreshToken) {
     class="h-screen bg-black w-full flex justify-center items-center px-4"
   >
     <form
-      action="/api/auth/login"
+      action="/api/auth/register"
       method="post"
       class="max-w-screen-sm mx-auto bg-base-200 p-10 flex flex-col gap-8"
     >
-      <h1 class="text-center font-bold text-4xl uppercase">Login</h1>
+      <h1 class="text-center font-bold text-4xl uppercase">Register</h1>
       <div class="flex flex-col gap-1">
         <label class="input input-bordered flex items-center gap-2">
           First Name
@@ -115,8 +116,17 @@ if (accessToken && refreshToken) {
           />
         </label>
       </div>
-      <button type="submit" class="btn btn-primary btn-sm mx-auto">ENTER</button
-      >
+      <div class="flex flex-col gap-4">
+        <button type="submit" class="btn btn-primary btn-sm mx-auto"
+          >SUBMIT</button
+        >
+        <h1 class="flex gap-1 text-sm mx-auto">
+          <span>Already have an account?</span><a
+            href="/login"
+            class="w-fit link link-primary">Log in here</a
+          >
+        </h1>
+      </div>
     </form>
   </section>
 </Layout>

@@ -29,7 +29,7 @@ if (error) {
   return redirect("/login");
 }
 
-const name = "Jack";
+const name = data.user?.user_metadata.first_name || "User";
 const email = data.user?.email;
 
 const tasks = [
@@ -49,7 +49,9 @@ const tasks = [
 ---
 
 <Layout title={`Hey, ${name}`} showNav={false} showFooter={false}>
-  <nav class="absolute top-0 left-0 w-full p-8 flex justify-between">
+  <nav
+    class="absolute items-center top-0 left-0 w-full p-8 flex justify-between max-md:p-4"
+  >
     <a href="#">
       <Icon
         name="mdi:account-circle"
@@ -61,7 +63,7 @@ const tasks = [
     </form>
   </nav>
   <section class="max-w-screen-xl mx-auto pt-32 flex flex-col gap-16 px-4">
-    <h1 class="font-bold text-6xl">Hey, {name}!</h1>
+    <h1 class="font-bold text-6xl max-md:text-center">Hey, {name}!</h1>
     <div
       class="bg-base-200 w-full max-w-screen-sm p-8 flex flex-col gap-8 rounded-2xl"
     >

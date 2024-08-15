@@ -10,21 +10,27 @@ import logoImg from "../assets/images/logo.png";
 <div class="drawer">
   <input id="my-drawer" type="checkbox" class="drawer-toggle" />
   <div
-    class="drawer-content w-full flex items-center p-8 max-md:p-4 absolute z-50"
+    class="drawer-content w-full flex items-center p-8 max-md:p-4 absolute z-50 justify-between"
   >
-    <!-- Page content here -->
-    <label for="my-drawer"
-      ><Icon
-        name="mdi:menu"
-        class="text-4xl max-md:text-2xl text-white cursor-pointer"
-      /></label
-    >
-    <a href="/">
-      <Image src={logoImg} alt="logo" class="w-32 max-md:w-24 object-contain" />
-    </a>
+    <div class="flex items-center">
+      <!-- Page content here -->
+      <label for="my-drawer"
+        ><Icon
+          name="mdi:menu"
+          class="text-4xl max-md:text-2xl text-white cursor-pointer"
+        /></label
+      >
+      <a href="/">
+        <Image
+          src={logoImg}
+          alt="logo"
+          class="w-32 max-md:w-24 object-contain"
+        />
+      </a>
+    </div>
   </div>
   <div
-    class="drawer-content-mobile gap-2 w-full flex items-center max-md:p-4 p-1 pl-4 -top-full fixed z-50"
+    class="drawer-content-mobile gap-2 w-full flex items-center max-md:p-4 p-1 px-4 -top-full fixed z-50"
   >
     <!-- Page content here -->
     <label for="my-drawer"
