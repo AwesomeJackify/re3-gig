@@ -1,0 +1,54 @@
+---
+export const prerender = false;
+import Layout from "../layouts/Layout.astro";
+import { supabase } from "../lib/supabase";
+import { Icon } from "astro-icon/components";
+import LittleWins from "../components/LittleWins";
+
+const { cookies, redirect } = Astro;
+
+const accessToken = cookies.get("sb-access-token");
+const refreshToken = cookies.get("sb-refresh-token");
+
+if (!accessToken || !refreshToken) {
+  return redirect("/login");
+}
+
+const { data, error } = await supabase.auth.setSession({
+  refresh_token: refreshToken.value,
+  access_token: accessToken.value,
+});
+
+if (error) {
+  cookies.delete("sb-access-token", {
+    path: "/",
+  });
+  cookies.delete("sb-refresh-token", {
+    path: "/",
+  });
+
+  return redirect("/login");
+}
+
+const name = data.user?.user_metadata.first_name || "User";
+---
+
+<Layout title={`Hey, ${name}`} showNav={false} showFooter={false}>
+  <nav
+    class="absolute items-center top-0 left-0 w-full p-8 flex justify-between max-md:p-4"
+  >
+    <a href="#">
+      <Icon
+        name="mdi:account-circle"
+        class="text-6xl hover:text-primary transition"
+      />
+    </a>
+    <form action="/api/auth/signout" method="get">
+      <button type="submit" class="btn btn-primary btn-sm">Sign out</button>
+    </form>
+  </nav>
+  <section class="max-w-screen-xl mx-auto pt-32 flex flex-col gap-16 px-4">
+    <h1 class="font-bold text-6xl max-md:text-center">Hey, {name}!</h1>
+    <LittleWins client:load />
+  </section>
+</Layout>

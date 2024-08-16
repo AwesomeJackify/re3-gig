@@ -9,6 +9,9 @@
     {
       "name": "Programs",
       "url": "/#programs"
+    },{
+      "name": "Member's Zone",
+      "url": "/login"
     },
     {
       "name": "Contact",
