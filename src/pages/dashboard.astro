@@ -14,12 +14,15 @@ if (!accessToken || !refreshToken) {
   return redirect("/login");
 }
 
-const { data, error } = await supabase.auth.setSession({
-  refresh_token: refreshToken.value,
-  access_token: accessToken.value,
-});
+const { data: sessionData, error: sessionError } =
+  await supabase.auth.setSession({
+    refresh_token: refreshToken.value,
+    access_token: accessToken.value,
+  });
 
-if (error) {
+const currentUserId = (await supabase.auth.getSession()).data.session?.user.id;
+
+if (sessionError) {
   cookies.delete("sb-access-token", {
     path: "/",
   });
@@ -30,7 +33,7 @@ if (error) {
   return redirect("/login");
 }
 
-const name = data.user?.user_metadata.first_name || "User";
+const name = sessionData.user?.user_metadata.first_name || "User";
 ---
 
 <Layout title={`Hey, ${name}`} showNav={false} showFooter={false}>
@@ -49,6 +52,6 @@ const name = data.user?.user_metadata.first_name || "User";
   </nav>
   <section class="max-w-screen-xl mx-auto pt-32 flex flex-col gap-16 px-4">
     <h1 class="font-bold text-6xl max-md:text-center">Hey, {name}!</h1>
-    <LittleWins client:load />
+    <LittleWins client:load userId={currentUserId} />
   </section>
 </Layout>

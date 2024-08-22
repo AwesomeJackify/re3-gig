@@ -17,7 +17,7 @@ export const POST: APIRoute = async ({ request, cookies, redirect }) => {
   });
 
   if (error) {
-    return redirect("/login?error=" + error.message);
+    return redirect("/login?error=" + "Error logging in");
   }
 
   const { access_token, refresh_token } = data.session;
