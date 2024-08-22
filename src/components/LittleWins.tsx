@@ -40,8 +40,6 @@ const LittleWins = ({ userId }: Props) => {
         })
         .eq("id", id)
         .select();
-
-      console.log(data, error);
     };
 
     const updatedTasks = tasks.map((task) => {
@@ -98,7 +96,6 @@ const LittleWins = ({ userId }: Props) => {
             is_complete: task.is_complete,
           };
         });
-        console.log(tasks);
 
         setTasks(tasks);
       }
@@ -107,6 +104,21 @@ const LittleWins = ({ userId }: Props) => {
     fetchData();
   }, []);
 
+  const deleteTask = (id: string) => {
+    const deleteTaskDb = async (id: string) => {
+      await supabase.from("todos").delete().eq("id", id);
+    };
+
+    setTasks(
+      tasks.filter((task) => {
+        if (task.id === id) {
+          deleteTaskDb(task.id);
+        }
+        return task.id !== id;
+      })
+    );
+  };
+
   return (
     <div className="bg-base-200 w-full max-w-screen-sm p-8 flex flex-col gap-8 rounded-2xl">
       <h1 className="text-4xl font-bold text-primary">My Little Wins</h1>
@@ -114,7 +126,7 @@ const LittleWins = ({ userId }: Props) => {
         {tasks.map((task, index) => (
           <li
             key={index}
-            className={`bg-white p-4 rounded-2xl flex items-center transition-all gap-4 ${
+            className={`bg-white p-4 w-full rounded-2xl flex items-center transition-all gap-4 ${
               task.is_complete ? "line-through bg-primary/40 text-black/50" : ""
             }`}
           >
@@ -126,7 +138,12 @@ const LittleWins = ({ userId }: Props) => {
             >
               <Icon icon="mdi:check" className="text-sm text-white" />
             </div>
-            {task.name}
+            <h1>{task.name}</h1>
+            <Icon
+              icon="mdi:close"
+              className="text-lg ml-auto text-black/80 cursor-pointer hover:text-primary transition"
+              onClick={() => deleteTask(task.id)}
+            />
           </li>
         ))}
       </ul>
