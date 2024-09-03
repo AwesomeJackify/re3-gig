@@ -17,7 +17,7 @@ const LittleWins = () => {
         },
         {
             id: uuidv4(),
-            name: "Study for exam",
+            name: "Study for exam ",
             status: "uncompleted",
         },
     ];
