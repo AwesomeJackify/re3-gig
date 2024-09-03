@@ -6,27 +6,29 @@ import heroImg from "../../assets/images/hero.jpg";
 
 import step1Img from "../../assets/images/hero.jpg";
 
+import { Icon } from "astro-icon/components";
+
 const steps = [
   {
     name: "RE:Set",
     duration: "Week 1",
     description:
       "Though this block is short, it is very important. You will go about your normal week, making no changes. The only different thing you do in this week is document everything you do in preparation to 'RE:SET' your habits in the coming weeks.",
-    image: step1Img,
+    icon: "mdi:battery-20",
   },
   {
     name: "RE:Do",
     duration: "Weeks 2-5",
     description:
       "Here is where you do the hard work - or where you 'RE:DO' the programming and conditioning of your brain, how you think and operate. This block runs from week 2 to week 5. You will watch 2 videos per week on 2 different life tools and implement these tools for that week and the weeks to come. By the time you get to week 5, you will be practicing 6 of these tools daily.",
-    image: step1Img,
+    icon: "mdi:battery-60",
   },
   {
     name: "RE:Start",
     duration: "Weeks 6-12",
     description:
       "Ready to push the RE:START button on your life and claim back control? Armed with the tools from Re:Do, in these final 6 weeks you will learn to map out your new daily routine, learn to write and break down goals with Tim, and unlock your life's full potential. You will also learn to identify bad cycles and how to stay on track. Hopefully by this time our contact will begin to ease off and you will be starting to live your new and improved life independently - if not, that is okay, and we have options available to stay working together longer or to focus on specifics required.",
-    image: step1Img,
+    icon: "mdi:battery-100",
   },
 ];
 ---
@@ -56,18 +58,17 @@ const steps = [
     <div class="max-w-screen-md mx-auto flex flex-col gap-16 py-16 px-4">
       {
         steps.map((step, index) => (
-          <div class="flex items-center gap-8 max-md:flex-col">
+          <div class="flex items-center gap-8 max-md:grid max-md:grid-cols-5">
             <div
-              class={`flex flex-col gap-2 ${index % 2 == 0 ? "md:order-1" : ""}`}
+              class={`flex flex-col gap-2 max-md:col-span-4 ${index % 2 == 0 ? "md:order-1" : ""}`}
             >
               <h1 class="text-2xl font-bold">{step.name}</h1>
               <h2 class="font-medium italic text-primary">{step.duration}</h2>
-              <p>{step.description}</p>
+              <p class={`max-md:text-sm`}>{step.description}</p>
             </div>
-            <Image
-              src={step.image}
-              alt={step.name}
-              class={`md:max-w-xs w-full md:rounded-full aspect-square object-cover`}
+            <Icon
+              name={step.icon}
+              class={`text-9xl w-full ${index == 0 ? "text-red-500" : index == 1 ? "text-yellow-500" : "text-green-500"}`}
             />
           </div>
         ))

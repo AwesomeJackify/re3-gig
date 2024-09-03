@@ -126,14 +126,12 @@ const LittleWins = ({ userId }: Props) => {
         {tasks.map((task, index) => (
           <li
             key={index}
-            className={`bg-white p-4 w-full rounded-2xl flex items-center transition-all gap-4 ${
-              task.is_complete ? "line-through bg-primary/40 text-black/50" : ""
-            }`}
+            className={`bg-white p-4 w-full rounded-2xl flex items-center transition-all gap-4 ${task.is_complete ? "line-through bg-primary/40 text-black/50" : ""
+              }`}
           >
             <div
-              className={`rounded-full flex justify-center items-center w-6 aspect-square ${
-                task.is_complete ? "bg-primary" : "bg-stone-300"
-              } cursor-pointer`}
+              className={`rounded-full flex justify-center items-center w-6 aspect-square ${task.is_complete ? "bg-primary" : "bg-stone-300"
+                } cursor-pointer`}
               onClick={() => toggleCompleted(task.id)}
             >
               <Icon icon="mdi:check" className="text-sm text-white" />
