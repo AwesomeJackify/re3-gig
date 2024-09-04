@@ -273,10 +273,10 @@ const introVideoURL = introVideo.toURL();
       </p>
     </div>
   </section>
-  <section>
+  <section id="testimonials">
     <div class="max-w-screen-xl mx-auto py-16 flex flex-col gap-16 px-4">
-      <div class="max-md:pb-0 pb-96 flex flex-col items-center gap-4">
-        <h1 class="font-bold text-5xl text-center">TESTIMONIALS</h1>
+      <div class="max-md:pb-0  flex flex-col items-center gap-4">
+        <h1 class="text-6xl font-bold text-center text-primary uppercase">TESTIMONIALS</h1>
         <div class="flex flex-col w-full gap-8">
           <p
             class="font-light text-2xl text-center max-md:text-xl"
@@ -306,7 +306,7 @@ const introVideoURL = introVideo.toURL();
            
             </div>
             <div class="flex flex-col items-center gap-4">
-              <p class="mt-4  font-extralight italic text-sm">
+              <p class="mt-4  font-extralight  text-sm">
                 UNMATCHED! And a fricking LIFE HACK! Hands down the most transformative program I've ever been on!! Not only has Tim concentrated on helping me improve my physical health (I was in it for a banging bikini body at first ngl lol) with a personalised plan, he also teaches you how to reprogram your entire mindset from the inside out which develops a mental strength to push through life's trickery. Holistically speaking I've gone from rags to riches ✨ I'm so enriched with genuine positivity, peace, happiness, love etc which naturally helps you tap into your higher self & start leading your life with intention to get towards your calling or "PURPOSE" in life.</br></br>
                 Man, the emotional intelligence I've gained from this too has taken the cup for me!</br></br>
                 Trust me when I say the tools Tim had passed on to me over the short few months I've worked with him is now my saving grace but could literally be all yours too. Best support system ever he's on standby no matter the time of day or where you are he makes it known that he's their period. Big brother tings and we all need those big brother nudges here and there to keep us in check, Tim's good at that lol Look, I've already written an essay yes, I could go on and on and on about how amazing this experience has been but all I can say is that experience your damn self! Haha</br></br>
@@ -325,7 +325,7 @@ const introVideoURL = introVideo.toURL();
          
           </div>
           <div class="flex flex-col items-center gap-4">
-            <p class="mt-4  font-extralight italic text-sm">
+            <p class="mt-4  font-extralight  text-sm">
               The past 3.5 years for me have been super challenging navigating parenthood, serious health issues, amongst other complications left me dwindling in survival mode. 
               My mental health was shot / non-existent and I had no love for myself whatsoever. Always pouring from an empty cup. 
             </br></br>
@@ -348,10 +348,11 @@ const introVideoURL = introVideo.toURL();
           </div>
         </div>
         </div>
+        <a href="/testimonials" class="link-primary link mx-auto text-center transition text-lg">Read More Of Our Testimonials</a>
       </div>
     </div>
   </section>
-  <section class="py-16 px-4" id="contact">
+  <section class="py-16 px-4 bg-base-200" id="contact">
     <div class="max-w-screen-xl mx-auto flex flex-col gap-16">
       <h1 class="text-6xl font-bold text-center text-primary uppercase">
         FAQ and Contact
@@ -360,7 +361,7 @@ const introVideoURL = introVideo.toURL();
         <div class="max-w-screen-md w-full flex flex-col gap-4 mx-auto">
           {
             faq.map((q, index) => (
-              <div class="collapse collapse-arrow bg-base-200">
+              <div class="collapse collapse-arrow bg-white">
                 <input type="radio" name="my-accordion" checked={index == 0} />
                 <div class="collapse-title text-xl font-medium">{q.q}</div>
                 <div class="collapse-content">
