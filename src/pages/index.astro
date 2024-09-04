@@ -10,6 +10,7 @@ import heroImg from "../assets/images/hero.jpg";
 import introImg1 from "../assets/images/intro/1.jpg";
 import introImg2 from "../assets/images/intro/2.jpg";
 import introImg3 from "../assets/images/intro/3.jpg";
+import testimonials from '../data/testimonials.json';
 
 import myStoryImg from "../assets/images/myStory.jpg";
 
@@ -275,13 +276,10 @@ const introVideoURL = introVideo.toURL();
   </section>
   <section id="testimonials">
     <div class="max-w-screen-xl mx-auto py-16 flex flex-col gap-16 px-4">
-      <div class="max-md:pb-0  flex flex-col items-center gap-4">
+      <div class="max-md:pb-0 flex flex-col items-center gap-4">
         <h1 class="text-6xl font-bold text-center text-primary uppercase">TESTIMONIALS</h1>
         <div class="flex flex-col w-full gap-8">
-          <p
-            class="font-light text-2xl text-center max-md:text-xl"
-            id="introText1"
-          >
+          <p class="font-light text-2xl text-center max-md:text-xl" id="introText1">
             <span class="font-bold">Transforming lives </span>in just 12 weeks!
             This powerful program has helped both youth and adults overcome
             personal challenges through tools like goal-setting, anxiety
@@ -289,64 +287,24 @@ const introVideoURL = introVideo.toURL();
             troubled youth develop resilience or guiding adults to break through
             barriers, participants learn to achieve their goals, manage stress,
             and turn setbacks into growth. Join today and experience the proven
-            impact of this life-changing program!
+            impact of this life-changing program!
           </p>
         </div>
-        <div
-          class="mt-16 mx-auto grid max-w-screen-xl grid-cols-2 gap-8 max-md:grid-cols-1"
-        >
-          <div
-            class="flex flex-col items-center justify-start rounded-lg border-2 border-default p-8"
-          >
-            <div class="flex flex-col items-center justify-center">
-             
-              <h1 class="mt-4 font-bold uppercase text-2xl">
-                Paul L
-              </h1>
-           
-            </div>
-            <div class="flex flex-col items-center gap-4">
-              <p class="mt-4  font-extralight  text-sm">
-                UNMATCHED! And a fricking LIFE HACK! Hands down the most transformative program I've ever been on!! Not only has Tim concentrated on helping me improve my physical health (I was in it for a banging bikini body at first ngl lol) with a personalised plan, he also teaches you how to reprogram your entire mindset from the inside out which develops a mental strength to push through life's trickery. Holistically speaking I've gone from rags to riches ✨ I'm so enriched with genuine positivity, peace, happiness, love etc which naturally helps you tap into your higher self & start leading your life with intention to get towards your calling or "PURPOSE" in life.</br></br>
-                Man, the emotional intelligence I've gained from this too has taken the cup for me!</br></br>
-                Trust me when I say the tools Tim had passed on to me over the short few months I've worked with him is now my saving grace but could literally be all yours too. Best support system ever he's on standby no matter the time of day or where you are he makes it known that he's their period. Big brother tings and we all need those big brother nudges here and there to keep us in check, Tim's good at that lol Look, I've already written an essay yes, I could go on and on and on about how amazing this experience has been but all I can say is that experience your damn self! Haha</br></br>
-                I'm just so proud of Tim for developing something that has genuinely changed my life forever for the better. There's going to be some stronger, more focused, healed, successful people coming out of this! So, if this resonates with you don't muck around and get what you deserve and sign your life away. Cos I'd run this back to double back real quick haha Thank you so much Coach! Your the Goat! 🫡 🚀🚀🚀🚀🚀
+        <div class="mt-16 mx-auto grid max-w-screen-xl grid-cols-2 gap-8 max-md:grid-cols-1">
+          {testimonials.testimonials.map((testimonial) => (
+            <div class="flex flex-col items-center justify-start rounded-lg border-2 border-default p-8">
+              <div class="flex flex-col items-center justify-center">
+                <h1 class="mt-4 font-bold uppercase text-2xl">
+                  {testimonial.name}
+                </h1>
+              </div>
+              <div class="flex flex-col items-center gap-4">
+                <p class="mt-4 font-extralight text-sm" style="white-space: pre-wrap;">
+                  {testimonial.content}
                 </p>
+              </div>
             </div>
-          </div>
-          <div
-          class="flex flex-col items-center justify-start rounded-lg border-2 border-default p-8"
-        >
-          <div class="flex flex-col items-center justify-center">
-           
-            <h1 class="mt-4 font-bold uppercase text-2xl">
-              Cara P
-            </h1>
-         
-          </div>
-          <div class="flex flex-col items-center gap-4">
-            <p class="mt-4  font-extralight  text-sm">
-              The past 3.5 years for me have been super challenging navigating parenthood, serious health issues, amongst other complications left me dwindling in survival mode. 
-              My mental health was shot / non-existent and I had no love for myself whatsoever. Always pouring from an empty cup. 
-            </br></br>
-              Re3 has been absolutely life changing for me! I can't stress enough how positive this experience has been so far for me. I credit this all to the best coach, Tim. 
-              You have been so supportive, patient and understanding. Consistently checking in and pushing me to be my best every single day. You have never made me feel judged or silly. 
-            </br></br>
-              
-              The skills you have taught me have helped me establish a solid routine which has resulted in me being a much happier person, less stressed, more present and out of that autopilot mode. 
-              I am a better Mum to my son, this program has impacted him greatly. My two year old does gratitude with me every single day! That is insane to me! 
-            </br></br>
-              
-              Mentally I feel so focused, strong and excited to be living life again and learning to love myself more everyday. My skin issues (Psoriasis & eczema) have improved drastically. I have lost weight and feel a lot less bloated and move my body every single day! I am not taking half the medication I was on before. 
-            </br></br>
-              
-              I can't recommend the Re3 program enough! Tim's story is an absolute inspiration - He lives what he preaches and is passionate about what he does, forever celebrating you and the small wins you achieve. 
-            </br></br>
-              
-              Forever grateful the universe (Max 😃) pointed me in your direction and told me I would benefit from this! Because it has been life altering in the best possible way. 
-            </p>
-          </div>
-        </div>
+          ))}
         </div>
         <a href="/testimonials" class="link-primary link mx-auto text-center transition text-lg">Read More Of Our Testimonials</a>
       </div>
