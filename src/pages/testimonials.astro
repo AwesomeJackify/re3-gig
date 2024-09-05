@@ -1,8 +1,8 @@
 ---
 import Layout from "../layouts/Layout.astro";
 import { Image } from "astro:assets";
-import heroImg from "../assets/images/hero.jpg";
-import testimonials from '../data/testimonials.json';
+import heroImg from "../assets/images/intro/2.jpg";
+import testimonials from "../data/testimonials.json";
 ---
 
 <Layout title="Testimonials">
@@ -15,9 +15,13 @@ import testimonials from '../data/testimonials.json';
       class="w-full h-full object-cover absolute top-0 left-0 grayscale-[100] opacity-50"
     />
     <div class="flex flex-col relative z-10 text-center items-center">
-      <div class="uppercase text-8xl max-md:text-6xl text-white font-extrabold">
-        <h1>testimonials</h1>
-        <h1 class="text-6xl max-md:text-4xl text-primary font-light">see the results we get for our clients.</h1>
+      <div
+        class="uppercase text-white font-extrabold flex flex-col gap-4 max-md:gap-2"
+      >
+        <h1 class="text-8xl max-md:text-4xl">testimonials</h1>
+        <h1 class="text-2xl max-md:text-sm text-primary font-medium">
+          see the results we get for our clients.
+        </h1>
       </div>
     </div>
   </section>
@@ -25,15 +29,20 @@ import testimonials from '../data/testimonials.json';
   <section id="testimonials" class="py-16 bg-gray-100">
     <div class="max-w-screen-xl mx-auto px-4">
       <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-        {testimonials.testimonials.map((testimonial) => (
-          <div class="bg-base-200 border  rounded-md  border-b-4 p-8">
-            <h2 class="text-2xl font-bold mb-4">{testimonial.name}</h2>
-            <p class="text-gray-700 whitespace-pre-wrap" style="white-space: pre-wrap;">{testimonial.content}</p>
-          </div>
-        ))}
+        {
+          testimonials.testimonials.map((testimonial) => (
+            <div class="bg-base-200 border  rounded-md  border-b-4 p-8">
+              <h2 class="text-2xl font-bold mb-4">{testimonial.name}</h2>
+              <p
+                class="text-gray-700 whitespace-pre-wrap"
+                style="white-space: pre-wrap;"
+              >
+                {testimonial.content}
+              </p>
+            </div>
+          ))
+        }
       </div>
     </div>
   </section>
 </Layout>
-
-
