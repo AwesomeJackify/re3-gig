@@ -10,7 +10,8 @@ import heroImg from "../assets/images/hero.jpg";
 import introImg1 from "../assets/images/intro/1.jpg";
 import introImg2 from "../assets/images/intro/2.jpg";
 import introImg3 from "../assets/images/intro/3.jpg";
-import testimonials from '../data/testimonials.json';
+import introImg4 from "../assets/images/intro/4.jpg";
+import testimonials from "../data/testimonials.json";
 
 import myStoryImg from "../assets/images/myStory.jpg";
 
@@ -163,7 +164,7 @@ const introVideoURL = introVideo.toURL();
             class="w-full h-full aspect-square object-cover grayscale-[100]"
           />
           <Image
-            src={introImg3}
+            src={introImg4}
             alt="intro"
             class="w-full h-full aspect-square object-cover grayscale-[100]"
           />
@@ -279,9 +280,16 @@ const introVideoURL = introVideo.toURL();
   <section id="testimonials">
     <div class="max-w-screen-xl mx-auto py-16 flex flex-col gap-16 px-4">
       <div class="max-md:pb-0 flex flex-col items-center gap-4">
-        <h1 class="text-6xl font-bold text-center text-primary uppercase">TESTIMONIALS</h1>
+        <h1
+          class="text-6xl max-md:text-5xl font-bold text-center text-primary uppercase"
+        >
+          TESTIMONIALS
+        </h1>
         <div class="flex flex-col w-full gap-8">
-          <p class="font-light text-2xl text-center max-md:text-xl" id="introText1">
+          <p
+            class="font-light text-2xl text-center max-md:text-xl"
+            id="introText1"
+          >
             <span class="font-bold">Transforming lives </span>in just 12 weeks!
             This powerful program has helped both youth and adults overcome
             personal challenges through tools like goal-setting, anxiety
@@ -292,23 +300,34 @@ const introVideoURL = introVideo.toURL();
             impact of this life-changing program!
           </p>
         </div>
-        <div class="mt-16 mx-auto grid max-w-screen-xl grid-cols-2 gap-8 max-md:grid-cols-1">
-          {testimonials.testimonials.slice(0, 2).map((testimonial) => (
-            <div class="flex flex-col items-center justify-start rounded-lg border-2 border-default p-8">
-              <div class="flex flex-col items-center justify-center">
-                <h1 class="mt-4 font-bold uppercase text-2xl">
-                  {testimonial.name}
-                </h1>
+        <div
+          class="mt-16 mx-auto grid max-w-screen-xl grid-cols-2 gap-8 max-md:grid-cols-1"
+        >
+          {
+            testimonials.testimonials.slice(0, 2).map((testimonial) => (
+              <div class="flex flex-col items-center justify-start rounded-lg border-2 border-default p-8">
+                <div class="flex flex-col items-center justify-center">
+                  <h1 class="mt-4 font-bold uppercase text-2xl">
+                    {testimonial.name}
+                  </h1>
+                </div>
+                <div class="flex flex-col items-center gap-4">
+                  <p
+                    class="mt-4 font-extralight text-sm"
+                    style="white-space: pre-wrap;"
+                  >
+                    {testimonial.content}
+                  </p>
+                </div>
               </div>
-              <div class="flex flex-col items-center gap-4">
-                <p class="mt-4 font-extralight text-sm" style="white-space: pre-wrap;">
-                  {testimonial.content}
-                </p>
-              </div>
-            </div>
-          ))}
+            ))
+          }
         </div>
-        <a href="/testimonials" class="link-primary link mx-auto text-center transition text-lg">Read More Of Our Testimonials</a>
+        <a
+          href="/testimonials"
+          class="link-primary link mx-auto text-center transition text-lg"
+          >Read More Of Our Testimonials</a
+        >
       </div>
     </div>
   </section>
