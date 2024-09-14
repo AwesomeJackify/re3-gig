@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Icon } from "@iconify/react";
 import { v4 as uuidv4 } from "uuid";
 import { supabase } from "../lib/supabase";
@@ -8,28 +8,11 @@ interface Props {
 }
 
 const LittleWins = ({ userId }: Props) => {
-  const exampleTasks = [
-    {
-      id: uuidv4(),
-      name: "Clean the house",
-      is_complete: true,
-    },
-    {
-      id: uuidv4(),
-      name: "Go for a run",
-      is_complete: false,
-    },
-    {
-      id: uuidv4(),
-      name: "Study for exam",
-      is_complete: false,
-    },
-  ];
-
   const [tasks, setTasks] = useState<
     { id: string; name: string; is_complete: boolean }[]
   >([]);
   const [taskInput, setTaskInput] = useState(""); // Manage input value
+  const inputRef = useRef<HTMLInputElement>(null);
 
   const toggleCompleted = (id: string) => {
     const updateTaskDB = async (id: string, is_complete: boolean) => {
@@ -104,6 +87,20 @@ const LittleWins = ({ userId }: Props) => {
     fetchData();
   }, []);
 
+  useEffect(() => {
+    const maxNumOfTasks = 10;
+    if (inputRef.current) {
+      if (tasks.length >= maxNumOfTasks) {
+        console.log(tasks.length);
+        inputRef.current.disabled = true;
+        inputRef.current.placeholder = `Only ${maxNumOfTasks} tasks allowed`;
+      } else {
+        inputRef.current.disabled = false;
+        inputRef.current.placeholder = "Add a task";
+      }
+    }
+  }, [tasks]);
+
   const deleteTask = (id: string) => {
     const deleteTaskDb = async (id: string) => {
       await supabase.from("todos").delete().eq("id", id);
@@ -149,6 +146,7 @@ const LittleWins = ({ userId }: Props) => {
         <label className="input input-bordered text-xl flex items-center gap-2 p-4 rounded-2xl">
           <span className="font-bold">+</span>
           <input
+            ref={inputRef}
             id="task"
             name="task"
             type="text"
