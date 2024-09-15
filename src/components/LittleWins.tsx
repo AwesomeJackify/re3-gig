@@ -93,7 +93,6 @@ const LittleWins = ({ userId, tasks, handleUpdateTask }: Props) => {
     const maxNumOfTasks = 15;
     if (inputRef.current) {
       if (tasks.length >= maxNumOfTasks) {
-        console.log(tasks.length);
         inputRef.current.disabled = true;
         inputRef.current.placeholder = `Max number of tasks reached (${maxNumOfTasks})`;
       } else {
@@ -117,6 +116,28 @@ const LittleWins = ({ userId, tasks, handleUpdateTask }: Props) => {
       })
     );
   };
+
+  const editTask = (task: Task) => (e: React.ChangeEvent<HTMLInputElement>) => {
+    const updateTaskDB = async (id: string, name: string) => {
+      await supabase
+        .from("todos")
+        .update({ name: name })
+        .eq("id", id);
+    };
+
+    const updatedTasks = tasks.map((t) => {
+      if (t.id === task.id) {
+        updateTaskDB(task.id, e.target.value);
+        return {
+          ...t,
+          name: e.target.value,
+        };
+      }
+      return t;
+    });
+
+    handleUpdateTask(updatedTasks);
+  }
 
   return (
     <div className="bg-base-200 w-full p-8 flex flex-col gap-8 rounded-2xl">
@@ -147,7 +168,7 @@ const LittleWins = ({ userId, tasks, handleUpdateTask }: Props) => {
               >
                 <Icon icon="mdi:check" className="text-sm text-white" />
               </div>
-              <h1>{task.name}</h1>
+              <input type="text" value={task.name} onChange={editTask(task)}></input>
               <Icon
                 icon="mdi:close"
                 className="text-lg ml-auto text-black/80 cursor-pointer hover:text-primary transition"

@@ -39,7 +39,6 @@ const History = ({ tasks }: Props) => {
                         // Convert the 'date' key (string) to a Date object
                         const taskDate = new Date(date);
                         taskDate.setHours(0, 0, 0, 0); // Strip time part from the taskDate
-                        console.log(todayStart, taskDate);
                         // Only return dates before today
                         return taskDate < todayStart;
                     }).map((date, index) =>
@@ -56,10 +55,11 @@ const History = ({ tasks }: Props) => {
                                                 }`}
                                         >
                                             <div
-                                                className={`rounded-full flex justify-center items-center w-6 aspect-square ${task.is_complete ? "bg-primary" : "bg-stone-300"
+                                                className={`rounded-full flex justify-center items-center w-6 aspect-square ${task.is_complete ? "bg-primary" : "bg-white"
                                                     }`}
                                             >
-                                                <Icon icon="mdi:check" className="text-sm text-white" />
+                                                <Icon icon="mdi:check" className={`text-sm  ${task.is_complete ? "text-white" : "text-black"
+                                                    }`} />
                                             </div>
                                             <h1 className='text-white'>{task.name}</h1>
                                         </li>
