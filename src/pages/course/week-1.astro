@@ -1,0 +1,112 @@
+---
+import Layout from "../../layouts/Layout.astro";
+---
+
+<Layout title="Course" showNav={true} showFooter={true}>
+  <div class="container mx-auto py-12 px-4 sm:px-6 lg:px-8">
+    <!-- Header -->
+    <div class="text-center">
+      <h1 class="text-5xl font-bold text-gray-900">Week 1</h1>
+      <p class="mt-4 text-lg text-gray-600">
+        IF YOU THINK YOU <span class="font-bold">CAN</span> OR YOU THINK YOU <span class="font-bold">CAN'T</span>, YOU WILL BE <span class="font-bold">RIGHT!</span>
+      </p>
+    </div>
+
+    <!-- Content Grid -->
+    <div class="mt-12 grid grid-cols-1 lg:grid-cols-3 gap-8">
+      <!-- Outline Sidebar -->
+      <aside class="lg:col-span-1">
+        <div class="sticky top-16 bg-white rounded-lg p-6">
+          <h2 class="text-2xl font-bold mb-4">Outline</h2>
+          <ul class="space-y-2 text-gray-700">
+            <li>
+              <a href="#introduction" class="hover:text-blue-500">Introduction</a>
+            </li>
+            <li>
+              <a href="#food-education" class="hover:text-blue-500">Food Education</a>
+            </li>
+            <li>
+              <a href="#document-week" class="hover:text-blue-500">Document Your Week</a>
+            </li>
+            <li>
+              <a href="#send-screenshots" class="hover:text-blue-500">Send Screenshots</a>
+            </li>
+            <li>
+              <a href="#food-shop" class="hover:text-blue-500">Do a Healthy Food Shop</a>
+            </li>
+            <li>
+              <a href="#schedule-call" class="hover:text-blue-500">Schedule a Video Call</a>
+            </li>
+          </ul>
+        </div>
+      </aside>
+
+      <!-- Main Content -->
+      <main class="lg:col-span-2 space-y-12">
+        <!-- Introduction Section -->
+        <section id="introduction" class="bg-white rounded-lg p-6">
+          <h2 class="text-2xl font-bold mb-4">Introduction</h2>
+          <div class="mb-6">
+            <iframe class="w-full h-96 rounded-lg" src="https://www.youtube-nocookie.com/embed/J_0JMi0g_9k?si=VCufnEOSMZ2NF9dx" title="Introduction Video" frameborder="0" allowfullscreen></iframe>
+          </div>
+          <h3 class="text-xl font-semibold mb-2">Key Notes</h3>
+          <ul class="list-disc list-inside space-y-1 text-gray-700">
+            <li>Live life as normal.</li>
+            <li>Document your week in phone notes or a journal.</li>
+            <li>Be 100% honest about your lifestyle.</li>
+            <li>If comfortable, include how you feel emotionally.</li>
+            <li>Send screenshots via DM on Instagram (@ree_three).</li>
+            <li>Tim will arrange your video call.</li>
+            <li>Watch the food education video.</li>
+          </ul>
+          <h3 id="document-week" class="text-xl font-semibold mt-6 mb-2">What to Document</h3>
+          <ul class="list-disc list-inside space-y-1 text-gray-700">
+            <li>Your sleep schedule.</li>
+            <li>Your diet and hydration.</li>
+            <li>Your exercise routines.</li>
+            <li>Any smoking or vaping habits.</li>
+            <li>Alcohol or drug consumption.</li>
+            <li>Your bad habits.</li>
+            <li>What you watch or read.</li>
+            <li>How you handle stress.</li>
+            <li>Identify any roadblocks or bad cycles.</li>
+            <li>Mental health status.</li>
+          </ul>
+        </section>
+
+        <!-- Food Education Section -->
+        <section id="food-education" class="bg-white rounded-lg p-6">
+          <h2 class="text-2xl font-bold mb-4">Food Education</h2>
+          <div class="mb-6">
+            <iframe class="w-full h-96 rounded-lg" src="https://www.youtube.com/embed/SH_yuI6H7JM?si=jM6TDYaZd4ZEEHRh" title="Food Education Video" frameborder="0" allowfullscreen></iframe>
+          </div>
+          <h3 class="text-xl font-semibold mb-2">Key Notes</h3>
+          <ul class="list-disc list-inside space-y-1 text-gray-700">
+            <li>Focus on ingredients over calories.</li>
+            <li>Count nutrients, not calories.</li>
+            <li>Base meals around protein.</li>
+            <li>Avoid seed oils to reduce inflammation.</li>
+            <li>Research these topics further.</li>
+            <li>Eliminate fluoride intake.</li>
+            <li>Choose organic chicken to avoid hormones.</li>
+            <li>Avoid oat and soy milk; they disrupt hormones.</li>
+            <li>Opt for organic coconut or dairy milk.</li>
+            <li>Avoid table salt; use Celtic salt instead.</li>
+            <li>Replenish minerals with Celtic salt in water.</li>
+            <li>Shop the outer aisles in supermarkets.</li>
+          </ul>
+          <h3 class="text-xl font-semibold mt-6 mb-2">Recommended Products</h3>
+          <ul class="list-disc list-inside space-y-1 text-gray-700">
+            <li>Red Island extra virgin olive oil</li>
+            <li>Celtic Salt (health food store)</li>
+            <li>Bostock Bros chicken</li>
+            <li>Filtered water</li>
+            <li>Pure Harvest coconut milk</li>
+            <li>Organic dairy milk</li>
+            <li>Available in most supermarkets</li>
+          </ul>
+        </section>
+      </main>
+    </div>
+  </div>
+</Layout>
