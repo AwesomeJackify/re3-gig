@@ -22,6 +22,7 @@ export const POST: APIRoute = async ({ request, redirect }) => {
         first_name: fname,
         last_name: lname,
       },
+      emailRedirectTo: "/login",
     },
   });
 

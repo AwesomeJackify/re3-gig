@@ -8,3 +8,10 @@ interface ImportMetaEnv {
 interface ImportMeta {
   readonly env: ImportMetaEnv;
 }
+
+interface Task {
+  id: string;
+  name: string;
+  is_complete: boolean;
+  created_at: string;
+}

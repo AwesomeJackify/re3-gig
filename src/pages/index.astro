@@ -10,7 +10,8 @@ import heroImg from "../assets/images/hero.jpg";
 import introImg1 from "../assets/images/intro/1.jpg";
 import introImg2 from "../assets/images/intro/2.jpg";
 import introImg3 from "../assets/images/intro/3.jpg";
-import testimonials from '../data/testimonials.json';
+import introImg4 from "../assets/images/intro/4.jpg";
+import testimonials from "../data/testimonials.json";
 
 import myStoryImg from "../assets/images/myStory.jpg";
 
@@ -91,11 +92,7 @@ const fields = [
   { name: "message", text: "Message" },
 ];
 
-const interests = [
-  "Ultimate Mindset",
-  "Mindset Refresh",
-  "Mindset Buddy",
-];
+const interests = ["Ultimate Mindset", "Mindset Refresh", "Mindset Buddy"];
 
 const cld = new Cloudinary({
   cloud: {
@@ -163,7 +160,7 @@ const introVideoURL = introVideo.toURL();
             class="w-full h-full aspect-square object-cover grayscale-[100]"
           />
           <Image
-            src={introImg3}
+            src={introImg4}
             alt="intro"
             class="w-full h-full aspect-square object-cover grayscale-[100]"
           />
@@ -279,9 +276,14 @@ const introVideoURL = introVideo.toURL();
   <section id="testimonials">
     <div class="max-w-screen-xl mx-auto py-16 flex flex-col gap-16 px-4">
       <div class="max-md:pb-0 flex flex-col items-center gap-4">
-        <h1 class="text-6xl font-bold text-center text-primary uppercase">TESTIMONIALS</h1>
+        <h1 class="text-6xl font-bold text-center text-primary uppercase">
+          TESTIMONIALS
+        </h1>
         <div class="flex flex-col w-full items-center gap-8">
-          <p class="font-light text-2xl text-center max-md:text-xl max-w-2xl" id="introText1">
+          <p
+            class="font-light text-2xl text-center max-md:text-xl max-w-2xl"
+            id="introText1"
+          >
             <span class="font-bold">Transforming lives </span>in just 12 weeks!
             This powerful program has helped both youth and adults overcome
             personal challenges through tools like goal-setting, anxiety
@@ -292,23 +294,34 @@ const introVideoURL = introVideo.toURL();
             impact of this life-changing program!
           </p>
         </div>
-        <div class="mt-16 mx-auto grid max-w-screen-xl grid-cols-2 gap-8 max-md:grid-cols-1">
-          {testimonials.testimonials.slice(0, 2).map((testimonial) => (
-            <div class="flex flex-col items-center justify-start rounded-lg border-2 border-default p-8">
-              <div class="flex flex-col items-center justify-center">
-                <h1 class="mt-4 font-bold uppercase text-2xl">
-                  {testimonial.name}
-                </h1>
+        <div
+          class="mt-16 mx-auto grid max-w-screen-xl grid-cols-2 gap-8 max-md:grid-cols-1"
+        >
+          {
+            testimonials.testimonials.slice(0, 2).map((testimonial) => (
+              <div class="flex flex-col items-center justify-start rounded-lg border-2 border-default p-8">
+                <div class="flex flex-col items-center justify-center">
+                  <h1 class="mt-4 font-bold uppercase text-2xl">
+                    {testimonial.name}
+                  </h1>
+                </div>
+                <div class="flex flex-col items-center gap-4">
+                  <p
+                    class="mt-4 font-extralight text-sm"
+                    style="white-space: pre-wrap;"
+                  >
+                    {testimonial.content}
+                  </p>
+                </div>
               </div>
-              <div class="flex flex-col items-center gap-4">
-                <p class="mt-4 font-extralight text-sm" style="white-space: pre-wrap;">
-                  {testimonial.content}
-                </p>
-              </div>
-            </div>
-          ))}
+            ))
+          }
         </div>
-        <a href="/testimonials" class="link-primary link mx-auto text-center transition text-lg">Read More Of Our Testimonials</a>
+        <a
+          href="/testimonials"
+          class="link-primary link mx-auto text-center transition text-lg"
+          >Read More Of Our Testimonials</a
+        >
       </div>
     </div>
   </section>
@@ -332,67 +345,74 @@ const introVideoURL = introVideo.toURL();
           }
         </div>
         <form
-        name="contact"
-        method="POST"
-        data-netlify="true"
-        class="w-full max-w-2xl mx-auto bg-white   p-6"
-      >
-      <h1 class="text-sm italic text-gray-700 mb-4">Interested in the program? Fill out the form and we will contact you back within 48 hours. </h1>
-        {fields.map((field) => (
+          name="contact"
+          method="POST"
+          data-netlify="true"
+          class="w-full max-w-2xl mx-auto bg-white p-6"
+        >
+          <h1 class="text-sm italic text-gray-700 mb-4">
+            Interested in the program? Fill out the form and we will contact you
+            back within 48 hours.
+          </h1>
+          {
+            fields.map((field) => (
+              <div class="mb-4">
+                <label
+                  for={field.name}
+                  class="block text-black text-sm font-bold mb-2"
+                >
+                  {field.text}
+                </label>
+                {field.name === "message" ? (
+                  <textarea
+                    id={field.name}
+                    name={field.name}
+                    class="w-full px-3 py-2 text-gray-700 border  focus:outline-none focus:border-primary"
+                    rows="4"
+                  />
+                ) : (
+                  <input
+                    type={field.name === "email" ? "email" : "text"}
+                    id={field.name}
+                    name={field.name}
+                    class="w-full px-3 py-2 text-gray-700 border  focus:outline-none focus:border-primary"
+                    required
+                  />
+                )}
+              </div>
+            ))
+          }
+
           <div class="mb-4">
-            <label
-              for={field.name}
-              class="block text-black text-sm font-bold mb-2"
-            >
-              {field.text}
+            <label class="block text-gray-700 text-sm font-bold mb-2">
+              Programs interested in
             </label>
-            {field.name === "message" ? (
-              <textarea
-                id={field.name}
-                name={field.name}
-                class="w-full px-3 py-2 text-gray-700 border  focus:outline-none focus:border-primary"
-                rows="4"
-              />
-            ) : (
-              <input
-                type={field.name === "email" ? "email" : "text"}
-                id={field.name}
-                name={field.name}
-                class="w-full px-3 py-2 text-gray-700 border  focus:outline-none focus:border-primary"
-                required
-              />
-            )}
+            <div class="flex flex-wrap gap-2">
+              {
+                interests.map((interest) => (
+                  <label class="inline-flex items-center">
+                    <input
+                      type="checkbox"
+                      name="interests"
+                      value={interest}
+                      class="form-checkbox h-5 w-5 text-blue-600"
+                    />
+                    <span class="ml-2 text-gray-700">{interest}</span>
+                  </label>
+                ))
+              }
+            </div>
           </div>
-        ))}
-        
-        <div class="mb-4">
-          <label class="block text-gray-700 text-sm font-bold mb-2">
-            Programs interested in
-          </label>
-          <div class="flex flex-wrap gap-2">
-            {interests.map((interest) => (
-              <label class="inline-flex items-center">
-                <input
-                  type="checkbox"
-                  name="interests"
-                  value={interest}
-                  class="form-checkbox h-5 w-5 text-blue-600"
-                />
-                <span class="ml-2 text-gray-700">{interest}</span>
-              </label>
-            ))}
+
+          <div class="text-center">
+            <button
+              type="submit"
+              class="bg-primary text-white font-bold py-2 px-4 rounded-lg transition duration-300"
+            >
+              Submit
+            </button>
           </div>
-        </div>
-        
-        <div class="text-center">
-          <button
-            type="submit"
-            class="bg-primary  text-white font-bold py-2 px-4 rounded-lg transition duration-300"
-          >
-            Submit
-          </button>
-        </div>
-      </form>
+        </form>
       </div>
     </div>
   </section>
