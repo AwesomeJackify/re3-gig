@@ -1,0 +1,131 @@
+---
+export const prerender = false;
+import Layout from "../layouts/Layout.astro";
+import { supabase } from "../lib/supabase";
+
+import { Icon } from '@iconify/react';
+
+const { cookies, redirect } = Astro;
+
+const accessToken = cookies.get("sb-access-token");
+const refreshToken = cookies.get("sb-refresh-token");
+
+if (!accessToken || !refreshToken) {
+  return redirect("/login");
+}
+
+const { data: sessionData, error: sessionError } = await supabase.auth.setSession({
+  refresh_token: refreshToken.value,
+  access_token: accessToken.value,
+});
+
+const currentUserId = (await supabase.auth.getSession()).data.session?.user.id;
+
+if (sessionError) {
+  cookies.delete("sb-access-token", { path: "/" });
+  cookies.delete("sb-refresh-token", { path: "/" });
+  return redirect("/login");
+}
+
+const name = sessionData.user?.user_metadata.first_name || "User";
+
+
+
+// Define an array of course modules
+const modules = [
+  {
+    id: 'week-1',
+    title: 'Week 1',
+    description: 'Introduction to the basics. Get started with foundational concepts.',
+    icon: 'mdi:calendar-week',
+    iconColor: 'text-blue-500',
+  },
+  {
+    id: 'week-2',
+    title: 'Week 2',
+    description: 'Deep dive into advanced topics. Build upon what you\'ve learned.',
+    icon: 'mdi:calendar-week',
+    iconColor: 'text-green-500',
+  },
+  {
+    id: 'week-3',
+    title: 'Week 3',
+    description: 'Explore new challenges and apply your knowledge.',
+    icon: 'mdi:calendar-week',
+    iconColor: 'text-red-500',
+  },
+  {
+    id: 'week-4',
+    title: 'Week 4',
+    description: 'Advanced techniques and best practices.',
+    icon: 'mdi:calendar-week',
+    iconColor: 'text-yellow-500',
+  },
+  {
+    id: 'week-5',
+    title: 'Week 5',
+    description: 'Capstone projects and real-world applications.',
+    icon: 'mdi:calendar-week',
+    iconColor: 'text-indigo-500',
+  },
+  {
+    id: 'week-6',
+    title: 'Week 6',
+    description: 'Final assessments and next steps in your journey.',
+    icon: 'mdi:calendar-week',
+    iconColor: 'text-pink-500',
+  },
+  {
+    id: 'ebooks',
+    title: 'E-books',
+    description: 'Access additional reading materials to supplement your learning.',
+    icon: 'mdi:book-open-page-variant',
+    iconColor: 'text-purple-500',
+  },
+  {
+    id: 'guided-meditation',
+    title: 'Guided Meditation',
+    description: 'Relax and focus with guided meditation sessions.',
+    icon: 'mdi:meditation',
+    iconColor: 'text-teal-500',
+  },
+  {
+    id: 'additional-readings',
+    title: 'Additional Readings',
+    description: 'Explore more resources to enhance your understanding.',
+    icon: 'mdi:book-multiple',
+    iconColor: 'text-orange-500',
+  },
+];
+---
+<Layout title="Course" showNav={true} showFooter={true}>
+  <section class="min-h-screen flex flex-col items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
+    <div class="max-w-5xl w-full space-y-8">
+      <div class="text-center">
+        <h1 class="text-5xl font-bold text-gray-900">Welcome to RE:THREE, {name}!</h1>
+        <p class="mt-4 text-lg text-gray-600">
+          Dive into the modules below to start your learning journey.
+        </p>
+      </div>
+      <div class="mt-12">
+        <ul class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {modules.map((module) => (
+            <li>
+              <a href={`/course/${module.id}`} class="block bg-white rounded-xl  transform hover:-translate-y-1 transition duration-300">
+                <div class="p-6">
+                  <div class="flex items-center">
+                    <Icon icon={module.icon} className={`text-4xl ${module.iconColor}`} />
+                    <h2 class="ml-4 text-2xl font-semibold text-gray-800">{module.title}</h2>
+                  </div>
+                  <p class="mt-4 text-gray-600">
+                    {module.description}
+                  </p>
+                </div>
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </div>
+  </section>
+</Layout>
