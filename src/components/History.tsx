@@ -45,14 +45,14 @@ const History = ({ tasks }: Props) => {
                     }).map((date, index) =>
                     (
                         <div key={index}>
-                            <div className="collapse collapse-arrow bg-base-200">
+                            <div className="collapse collapse-arrow bg-black">
                                 <input type="radio" name="my-accordion-1" />
-                                <div className="collapse-title text-xl font-medium">{format(date, "EEEE, do MMM")}</div>
+                                <div className="collapse-title text-xl font-medium text-white">{format(date, "EEEE, do MMM")}</div>
                                 <div className="collapse-content">
                                     {groupedTasks[date].map((task, index) => (
                                         <li
                                             key={index}
-                                            className={`bg-white p-4 mb-4 w-full rounded-2xl flex items-center transition-all gap-4 ${task.is_complete ? "line-through bg-primary/40 text-black/50" : ""
+                                            className={`bg-gray-700 p-4 mb-4 w-full rounded-2xl flex items-center transition-all gap-4 ${task.is_complete ? "line-through bg-primary/40 text-black/50" : ""
                                                 }`}
                                         >
                                             <div
@@ -61,7 +61,7 @@ const History = ({ tasks }: Props) => {
                                             >
                                                 <Icon icon="mdi:check" className="text-sm text-white" />
                                             </div>
-                                            <h1>{task.name}</h1>
+                                            <h1 className='text-white'>{task.name}</h1>
                                         </li>
                                     )
                                     )}
