@@ -1,0 +1,78 @@
+---
+import CourseLayout from '../../layouts/CourseLayout.astro';
+import CourseSection from '../../components/course/CourseSection.astro';
+import VideoEmbed from '../../components/course/VideoEmbed.astro';
+import NotesList from '../../components/course/NotesList.astro';
+import SubSection from '../../components/course/SubSection.astro';
+
+const outline = [
+  { id: 'discipline', title: 'Discipline' },
+  { id: 'gratitude', title: 'Positivity and Gratitude' },
+];
+
+---
+
+<CourseLayout title="Week 2" showNav={true} showFooter={true} outline={outline}>
+  <!-- Introduction Section -->
+  <CourseSection id="discipline" title="Discipline">
+    <VideoEmbed
+      src="https://www.youtube.com/embed/o2fqlLa1eIQ?si=9tExMgMra-CQVDSG"
+      title="discipline"
+    />
+    
+    
+
+    <SubSection title="Key Notes from Discipline Video">
+        <NotesList
+          items={[
+            'Motivation will come and go.',
+            'Discipline has the ability to keep pushing when motivation is lost.',
+            'Don’t choose the easy option.',
+            'Don’t stay in the comfort zone.',
+            'Stack up your small wins.',
+            'Live more consciously.',
+            'Get out of autopilot.',
+            'Stay uncomfortable.',
+          ]}
+        />
+        <br/>
+        <p>In the start your small wins list start wrting down your wins.</p>
+        <p>Write down all the small things you want to accomplish in your day and tick them off as you go. At the end of the day, reflect back on them and take a minute to be proud of yourself.</p>
+        <p>You can also keep a list of things you practiced discipline with (e.g., if you're staying sober and someone offers you a drink and you say no, or if you said you would train but your partner tells you to stay in bed, and you still got up and trained).</p>
+      </SubSection>
+      
+
+
+  </CourseSection>
+
+  <!-- Food Education Section -->
+  <CourseSection id="gratitude" title="Positivity and Gradtitude">
+    <VideoEmbed
+      src="https://www.youtube.com/embed/qGJnfhxyj8Y?si=di6wfufA1bDVbfON"
+      title="Food Education Video"
+    />
+
+    <SubSection title="Key Notes">
+        <NotesList
+          items={[
+            'Everything in your life is determined by your perspective.',
+            'Your vibration is the frequency that you\'re on, negative or positive.',
+            'Whatever frequency you are on will be the frequency you attract.',
+            'You are the only person you can control.',
+            'You can transmute energy from negative to positive.',
+            'You can transmute by practicing gratitude.',
+            'Practicing gratitude in the morning, in your theta state, is most beneficial.',
+            'Practice first thing when you open your eyes; say your gratitude or write it down.',
+            'Find positives in everything.',
+            'Let the words "I wish" trigger your memory to practice your gratitude.',
+            'Stop focusing on what you don’t have and be grateful for what you do have.',
+          ]}
+        />
+      </SubSection>
+      
+
+ 
+  </CourseSection>
+
+
+</CourseLayout>
