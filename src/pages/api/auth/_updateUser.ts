@@ -1,22 +1,11 @@
-import { createClient } from "@supabase/supabase-js";
-
-const supabase = createClient(
-  import.meta.env.SUPABASE_URL,
-  import.meta.env.SUPABASE_SERVICE_ROLE,
-  {
-    auth: {
-      autoRefreshToken: false,
-      persistSession: false,
-    },
-  }
-);
+import { supabase_admin } from "../../../lib/supabase_admin";
 
 const { data: user, error: adminError } =
-  await supabase.auth.admin.updateUserById(
-    "ec18a17c-0d47-4559-8c38-45ebd476ef3b",
+  await supabase_admin.auth.admin.updateUserById(
+    "c05f310a-0800-4fcc-a0a7-60943a0aaab8",
     {
       user_metadata: {
-        first_name: "Tim1",
+        first_name: "Tim",
         last_name: "Max",
       },
     }

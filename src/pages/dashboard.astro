@@ -3,6 +3,7 @@ export const prerender = false;
 import Layout from "../layouts/Layout.astro";
 import { supabase } from "../lib/supabase";
 import DashboardComponent from "../components/Dashboard";
+import AdminDashboard from "../components/AdminDashboard";
 
 const { cookies, redirect } = Astro;
 
@@ -12,7 +13,6 @@ const refreshToken = cookies.get("sb-refresh-token");
 if (!accessToken || !refreshToken) {
   return redirect("/login");
 }
-
 const { data: sessionData, error: sessionError } =
   await supabase.auth.setSession({
     refresh_token: refreshToken.value,
@@ -32,9 +32,25 @@ if (sessionError) {
   return redirect("/login");
 }
 
+const { data: roleData, error: roleError } = await supabase
+  .from("roles")
+  .select()
+  .eq("user_id", currentUserId)
+  .single();
+
 const name = sessionData.user?.user_metadata.first_name || "User";
 ---
 
 <Layout title={`Hey, ${name}`} showNav={false} showFooter={false}>
-  <DashboardComponent client:load currentUserId={currentUserId} name={name} />
+  {
+    roleData?.role === "admin" ? (
+      <AdminDashboard client:load currentUserId={currentUserId} name={name} />
+    ) : (
+      <DashboardComponent
+        client:load
+        currentUserId={currentUserId}
+        name={name}
+      />
+    )
+  }
 </Layout>
