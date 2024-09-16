@@ -1,0 +1,38 @@
+---
+import CourseLayout from '../../layouts/CourseLayout.astro';
+import CourseSection from '../../components/course/CourseSection.astro';
+import NotesList from '../../components/course/NotesList.astro';
+import SubSection from '../../components/course/SubSection.astro';
+
+const outline = [
+  { id: 'book-recommendations', title: 'Book Recommendations' },
+];
+
+---
+
+<CourseLayout title="Book Recommendations" showNav={true} showFooter={true} outline={outline}>
+
+
+  <!-- Book Recommendations Section -->
+  <CourseSection id="book-recommendations" title="Book Recommendations">
+    <SubSection title="Recommended Books and Audio Books">
+      <NotesList
+        items={[
+          'The Ways of the Superior Man - David Deida',
+          'The Power of Now - Eckhart Tolle',
+          'Attached - Dr. Amir Levine & Rachel S.F. Heller M.A.',
+          'The Inner Marriage - Elliott Saxby',
+          'Art of War - Sun Tzu',
+          'Self Mastery - Emile Coue',
+          'Endure - Cameron Hanes',
+          'Can’t Hurt Me - David Goggins',
+          'Atomic Habits - James Clear',
+          'Frequency - The Power of Personal Vibration - Penny Peirce',
+          'Becoming Supernatural - Dr. Joe Dispenza',
+          'Breaking the Habit of Being Yourself - Dr. Joe Dispenza',
+          'Success Through Stillness - Russell Simmons',
+        ]}
+      />
+    </SubSection>
+  </CourseSection>
+</CourseLayout>

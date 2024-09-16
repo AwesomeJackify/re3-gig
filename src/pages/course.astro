@@ -36,28 +36,28 @@ const modules = [
   {
     id: 'week-1',
     title: 'Week 1',
-    description: 'Introduction to the basics. Get started with foundational concepts.',
+    description: 'Introduction to course and food education.',
     icon: 'mdi:calendar-week',
     iconColor: 'text-blue-500',
   },
   {
     id: 'week-2',
     title: 'Week 2',
-    description: 'Deep dive into advanced topics. Build upon what you\'ve learned.',
+    description: 'Learn about discipline, positvity and gratitude.',
     icon: 'mdi:calendar-week',
     iconColor: 'text-green-500',
   },
   {
     id: 'week-3',
     title: 'Week 3',
-    description: 'Explore new challenges and apply your knowledge.',
+    description: 'Tim discusses how to have a positive mindset with meditation, breathwork and affirmations.',
     icon: 'mdi:calendar-week',
     iconColor: 'text-red-500',
   },
   {
     id: 'week-4',
     title: 'Week 4',
-    description: 'Advanced techniques and best practices.',
+    description: 'Journalling and exercise.',
     icon: 'mdi:calendar-week',
     iconColor: 'text-yellow-500',
   },
@@ -84,8 +84,8 @@ const modules = [
   },
   {
     id: 'guided-meditation',
-    title: 'Guided Meditation',
-    description: 'Relax and focus with guided meditation sessions.',
+    title: 'Guided Meditation + Breathwork',
+    description: 'Relax and focus with guided meditation and breathwork sessions.',
     icon: 'mdi:meditation',
     iconColor: 'text-teal-500',
   },
@@ -109,22 +109,23 @@ const modules = [
       </div>
       <div class="mt-12">
         <ul class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {modules.map((module) => (
-            <li>
-              <a href={`/course/${module.id}`} class="block bg-white rounded-xl  transform hover:-translate-y-1 transition duration-300">
-                <div class="p-6">
-                  <div class="flex items-center">
-                    <Icon icon={module.icon} className={`text-4xl ${module.iconColor}`} />
-                    <h2 class="ml-4 text-2xl font-semibold text-gray-800">{module.title}</h2>
+            {modules.map((module) => (
+              <li class="flex">
+                <a href={`/course/${module.id}`} class="flex flex-col bg-white rounded-xl transform hover:-translate-y-1 transition duration-300 flex-1">
+                  <div class="p-6 flex flex-col h-full">
+                    <div class="flex items-center">
+                      <Icon icon={module.icon} className={`text-4xl ${module.iconColor}`} />
+                      <h2 class="ml-4 text-2xl font-semibold text-gray-800">{module.title}</h2>
+                    </div>
+                    <p class="mt-4 text-gray-600 flex-grow">
+                      {module.description}
+                    </p>
                   </div>
-                  <p class="mt-4 text-gray-600">
-                    {module.description}
-                  </p>
-                </div>
-              </a>
-            </li>
-          ))}
-        </ul>
+                </a>
+              </li>
+            ))}
+          </ul>
+          
       </div>
     </div>
   </section>
