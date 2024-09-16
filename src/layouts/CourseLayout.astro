@@ -1,0 +1,44 @@
+---
+import Layout from "./Layout.astro";
+const { title, showNav = true, showFooter = true, outline = [] } = Astro.props;
+
+
+---
+
+
+
+<Layout title="Course" showNav={true} showFooter={true}>
+<main>
+  <div class="container mx-auto py-12 px-4 sm:px-6 lg:px-8">
+    <!-- Header -->
+    <div class="text-center">
+      <h1 class="text-5xl font-bold text-gray-900">{title}</h1>
+      <p class="mt-4 text-lg text-gray-600">
+        IF YOU THINK YOU <span class="font-bold">CAN</span> OR YOU THINK YOU <span class="font-bold">CAN'T</span>, YOU WILL BE <span class="font-bold">RIGHT!</span>
+      </p>
+    </div>
+
+    <!-- Content Grid -->
+    <div class="mt-12 grid grid-cols-1 lg:grid-cols-3 gap-8">
+      <!-- Outline Sidebar -->
+      <aside class="lg:col-span-1">
+        <div class="sticky top-16 bg-white rounded-lg p-6">
+          <h2 class="text-2xl font-bold mb-4">Outline</h2>
+          <ul class="space-y-2 text-gray-700">
+            {outline.map((item: { id: string, title: string }) => (
+              <li>
+                <a href={`#${item.id}`} class="hover:text-blue-500">{item.title}</a>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </aside>
+
+      <!-- Main Content Area -->
+      <div class="lg:col-span-2 space-y-12">
+        <slot/>
+      </div>
+    </div>
+  </div>
+</main>
+</Layout>
