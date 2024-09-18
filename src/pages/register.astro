@@ -1,6 +1,7 @@
 ---
 export const prerender = false;
 import Layout from "../layouts/Layout.astro";
+import { supabase } from "../lib/supabase";
 
 const { cookies, redirect } = Astro;
 
@@ -10,8 +11,21 @@ const status = Astro.url.searchParams.get("status") || "";
 const accessToken = cookies.get("sb-access-token");
 const refreshToken = cookies.get("sb-refresh-token");
 
+// Check tokens and validate them before redirecting to dashboard
 if (accessToken && refreshToken) {
-  return redirect("/dashboard");
+  try {
+    // Validate tokens here
+    const { error: sessionError } = await supabase.auth.setSession({
+      refresh_token: refreshToken.value,
+      access_token: accessToken.value,
+    });
+
+    if (!sessionError) {
+      return redirect("/dashboard");
+    }
+  } catch (e) {
+    console.error('Error validating tokens on login:', e);
+  }
 }
 ---
 

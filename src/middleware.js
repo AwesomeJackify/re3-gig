@@ -7,18 +7,13 @@ export async function onRequest(context, next) {
 
     console.log('Requested URL:', url.pathname);
 
-    // Exclude the /login route from this middleware logic
-    if (url.pathname !== '/login' && (url.pathname === '/course' || url.pathname.startsWith('/course/'))) {
-        // Retrieve tokens from cookies
+    // Check if the path requires authentication
+    if (shouldAuthenticate(url.pathname)) {
         const accessToken = cookies.get("sb-access-token");
         const refreshToken = cookies.get("sb-refresh-token");
 
-        console.log('Access Token:', accessToken);
-        console.log('Refresh Token:', refreshToken);
-
         // If tokens are missing, redirect to login
         if (!accessToken || !refreshToken) {
-            console.log('Redirecting to login: missing tokens');
             return redirectToLogin();
         }
 
@@ -27,7 +22,7 @@ export async function onRequest(context, next) {
 
         if (sessionError) {
             console.log('Redirecting to login: session validation failed');
-            // If there is an error with the session, clear cookies and redirect to login
+            // Clear cookies and redirect to login if validation fails
             cookies.delete("sb-access-token", { path: "/" });
             cookies.delete("sb-refresh-token", { path: "/" });
             return redirectToLogin();
@@ -36,6 +31,14 @@ export async function onRequest(context, next) {
 
     // Continue to the next middleware or the final handler
     return next();
+
+    // Utility function to determine if authentication is required for a route
+    function shouldAuthenticate(pathname) {
+        // Define routes that require authentication
+        const protectedRoutes = ['/dashboard', '/course'];
+        // Check if the current path is exactly '/dashboard' or starts with '/course'
+        return protectedRoutes.includes(pathname) || pathname.startsWith('/course/');
+    }
 
     // Helper function to validate the session
     async function validateSession(accessToken, refreshToken) {
