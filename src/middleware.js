@@ -43,19 +43,34 @@ export async function onRequest(context, next) {
     // Helper function to validate the session
     async function validateSession(accessToken, refreshToken) {
         try {
-            const { error: sessionError } = await supabase.auth.setSession({
+            const { data, error: sessionError } = await supabase.auth.setSession({
                 refresh_token: refreshToken,
                 access_token: accessToken,
             });
+            
             if (sessionError) {
                 console.log('Supabase session error:', sessionError.message);
+                return sessionError;
             }
-            return sessionError;
+    
+            // If new tokens are issued, update the cookies
+            if (data?.session) {
+                const newAccessToken = data.session.access_token;
+                const newRefreshToken = data.session.refresh_token;
+    
+                if (newAccessToken && newRefreshToken) {
+                    cookies.set("sb-access-token", newAccessToken, { path: "/", httpOnly: true, secure: true, sameSite: 'Strict' });
+                    cookies.set("sb-refresh-token", newRefreshToken, { path: "/", httpOnly: true, secure: true, sameSite: 'Strict' });
+                }
+            }
+    
+            return null; // No errors, session is valid
         } catch (error) {
             console.error('Error validating session:', error);
             return true; // Indicate an error occurred
         }
     }
+    
 
     // Helper function to handle redirects
     function redirectToLogin() {
