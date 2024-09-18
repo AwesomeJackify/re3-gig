@@ -1,20 +1,24 @@
 import { supabase } from "./lib/supabase";
 
 export async function onRequest(context, next) {
-    console.time('Middleware Execution Time'); // Start the timer
-
     // Get the URL of the incoming request
     const url = new URL(context.request.url);
     const { cookies, request } = context;
 
-    // Check if the URL path starts with /course/
-    if (url.pathname.startsWith('/course/')) {
+    console.log('Requested URL:', url.pathname);
+
+    // Exclude the /login route from this middleware logic
+    if (url.pathname !== '/login' && (url.pathname === '/course' || url.pathname.startsWith('/course/'))) {
         // Retrieve tokens from cookies
         const accessToken = cookies.get("sb-access-token");
         const refreshToken = cookies.get("sb-refresh-token");
 
-        // If tokens are missing or there's an error in token validation, redirect to login
+        console.log('Access Token:', accessToken);
+        console.log('Refresh Token:', refreshToken);
+
+        // If tokens are missing, redirect to login
         if (!accessToken || !refreshToken) {
+            console.log('Redirecting to login: missing tokens');
             return redirectToLogin();
         }
 
@@ -22,6 +26,7 @@ export async function onRequest(context, next) {
         const sessionError = await validateSession(accessToken.value, refreshToken.value);
 
         if (sessionError) {
+            console.log('Redirecting to login: session validation failed');
             // If there is an error with the session, clear cookies and redirect to login
             cookies.delete("sb-access-token", { path: "/" });
             cookies.delete("sb-refresh-token", { path: "/" });
@@ -29,7 +34,6 @@ export async function onRequest(context, next) {
         }
     }
 
-    console.timeEnd('Middleware Execution Time'); // End the timer when the middleware is done
     // Continue to the next middleware or the final handler
     return next();
 
@@ -40,6 +44,9 @@ export async function onRequest(context, next) {
                 refresh_token: refreshToken,
                 access_token: accessToken,
             });
+            if (sessionError) {
+                console.log('Supabase session error:', sessionError.message);
+            }
             return sessionError;
         } catch (error) {
             console.error('Error validating session:', error);
@@ -49,7 +56,6 @@ export async function onRequest(context, next) {
 
     // Helper function to handle redirects
     function redirectToLogin() {
-        console.timeEnd('Middleware Execution Time'); // End the timer before redirecting
         return Response.redirect(new URL('/login', request.url), 302);
     }
 }
