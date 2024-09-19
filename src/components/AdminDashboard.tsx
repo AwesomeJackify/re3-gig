@@ -88,7 +88,7 @@ const AdminDashboard = ({ currentUserId, name }: Props) => {
                                     <dialog id={`my_modal_${index}`} className="modal max-md:modal-bottom">
                                         <div className="modal-box flex flex-col gap-4">
                                             <h3 className="font-bold text-2xl capitalize">{user.user_metadata.first_name}'s small wins</h3>
-                                            <h1 className='font-medium'>{tasks.filter((task: any) => (task.is_complete)).length} tasks completed</h1>
+                                            {/* <h1 className='font-medium'>{tasks.filter((task: any) => (task.is_complete)).length} tasks completed</h1> */}
                                             <div>
                                                 <History tasks={tasks} />
                                             </div>
