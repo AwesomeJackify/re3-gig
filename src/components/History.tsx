@@ -26,7 +26,6 @@ const History = ({ tasks }: Props) => {
 
   return (
     <div className="flex flex-col gap-4">
-      <h1 className="font-bold text-2xl">Past Small Wins</h1>
       <div className="flex flex-col gap-2">
         {Object.keys(groupedTasks)
           .sort((a, b) => new Date(b).getTime() - new Date(a).getTime()) // Sort dates in descending order
@@ -56,16 +55,14 @@ const History = ({ tasks }: Props) => {
                     .map((task, index) => (
                       <li
                         key={index}
-                        className={`bg-gray-700 p-4 mb-4 w-full rounded-2xl flex items-center transition-all gap-4 ${
-                          task.is_complete
-                            ? "line-through bg-green-300/40 text-black/50"
-                            : ""
-                        }`}
+                        className={`bg-gray-700 p-4 mb-4 w-full rounded-2xl flex items-center transition-all gap-4 ${task.is_complete
+                          ? "line-through bg-green-300/40 text-black/50"
+                          : ""
+                          }`}
                       >
                         <div
-                          className={`rounded-full flex justify-center items-center w-6 aspect-square ${
-                            task.is_complete ? "bg-green-500" : "bg-primary"
-                          }`}
+                          className={`rounded-full flex justify-center items-center w-6 aspect-square ${task.is_complete ? "bg-green-500" : "bg-primary"
+                            }`}
                         >
                           {task.is_complete ? (
                             <Icon

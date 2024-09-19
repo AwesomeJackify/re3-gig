@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import { supabase_admin } from '../lib/supabase_admin';
 import { Icon } from '@iconify/react';
+import LittleWins from './LittleWins';
+import History from './History';
 
 interface Props {
     currentUserId: string | undefined;
@@ -9,15 +11,49 @@ interface Props {
 
 const AdminDashboard = ({ currentUserId, name }: Props) => {
     const [users, setUsers] = useState<any>([])
+    const [currentClientId, setCurrentClientId] = useState<string>("")
+    const [tasks, setTasks] = useState<any>([])
 
     useEffect(() => {
         const fetchData = async () => {
+            if (!currentClientId) {
+                return;
+            }
+            const { data: todosData, error: todosError } = await supabase_admin
+                .from("todos")
+                .select()
+                .eq("user_id", currentClientId)
+
+            if (todosData) {
+                const tasks = todosData.map((task) => {
+                    return {
+                        id: task.id,
+                        name: task.name,
+                        is_complete: task.is_complete,
+                        created_at: task.created_at,
+                    };
+                });
+
+                setTasks(tasks)
+            }
+        };
+
+        fetchData();
+    }, [currentClientId])
+
+    useEffect(() => {
+        const fetchUsers = async () => {
             const { data: { users }, error } = await supabase_admin.auth.admin.listUsers()
             setUsers(users)
         }
 
-        fetchData()
+        fetchUsers()
     })
+
+    const handleOnClick = (currentClientId: string, index: number) => {
+        setCurrentClientId(currentClientId);
+        (document.getElementById(`my_modal_${index}`) as HTMLDialogElement).showModal()
+    }
 
     return (
         <div className='flex flex-col gap-16'>
@@ -45,14 +81,17 @@ const AdminDashboard = ({ currentUserId, name }: Props) => {
                         users.map((user: any, index: number) => (
                             user.id != currentUserId &&
                             (
-                                <div>
-                                    <button onClick={() => (document.getElementById(`my_modal_${index}`) as HTMLDialogElement).showModal()} key={user.id} className='w-full py-8 px-4 pt-4 shadow-2xl rounded-2xl border-black border-4 hover:bg-black transition cursor-pointer hover:text-primary'>
+                                <div key={index}>
+                                    <button onClick={() => handleOnClick(user.id, index)} key={user.id} className='w-full py-8 px-4 pt-4 shadow-2xl rounded-2xl border-black border-4 hover:bg-black transition cursor-pointer hover:text-primary'>
                                         <h1 className='text-4xl font-bold text-center'>{user.user_metadata.first_name} {user.user_metadata.last_name} </h1>
                                     </button>
-                                    <dialog id={`my_modal_${index}`} className="modal">
-                                        <div className="modal-box">
-                                            <h3 className="font-bold text-lg">{user.user_metadata.first_name}'s small wins</h3>
-
+                                    <dialog id={`my_modal_${index}`} className="modal max-md:modal-bottom">
+                                        <div className="modal-box flex flex-col gap-4">
+                                            <h3 className="font-bold text-2xl capitalize">{user.user_metadata.first_name}'s small wins</h3>
+                                            <h1 className='font-medium'>{tasks.filter((task: any) => (task.is_complete)).length} tasks completed</h1>
+                                            <div>
+                                                <History tasks={tasks} />
+                                            </div>
                                             <form method="dialog" className='modal-backdrop'>
                                                 {/* if there is a button in form, it will close the modal */}
                                                 <button className="btn">Close</button>
