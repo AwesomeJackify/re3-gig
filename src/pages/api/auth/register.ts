@@ -30,5 +30,5 @@ export const POST: APIRoute = async ({ request, redirect }) => {
     return redirect("/login?error=" + error.message);
   }
 
-  return redirect("/login?success=Account created");
+  return redirect("/login?success=Account created. Please verify your email.");
 };
