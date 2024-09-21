@@ -1,33 +1,62 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Icon } from "@iconify/react";
 import { format } from "date-fns";
 
 interface Props {
   tasks: Task[];
+  timeframe?: string;
 }
 
-const History = ({ tasks }: Props) => {
+const History = ({ tasks, timeframe }: Props) => {
+  const [groupedTasks, setGroupedTasks] = useState<{ [key: string]: Task[] } | null>(null)
   // Function to group tasks by date
   const groupTasksByDate = (tasks: Task[]) => {
+    // Get the current date
+    const today = new Date();
+
+    // Calculate the most recent Monday (start of the week)
+    const currentDayOfWeek = today.getDay(); // Sunday = 0, Monday = 1, ..., Saturday = 6
+    const daysSinceMonday = (currentDayOfWeek + 6) % 7; // Offset for Monday (getDay() is 0-indexed from Sunday)
+    const monday = new Date(today);
+    monday.setDate(today.getDate() - daysSinceMonday); // Go back to the most recent Monday
+    monday.setHours(0, 0, 0, 0); // Set time to start of the day
+
+    // Calculate the upcoming Sunday (end of the week)
+    const sunday = new Date(monday);
+    sunday.setDate(monday.getDate() + 6); // Add 6 days to get Sunday
+    sunday.setHours(23, 59, 59, 999); // Set time to the end of the day
+
     return tasks.reduce((acc: { [key: string]: Task[] }, task) => {
       // Extract the date part (YYYY-MM-DD) from the created_at field
-      const date = new Date(task.created_at).toISOString().split("T")[0];
+      const taskDate = new Date(task.created_at);
+
+      // If the timeframe is "weekly", filter tasks to only those within this week
+      if (timeframe === "weekly") {
+        if (taskDate < monday || taskDate > sunday) {
+          return acc; // Skip tasks outside of this week
+        }
+      }
+
+      const date = taskDate.toISOString().split("T")[0];
+
       // Initialize the array for that date if it doesn't exist
       if (!acc[date]) {
         acc[date] = [];
       }
+
       // Add the task to the corresponding date
       acc[date].push(task);
+
       return acc;
     }, {} as { [key: string]: Task[] });
   };
 
-  const groupedTasks = groupTasksByDate(tasks);
+  useEffect(() => setGroupedTasks(groupTasksByDate(tasks)), [tasks])
 
   return (
     <div className="flex flex-col gap-4">
       <div className="flex flex-col gap-2">
-        {Object.keys(groupedTasks)
+        {groupedTasks && Object.keys(groupedTasks).length > 0 ? Object.keys(groupedTasks)
           .sort((a, b) => new Date(b).getTime() - new Date(a).getTime()) // Sort dates in descending order
           .filter((date) => {
             const todayStart = new Date();
@@ -82,7 +111,7 @@ const History = ({ tasks }: Props) => {
                 </div>
               </div>
             </div>
-          ))}
+          )) : <h1>No small wins yet...</h1>}
       </div>
     </div>
   );

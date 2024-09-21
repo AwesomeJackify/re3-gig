@@ -87,10 +87,10 @@ const AdminDashboard = ({ currentUserId, name }: Props) => {
                                     </button>
                                     <dialog id={`my_modal_${index}`} className="modal max-md:modal-bottom">
                                         <div className="modal-box flex flex-col gap-4">
-                                            <h3 className="font-bold text-2xl capitalize">{user.user_metadata.first_name}'s small wins</h3>
+                                            <h3 className="font-bold text-2xl capitalize">{user.user_metadata.first_name}'s weekly small wins</h3>
                                             {/* <h1 className='font-medium'>{tasks.filter((task: any) => (task.is_complete)).length} tasks completed</h1> */}
                                             <div>
-                                                <History tasks={tasks} />
+                                                <History timeframe='weekly' tasks={tasks} />
                                             </div>
                                             <form method="dialog" className='modal-backdrop'>
                                                 {/* if there is a button in form, it will close the modal */}
