@@ -61,7 +61,7 @@ const Dashboard = ({ currentUserId, name }: Props) => {
                 <h1 className="font-bold text-6xl max-md:text-center">Hey, {name}!</h1>
                 <div className='max-w-screen-sm flex flex-col gap-16'>
                     <LittleWins userId={currentUserId} tasks={tasks} handleUpdateTask={updateTasks} />
-                    <div>
+                    <div className='flex flex-col gap-4'>
                         <h1 className="font-bold text-2xl">Past Small Wins</h1>
                         <History tasks={tasks} />
                     </div>
