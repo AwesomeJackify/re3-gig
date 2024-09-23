@@ -2,9 +2,10 @@
 export const prerender = false;
 import CourseLayout from '../../layouts/CourseLayout.astro';
 import CourseSection from '../../components/course/CourseSection.astro';
-import VideoEmbed from '../../components/course/VideoEmbed.astro';
+
 import NotesList from '../../components/course/NotesList.astro';
 import SubSection from '../../components/course/SubSection.astro';
+import { YouTube } from 'astro-embed';
 
 const outline = [
   { id: 'journalling', title: 'Journalling' },
@@ -16,9 +17,9 @@ const outline = [
 <CourseLayout title="Week 4" showNav={true} showFooter={true} outline={outline}>
   <!-- Introduction Section -->
   <CourseSection id="journalling" title="Journalling">
-    <VideoEmbed
-      src="https://www.youtube.com/embed/Nxd5r9FArG8"
-      title="Journalling Video"
+    <YouTube
+      id="https://www.youtube.com/embed/Nxd5r9FArG8"
+
     />
   
     <SubSection title="Key Notes from Journalling Video">
@@ -41,9 +42,9 @@ const outline = [
 
   <!-- Food Education Section -->
   <CourseSection id="exercise" title="Exercise">
-    <VideoEmbed
-      src="https://www.youtube.com/embed/NU32hpPOGxA"
-      title="Exercise Video"
+    <YouTube
+      id="https://www.youtube.com/embed/NU32hpPOGxA"
+    
     />
   
     <SubSection title="Key Notes from Exercise Video">
