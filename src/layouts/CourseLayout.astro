@@ -1,5 +1,9 @@
 ---
 import Layout from "./Layout.astro";
+interface OutlineItem {
+  id: string;
+  title: string;
+}
 const { title, showNav = true, showFooter = true, outline = [] } = Astro.props;
 ---
 <Layout title={title} showNav={showNav} showFooter={showFooter}>
@@ -22,11 +26,13 @@ const { title, showNav = true, showFooter = true, outline = [] } = Astro.props;
           <div class="sticky top-16 bg-white rounded-lg p-6">
             <h2 class="text-2xl font-bold mb-4">Outline</h2>
             <ul class="space-y-2 text-gray-700">
-              {outline.map((item) => (
-                <li key={item.id}>
+              {outline.map((item: OutlineItem) => (
+                <Fragment key={item.id}>
+                  <li>
                   <a href={`#${item.id}`} class="hover:text-blue-500">
                     {item.title}
-                  </a>
+                  </li>
+                </Fragment>
                 </li>
               ))}
             </ul>
