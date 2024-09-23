@@ -11,7 +11,7 @@ const success = Astro.url.searchParams.get("success") || "";
 
 const accessToken = cookies.get("sb-access-token");
 const refreshToken = cookies.get("sb-refresh-token");
-console.log(accessToken, refreshToken);
+
 
 // Check tokens and validate them before redirecting to dashboard
 if (accessToken && refreshToken) {

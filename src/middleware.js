@@ -5,7 +5,7 @@ export async function onRequest(context, next) {
     const url = new URL(context.request.url);
     const { cookies, request } = context;
 
-    console.log('Requested URL:', url.pathname);
+    
 
     // Check if the path requires authentication
     if (shouldAuthenticate(url.pathname)) {
@@ -21,7 +21,7 @@ export async function onRequest(context, next) {
         const sessionError = await validateSession(accessToken.value, refreshToken.value);
 
         if (sessionError) {
-            console.log('Redirecting to login: session validation failed');
+            
             // Clear cookies and redirect to login if validation fails
             cookies.delete("sb-access-token", { path: "/" });
             cookies.delete("sb-refresh-token", { path: "/" });
@@ -49,7 +49,7 @@ export async function onRequest(context, next) {
             });
             
             if (sessionError) {
-                console.log('Supabase session error:', sessionError.message);
+                
                 return sessionError;
             }
     
@@ -66,7 +66,7 @@ export async function onRequest(context, next) {
     
             return null; // No errors, session is valid
         } catch (error) {
-            console.error('Error validating session:', error);
+          
             return true; // Indicate an error occurred
         }
     }
