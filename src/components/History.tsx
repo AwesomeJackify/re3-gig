@@ -26,14 +26,25 @@ const History = ({ tasks, timeframe }: Props) => {
     sunday.setDate(monday.getDate() + 6); // Add 6 days to get Sunday
     sunday.setHours(23, 59, 59, 999); // Set time to the end of the day
 
+    // Calculate the date 7 days ago
+    const sevenDaysAgo = new Date(today);
+    sevenDaysAgo.setDate(today.getDate() - 7); // Go back 7 days
+    sevenDaysAgo.setHours(0, 0, 0, 0); // Set time to start of the day
+
     return tasks.reduce((acc: { [key: string]: Task[] }, task) => {
       // Extract the date part (YYYY-MM-DD) from the created_at field
       const taskDate = new Date(task.created_at);
 
-      // If the timeframe is "weekly", filter tasks to only those within this week
+      // Handle different timeframes
       if (timeframe === "weekly") {
+        // Filter tasks for the current week (Monday to Sunday)
         if (taskDate < monday || taskDate > sunday) {
           return acc; // Skip tasks outside of this week
+        }
+      } else if (timeframe === "last7days") {
+        // Filter tasks for the last 7 days
+        if (taskDate < sevenDaysAgo || taskDate > today) {
+          return acc; // Skip tasks outside of the last 7 days
         }
       }
 
@@ -51,22 +62,22 @@ const History = ({ tasks, timeframe }: Props) => {
     }, {} as { [key: string]: Task[] });
   };
 
-  useEffect(() => setGroupedTasks(groupTasksByDate(tasks)), [tasks])
+  useEffect(() => { setGroupedTasks(groupTasksByDate(tasks)) }, [tasks])
 
   return (
     <div className="flex flex-col gap-4">
       <div className="flex flex-col gap-2">
         {groupedTasks && Object.keys(groupedTasks).length > 0 ? Object.keys(groupedTasks)
           .sort((a, b) => new Date(b).getTime() - new Date(a).getTime()) // Sort dates in descending order
-          .filter((date) => {
-            const todayStart = new Date();
-            todayStart.setHours(0, 0, 0, 0); // Set to midnight (start of today)
-            // Convert the 'date' key (string) to a Date object
-            const taskDate = new Date(date);
-            taskDate.setHours(0, 0, 0, 0); // Strip time part from the taskDate
-            // Only return dates before today
-            return taskDate < todayStart;
-          })
+          // .filter((date) => {
+          //   const todayStart = new Date();
+          //   todayStart.setHours(0, 0, 0, 0); // Set to midnight (start of today)
+          //   // Convert the 'date' key (string) to a Date object
+          //   const taskDate = new Date(date);
+          //   taskDate.setHours(0, 0, 0, 0); // Strip time part from the taskDate
+          //   // Only return dates before today
+          //   return taskDate < todayStart;
+          // })
           .map((date, index) => (
             <div key={index}>
               <div className="collapse collapse-arrow bg-black">
