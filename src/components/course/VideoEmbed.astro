@@ -2,7 +2,7 @@
 const { src, title } = Astro.props;
 
 // Function to convert a standard YouTube URL to an embed URL
-function getEmbedUrl(url) {
+function getEmbedUrl(url: string | URL) {
   try {
     const urlObj = new URL(url);
 
