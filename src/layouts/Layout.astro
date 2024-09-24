@@ -6,6 +6,7 @@ interface Props {
 }
 
 const { title, showNav = true, showFooter = true } = Astro.props;
+import { Icon } from "astro-icon/components";
 
 import config from "../config.json";
 
@@ -19,22 +20,46 @@ import Footer from "../components/Footer.astro";
     <meta charset="UTF-8" />
     <meta name="description" content={config.description} />
     <meta name="viewport" content="width=device-width" />
-    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
-    <link rel="manifest" href="/site.webmanifest">
-    <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
-    <meta name="msapplication-TileColor" content="#da532c">
-    <meta name="theme-color" content="#ffffff">
-
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5" />
+    <meta name="msapplication-TileColor" content="#da532c" />
+    <meta name="theme-color" content="#ffffff" />
 
     <meta name="generator" content={Astro.generator} />
     <title>{title}</title>
   </head>
   <body>
-    {showNav && <Nav />}
+    <!-- {showNav && <Nav />}
     <slot />
-    {showFooter && <Footer />}
+    {showFooter && <Footer />} -->
+    <div
+      class="w-full gap-8 h-screen bg-black flex flex-col items-center justify-center"
+    >
+      <h1 class="text-white text-6xl uppercase italic font-bold font-mono">
+        Website under construction
+      </h1>
+      <nav class="flex text-white gap-2">
+        {
+          config.socials.map((social) => (
+            <a href={social.url} target="_blank">
+              <Icon
+                name={social.icon}
+                class="text-4xl hover:text-primary transition"
+              />
+            </a>
+          ))
+        }
+        <a href={`mailto:${config.mail}`}>
+          <Icon
+            name="mdi:email"
+            class="text-4xl hover:text-primary transition"
+          />
+        </a>
+      </nav>
+    </div>
   </body>
 </html>
 <style is:global>
