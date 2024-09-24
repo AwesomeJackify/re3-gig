@@ -1,0 +1,69 @@
+---
+export const prerender = false;
+import CourseLayout from '../../layouts/CourseLayout.astro';
+import CourseSection from '../../components/course/CourseSection.astro';
+import VideoEmbed from '../../components/course/VideoEmbed.astro';
+import NotesList from '../../components/course/NotesList.astro';
+import SubSection from '../../components/course/SubSection.astro';
+
+const outline = [
+  { id: 'journalling', title: 'Journalling' },
+  { id: 'exercise', title: 'Exercise' },
+];
+
+---
+
+<CourseLayout title="Week 4" showNav={true} showFooter={true} outline={outline}>
+  <!-- Introduction Section -->
+  <CourseSection id="journalling" title="Journalling">
+    <VideoEmbed
+      src="https://www.youtube.com/embed/Nxd5r9FArG8"
+      title="Journalling Video"
+    />
+  
+    <SubSection title="Key Notes from Journalling Video">
+      <NotesList
+        items={[
+          'The next 6 weeks you will be holding yourself more accountable.',
+          'Journalling clears your mind, holds you accountable, and makes you emotionally aware.',
+          'Get yourself a journal.',
+          'Do 5 bullet points of your morning and your evening.',
+          'These bullet points could be what you ate, an experience you had while meditating, something to do with your exercise, etc.',
+          'Write down your positives and things you can improve on for the next day.',
+          'Brainstorm around the things you need to work on, e.g., maybe you weren’t disciplined with your food and you want to get back on track the next day before it turns into a spiral. If you find that you’re someone that doesn’t always stick to their word, you might find it beneficial to have a plan in place so you can get back on track, such as doing a meal prep for the next day or throwing away the leftover pizza you slipped up with.',
+          'You can also journal your thoughts and emotions if there\'s anything you feel like releasing. It is a great tool.',
+          'Your journal will not be shared with Tim but you will be talking about journalling.',
+        ]}
+      />
+    </SubSection>
+  </CourseSection>
+  
+
+  <!-- Food Education Section -->
+  <CourseSection id="exercise" title="Exercise">
+    <VideoEmbed
+      src="https://www.youtube.com/embed/NU32hpPOGxA"
+      title="Exercise Video"
+    />
+  
+    <SubSection title="Key Notes from Exercise Video">
+      <NotesList
+        items={[
+          'Exercise at least 4 times a week.',
+          'Move your body daily, even if it\'s just stretching or walking.',
+          'Find something that you love doing.',
+          'Turning your exercise into a hobby or passion is the best way to enjoy it.',
+          'Try everything till you find your thing.',
+          'Exercise is crucial for mental health.',
+          'Exercise releases endorphins, which is a chemical/hormone.',
+          'Exercise will give you more energy.',
+          'Stay consistent and use your discipline.',
+        ]}
+      />
+    </SubSection>
+  </CourseSection>
+  
+
+  
+
+</CourseLayout>

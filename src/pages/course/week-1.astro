@@ -1,0 +1,103 @@
+---
+export const prerender = false;
+import CourseLayout from '../../layouts/CourseLayout.astro';
+import CourseSection from '../../components/course/CourseSection.astro';
+import VideoEmbed from '../../components/course/VideoEmbed.astro';
+import NotesList from '../../components/course/NotesList.astro';
+import SubSection from '../../components/course/SubSection.astro';
+
+const outline = [
+  { id: 'introduction', title: 'Introduction' },
+  { id: 'food-education', title: 'Food Education' },
+  { id: 'document-week', title: 'Document Your Week' },
+  { id: 'send-screenshots', title: 'Send Screenshots' },
+  { id: 'food-shop', title: 'Do a Healthy Food Shop' },
+  { id: 'schedule-call', title: 'Schedule a Video Call' },
+];
+---
+
+<CourseLayout title="Week 1" showNav={true} showFooter={true} outline={outline}>
+  <!-- Introduction Section -->
+  <CourseSection id="introduction" title="Introduction">
+    <VideoEmbed
+      src="https://www.youtube.com/embed/J_0JMi0g_9k?si=L_l7LHiMzMulIvkb"
+      title="Introduction Video"
+    />
+    
+    
+
+    <SubSection title="Key Notes">
+      <NotesList
+        items={[
+          'Live life as normal.',
+          'Document your week in phone notes or a journal.',
+          'Be 100% honest about your lifestyle.',
+          'If comfortable, include how you feel emotionally.',
+          'Send screenshots via DM on Instagram (@ree_three).',
+          'Tim will arrange your video call.',
+          'Watch the food education video.',
+        ]}
+      />
+    </SubSection>
+
+    <SubSection id="document-week" title="What to Document">
+      <NotesList
+        items={[
+          'Your sleep schedule.',
+          'Your diet and hydration.',
+          'Your exercise routines.',
+          'Any smoking or vaping habits.',
+          'Alcohol or drug consumption.',
+          'Your bad habits.',
+          'What you watch or read.',
+          'How you handle stress.',
+          'Identify any roadblocks or bad cycles.',
+          'Mental health status.',
+        ]}
+      />
+    </SubSection>
+  </CourseSection>
+
+  <!-- Food Education Section -->
+  <CourseSection id="food-education" title="Food Education">
+    <VideoEmbed
+      src="https://www.youtube.com/embed/SH_yuI6H7JM?si=jM6TDYaZd4ZEEHRh"
+      title="Food Education Video"
+    />
+
+    <SubSection title="Key Notes">
+      <NotesList
+        items={[
+          'Focus on ingredients over calories.',
+          'Count nutrients, not calories.',
+          'Base meals around protein.',
+          'Avoid seed oils to reduce inflammation.',
+          'Research these topics further.',
+          'Eliminate fluoride intake.',
+          'Choose organic chicken to avoid hormones.',
+          'Avoid oat and soy milk; they disrupt hormones.',
+          'Opt for organic coconut or dairy milk.',
+          'Avoid table salt; use Celtic salt instead.',
+          'Replenish minerals with Celtic salt in water.',
+          'Shop the outer aisles in supermarkets.',
+        ]}
+      />
+    </SubSection>
+
+    <SubSection title="Recommended Products">
+      <NotesList
+        items={[
+          'Red Island extra virgin olive oil',
+          'Celtic Salt (health food store)',
+          'Bostock Bros chicken',
+          'Filtered water',
+          'Pure Harvest coconut milk',
+          'Organic dairy milk',
+          'Available in most supermarkets',
+        ]}
+      />
+    </SubSection>
+  </CourseSection>
+
+  <!-- Add more sections as needed -->
+</CourseLayout>

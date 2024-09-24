@@ -1,0 +1,52 @@
+---
+const { src, title } = Astro.props;
+
+// Function to convert a standard YouTube URL to an embed URL
+function getEmbedUrl(url) {
+  try {
+    const urlObj = new URL(url);
+
+    // For standard YouTube URLs
+    if (urlObj.hostname.includes('youtube.com')) {
+      const videoId = urlObj.searchParams.get('v');
+      if (videoId) {
+        return `https://www.youtube.com/embed/${videoId}`;
+      }
+    }
+
+    // For shortened YouTube URLs
+    if (urlObj.hostname === 'youtu.be') {
+      const videoId = urlObj.pathname.slice(1);
+      if (videoId) {
+        return `https://www.youtube.com/embed/${videoId}`;
+      }
+    }
+
+    // If the URL is already in embed format
+    if (urlObj.hostname.includes('youtube.com') && urlObj.pathname.includes('/embed/')) {
+      return url;
+    }
+
+    // Throw an error if not a valid YouTube URL
+    throw new Error('Invalid YouTube URL format');
+  } catch (error) {
+    console.error('Error parsing video URL:', error);
+    return '';
+  }
+}
+
+const embedSrc = getEmbedUrl(src);
+---
+<div class="mb-6">
+  {embedSrc ? (
+    <iframe
+      class="w-full h-96 rounded-lg"
+      src={embedSrc}
+      title={title}
+      frameborder="0"
+      allowfullscreen
+    ></iframe>
+  ) : (
+    <p>Invalid video URL</p>
+  )}
+</div>

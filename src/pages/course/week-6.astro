@@ -1,0 +1,32 @@
+---
+export const prerender = false;
+import CourseLayout from '../../layouts/CourseLayout.astro';
+import CourseSection from '../../components/course/CourseSection.astro';
+import NotesList from '../../components/course/NotesList.astro';
+import SubSection from '../../components/course/SubSection.astro';
+
+const outline = [
+  { id: 'restart-outline', title: 'RE:START Week 6-12 Outline' },
+];
+
+---
+
+<CourseLayout title="Week 6-12 Outline" showNav={true} showFooter={true} outline={outline}>
+  <!-- RE:START Week 6-12 Outline Section -->
+  <CourseSection id="restart-outline" title="RE:START Week 6-12 Outline">
+    <SubSection title="Outline for Weeks 6-12">
+      <NotesList
+        items={[
+          'Video call with Tim on Sunday before you start week 6.',
+          'Pick a book from the recommendations list that resonates with you. Either read or listen to an audiobook over the next 6 weeks (you don’t have to finish it in 6 weeks).',
+          'Make a new morning and night routine with Tim.',
+          'Video call with Tim - goal setting and breakdown.',
+          'Video call with Tim - make a clear plan around old cycles and triggers for when they arise.',
+          'Video calls with Tim once a week; he will always be reachable via message though.',
+          'Goal writing and breakdown with Tim.',
+          'Final 3 weeks will be video call check-ins as you begin to navigate your new life on your own.',
+        ]}
+      />
+    </SubSection>
+  </CourseSection>
+</CourseLayout>

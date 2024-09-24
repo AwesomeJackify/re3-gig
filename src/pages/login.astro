@@ -1,6 +1,7 @@
 ---
 export const prerender = false;
 import Layout from "../layouts/Layout.astro";
+import { supabase } from "../lib/supabase";
 
 const { cookies, redirect } = Astro;
 
@@ -10,9 +11,23 @@ const success = Astro.url.searchParams.get("success") || "";
 
 const accessToken = cookies.get("sb-access-token");
 const refreshToken = cookies.get("sb-refresh-token");
+console.log(accessToken, refreshToken);
 
+// Check tokens and validate them before redirecting to dashboard
 if (accessToken && refreshToken) {
-  return redirect("/dashboard");
+  try {
+    // Validate tokens here
+    const { error: sessionError } = await supabase.auth.setSession({
+      refresh_token: refreshToken.value,
+      access_token: accessToken.value,
+    });
+
+    if (!sessionError) {
+      return redirect("/dashboard");
+    }
+  } catch (e) {
+    console.error("Error validating tokens on login:", e);
+  }
 }
 ---
 
@@ -21,11 +36,11 @@ if (accessToken && refreshToken) {
     error && (
       <div
         role="alert"
-        class="alert alert-error absolute top-4 left-1/2 -translate-x-1/2 w-fit z-50"
+        class="alert alert-error shadow-lg fixed top-4 left-1/2 transform -translate-x-1/2 z-50"
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
-          class="h-6 w-6 shrink-0 stroke-current"
+          class="stroke-current flex-shrink-0 h-6 w-6"
           fill="none"
           viewBox="0 0 24 24"
         >
@@ -39,15 +54,16 @@ if (accessToken && refreshToken) {
         <span>{error}</span>
       </div>
     )
-  }{
+  }
+  {
     success && (
       <div
         role="alert"
-        class="alert alert-success absolute top-4 left-1/2 -translate-x-1/2 w-fit z-50"
+        class="alert alert-success shadow-lg fixed top-4 left-1/2 transform -translate-x-1/2 z-50"
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
-          class="h-6 w-6 shrink-0 stroke-current"
+          class="stroke-current flex-shrink-0 h-6 w-6"
           fill="none"
           viewBox="0 0 24 24"
         >
@@ -61,17 +77,18 @@ if (accessToken && refreshToken) {
         <span>{success}</span>
       </div>
     )
-  }{
+  }
+  {
     status && (
       <div
         role="alert"
-        class="alert absolute top-4 left-1/2 -translate-x-1/2 w-fit z-50"
+        class="alert alert-info shadow-lg fixed top-4 left-1/2 transform -translate-x-1/2 z-50"
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
+          class="stroke-current flex-shrink-0 h-6 w-6"
           fill="none"
           viewBox="0 0 24 24"
-          class="stroke-info h-6 w-6 shrink-0"
         >
           <path
             stroke-linecap="round"
@@ -84,57 +101,86 @@ if (accessToken && refreshToken) {
       </div>
     )
   }
+
   <section
-    class="h-screen bg-black w-full flex justify-center items-center px-4"
+    class="min-h-screen bg-gradient-to-r from-black to-primary flex items-center justify-center px-4"
   >
-    <form
-      action="/api/auth/login"
-      method="post"
-      class="max-w-screen-sm mx-auto bg-base-200 p-10 flex flex-col gap-8"
-    >
-      <h1 class="text-center font-bold text-4xl uppercase">Login</h1>
-      <div class="flex flex-col gap-1">
-        <label class="input input-bordered flex items-center gap-2">
-          Email
+    <div class="bg-white rounded-lg shadow-lg p-8 max-w-md w-full">
+      <h2 class="text-3xl font-bold text-center text-gray-800 mb-6">
+        Let's get you winning
+      </h2>
+      <p class="text-center text-gray-600 mb-6">
+        Learn how to reset, redo and restart your life.
+      </p>
+
+      <form action="/api/auth/login" method="post" class="space-y-6">
+        <div>
+          <label for="email" class="block text-sm font-medium text-gray-700"
+            >Email Address</label
+          >
           <input
+            type="email"
             id="email"
             name="email"
-            type="email"
-            class="grow"
             required
-            placeholder="RoboCop@ocp.com"
+            placeholder="email@gmail.com"
+            class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
           />
-        </label>
-        <label class="input input-bordered flex items-center gap-2">
-          Password
+        </div>
+
+        <div>
+          <label for="password" class="block text-sm font-medium text-gray-700"
+            >Password</label
+          >
           <input
-            name="password"
-            id="password"
             type="password"
-            class="grow"
+            id="password"
+            name="password"
             required
             placeholder="•••••••••"
+            class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
           />
-        </label>
-      </div>
-      <div class="flex flex-col gap-4">
-        <button type="submit" class="btn btn-primary btn-sm mx-auto"
-          >ENTER</button
-        >
-        <div class="flex flex-col gap-1">
-          <h1 class="flex gap-1 text-sm mx-auto">
-            <span>Don't have an account?</span><a
-              href="/register"
-              class="w-fit link link-primary">Sign up here</a
+        </div>
+
+        <div class="flex items-center justify-between">
+          <div class="flex items-center">
+            <input
+              id="remember_me"
+              name="remember_me"
+              type="checkbox"
+              class="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded"
+            />
+            <label for="remember_me" class="ml-2 block text-sm text-gray-900"
+              >Remember me</label
             >
-          </h1>
-          <h1 class="flex gap-1 text-sm mx-auto">
-            <a href="/forgot-password" class="w-fit link link-primary"
+          </div>
+
+          <div class="text-sm">
+            <a
+              href="/forgot-password"
+              class="font-medium text-indigo-600 hover:text-indigo-500"
               >Forgot your password?</a
             >
-          </h1>
+          </div>
         </div>
+
+        <div>
+          <button
+            type="submit"
+            class="w-full bg-primary/80 text-white py-2 px-4 rounded-md hover:bg-primary transition duration-200"
+            >Sign In</button
+          >
+        </div>
+      </form>
+
+      <div class="mt-6 text-center">
+        <p class="text-sm text-gray-600">
+          Don't have an account? <a
+            href="/register"
+            class="text-indigo-600 hover:text-indigo-500 font-medium"
+            >Sign up here</a>
+        </p>
       </div>
-    </form>
+    </div>
   </section>
 </Layout>
