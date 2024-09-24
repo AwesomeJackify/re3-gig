@@ -33,7 +33,6 @@ const AdminDashboard = ({ currentUserId, name }: Props) => {
                         created_at: task.created_at,
                     };
                 });
-
                 setTasks(tasks)
             }
         };
@@ -90,7 +89,7 @@ const AdminDashboard = ({ currentUserId, name }: Props) => {
                                             <h3 className="font-bold text-2xl capitalize">{user.user_metadata.first_name}'s weekly small wins</h3>
                                             {/* <h1 className='font-medium'>{tasks.filter((task: any) => (task.is_complete)).length} tasks completed</h1> */}
                                             <div>
-                                                <History timeframe='weekly' tasks={tasks} />
+                                                <History timeframe='last7days' tasks={tasks} isAdmin={true} />
                                             </div>
                                             <form method="dialog" className='modal-backdrop'>
                                                 {/* if there is a button in form, it will close the modal */}
