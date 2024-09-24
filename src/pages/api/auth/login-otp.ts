@@ -18,7 +18,6 @@ export const POST: APIRoute = async ({ request, cookies, redirect }) => {
   });
 
   if (error || !data.session) {
-    console.log(error);
     return redirect("/login-otp?error=" + "Error logging in");
   }
 
