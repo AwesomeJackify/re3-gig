@@ -36,9 +36,11 @@ import Footer from "../components/Footer.astro";
     <slot />
     {showFooter && <Footer />} -->
     <div
-      class="w-full gap-8 h-screen bg-black flex flex-col items-center justify-center"
+      class="w-full gap-8 h-screen bg-black flex flex-col items-center justify-center overflow-hidden"
     >
-      <h1 class="text-white text-6xl uppercase italic font-bold font-mono">
+      <h1
+        class="text-white text-6xl max-md:text-4xl text-center uppercase italic font-bold font-mono"
+      >
         Website under construction
       </h1>
       <nav class="flex text-white gap-2">
