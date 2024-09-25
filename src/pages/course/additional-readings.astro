@@ -1,0 +1,83 @@
+---
+export const prerender = false;
+import CourseLayout from '../../layouts/CourseLayout.astro';
+import CourseSection from '../../components/course/CourseSection.astro';
+import NotesList from '../../components/course/NotesList.astro';
+import SubSection from '../../components/course/SubSection.astro';
+
+const outline = [
+  { id: 'recommendations', title: 'Recommendations' },
+  { id: 'podcasts', title: 'Podcasts' },
+  { id: 'people-to-follow', title: 'People to Follow' },
+];
+
+---
+
+<CourseLayout title="Additional Recommendations" showNav={true} showFooter={true} outline={outline}>
+  <!-- Recommendations Section -->
+  <CourseSection id="recommendations" title="Rules to live by.">
+    
+      <NotesList
+        items={[
+          'You are what you eat. Live by this.',
+          'Not only are you what you consume through your mouth but also what you consume through your eyes and ears.',
+          'What you consume through your eyes and ears will dictate your thoughts.',
+          'For example - if you’re constantly listening to angry music - you will be in an angry mood or vibration.',
+          'Or if you watch depressing news every day - you will be in a depressive mood or vibration.',
+          'You must protect your vibration!',
+          'Start consuming the right content to attract your biggest blessings.',
+        ]}
+      />
+ 
+  </CourseSection>
+
+  <!-- Podcasts Section -->
+  <CourseSection id="podcasts" title="Podcasts">
+    <SubSection title="Recommended Podcasts">
+      <NotesList
+        items={[
+          'The Ether Evolution',
+          'Brain Biohacking with Kayla Barnes',
+          'The Joe Rogan Experience',
+          'On Purpose with Jay Shetty',
+          'Outlaws & Scholars (with Robert Grant Edwards)',
+          '19 Keys High Level Conversations',
+          '4biddenknowledge Podcast',
+          'The Mindset Mentor',
+          'Being Her - Margarita Nazarenko (for women)',
+          'Danny Jones',
+          'Weekly Motivation with Ben Lionel Scott',
+          'The Mindvalley Show with Vishen',
+          'The Diary of a CEO - Steven Bartlett',
+        ]}
+      />
+    </SubSection>
+  </CourseSection>
+
+  <!-- People to Follow Section -->
+  <CourseSection id="people-to-follow" title="People to Follow">
+    <SubSection title="Influential People to Follow">
+      <NotesList
+        items={[
+          'Robert Edward Grant',
+          'Billy Carson',
+          '19 Keys',
+          'Kayla Barnes',
+          'Dr Joe Dispenza',
+          'Eckhart Tolle',
+          'Yahkiawakened',
+          'Dr. Mark Hyman',
+          'Chakabars',
+          'onepercent.cult',
+          'the.alchemist',
+          'buildalpha',
+          'rarementalities',
+        ]}
+      />
+    </SubSection>
+    <br/>
+    <p class="">Build from here. You will start to create your go-to’s that resonate with you. <br/>
+     
+       Having your go-to pages are great for when you’re having an off day. Maybe all you need is to watch a short reel to get you back on.</p> 
+  </CourseSection>
+</CourseLayout>

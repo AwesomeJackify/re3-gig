@@ -4,6 +4,7 @@ import LittleWins from './LittleWins';
 import { supabase } from "../lib/supabase";
 import History from './History';
 
+
 interface Props {
     currentUserId: string | undefined;
     name: string;
@@ -61,10 +62,12 @@ const Dashboard = ({ currentUserId, name }: Props) => {
                 <h1 className="font-bold text-6xl max-md:text-center">Hey, {name}!</h1>
                 <div className='max-w-screen-sm flex flex-col gap-16'>
                     <LittleWins userId={currentUserId} tasks={tasks} handleUpdateTask={updateTasks} />
+                    <a href='/course' className='bg-base-200 font-bold w-full p-8 flex flex-col gap-8 rounded-2xl text-4xl cursor-pointer '>View course</a>
                     <div className='flex flex-col gap-4'>
                         <h1 className="font-bold text-2xl">Past Small Wins</h1>
                         <History tasks={tasks} />
                     </div>
+
                 </div>
             </section>
         </div>

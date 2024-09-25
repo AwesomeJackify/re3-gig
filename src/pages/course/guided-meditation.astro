@@ -1,0 +1,50 @@
+---
+export const prerender = false;
+import CourseLayout from '../../layouts/CourseLayout.astro';
+import CourseSection from '../../components/course/CourseSection.astro';
+
+import NotesList from '../../components/course/NotesList.astro';
+import SubSection from '../../components/course/SubSection.astro';
+import { YouTube } from 'astro-embed';
+
+const outline = [
+  { id: 'meditation', title: 'Meditation' },
+  { id: 'breathwork', title: 'Breathwork' },
+  { id: 'affirmations', title: 'Affirmations' },
+];
+
+---
+
+<CourseLayout title="Week 3" showNav={true} showFooter={true} outline={outline}>
+  <!-- Introduction Section -->
+  <CourseSection id="meditation" title="Guided Meditation">
+    <YouTube
+      id="https://www.youtube.com/watch?v=EctfmdXoHBg"
+   
+    />
+
+ 
+    
+
+ 
+      
+
+
+  </CourseSection>
+
+  <!-- Food Education Section -->
+  <CourseSection id="breathwork" title="Guided Breathwork">
+    <YouTube
+      id="https://www.youtube.com/watch?v=cJ5HiAyXVPw"
+    
+    />
+
+ 
+
+ 
+  </CourseSection>
+
+  
+  
+
+</CourseLayout>
