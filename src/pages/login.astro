@@ -7,13 +7,6 @@ const { cookies, redirect } = Astro;
 const error = Astro.url.searchParams.get("error") || "";
 const status = Astro.url.searchParams.get("status") || "";
 const success = Astro.url.searchParams.get("success") || "";
-
-const accessToken = cookies.get("sb-access-token");
-const refreshToken = cookies.get("sb-refresh-token");
-
-if (accessToken && refreshToken) {
-  return redirect("/dashboard");
-}
 ---
 
 <Layout title="Login">
