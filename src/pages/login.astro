@@ -121,12 +121,19 @@ if (accessToken && refreshToken) {
         <button type="submit" class="btn btn-primary btn-sm mx-auto"
           >ENTER</button
         >
-        <h1 class="flex gap-1 text-sm mx-auto">
-          <span>Don't have an account?</span><a
-            href="/register"
-            class="w-fit link link-primary">Sign up here</a
-          >
-        </h1>
+        <div class="flex flex-col gap-1">
+          <h1 class="flex gap-1 text-sm mx-auto">
+            <span>Don't have an account?</span><a
+              href="/register"
+              class="w-fit link link-primary">Sign up here</a
+            >
+          </h1>
+          <h1 class="flex gap-1 text-sm mx-auto">
+            <a href="/forgot-password" class="w-fit link link-primary"
+              >Forgot your password?</a
+            >
+          </h1>
+        </div>
       </div>
     </form>
   </section>
