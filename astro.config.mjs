@@ -3,7 +3,7 @@ import tailwind from "@astrojs/tailwind";
 import react from "@astrojs/react";
 import icon from "astro-icon";
 
-import netlify from "@astrojs/netlify";
+import netlify from "@astrojs/netlify/functions";
 
 // https://astro.build/config
 export default defineConfig({
@@ -11,7 +11,7 @@ export default defineConfig({
   redirects: {
     "/programs": "/",
   },
-  output: "hybrid",
+  output: "server",
   adapter: netlify({
     edgeMiddleware: true,
   }),
