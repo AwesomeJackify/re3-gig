@@ -12,5 +12,7 @@ export default defineConfig({
     "/programs": "/",
   },
   output: "hybrid",
-  adapter: netlify(),
+  adapter: netlify({
+    edgeMiddleware: true,
+  }),
 });
