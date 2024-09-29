@@ -4,7 +4,6 @@ import LittleWins from './LittleWins';
 import { supabase } from "../lib/supabase";
 import History from './History';
 
-
 interface Props {
     currentUserId: string | undefined;
     name: string;

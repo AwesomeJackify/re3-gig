@@ -28,4 +28,16 @@ const { data: roleData } = await supabase
 const name = sessionData?.session?.user?.user_metadata?.first_name || "User";
 ---
 
-<Layout title={`Hey, ${name}`} showNav={false} showFooter={false}> hi </Layout>
+<Layout title={`Hey, ${name}`} showNav={false} showFooter={false}>
+  {
+    roleData?.role === "admin" ? (
+      <AdminDashboard client:load currentUserId={currentUserId} name={name} />
+    ) : (
+      <DashboardComponent
+        client:load
+        currentUserId={currentUserId}
+        name={name}
+      />
+    )
+  }
+</Layout>
