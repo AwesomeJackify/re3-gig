@@ -25,5 +25,5 @@ export const POST: APIRoute = async ({ request, redirect }) => {
     return redirect("/forgot-password?error=" + error.message);
   }
 
-  return redirect("/login?success=One Time Password sent to your email");
+  return redirect("/login-otp?success=One Time Password sent to your email");
 };
