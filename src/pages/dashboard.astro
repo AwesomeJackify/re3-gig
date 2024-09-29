@@ -4,22 +4,27 @@ import Layout from "../layouts/Layout.astro";
 import { supabase } from "../lib/supabase";
 import DashboardComponent from "../components/Dashboard";
 import AdminDashboard from "../components/AdminDashboard";
+// Assuming the middleware has already validated the session
+const { data: sessionData } = await supabase.auth.getSession();
 
-const { data: sessionData, error: sessionError } =
-  await supabase.auth.setSession({
-    refresh_token: Astro.cookies.get("sb-refresh-token")?.value || "",
-    access_token: Astro.cookies.get("sb-access-token")?.value || "",
+const currentUserId = sessionData?.session?.user?.id || null;
+
+if (!currentUserId) {
+  // If the user is not authenticated, the middleware should have already handled the redirect
+  // This is just a safety fallback if somehow the middleware wasn't hit
+  return new Response(null, {
+    status: 302,
+    headers: { Location: "/login" },
   });
+}
 
-const currentUserId = (await supabase.auth.getSession()).data.session?.user.id;
-
-const { data: roleData, error: roleError } = await supabase
+const { data: roleData } = await supabase
   .from("roles")
   .select()
   .eq("user_id", currentUserId)
   .single();
 
-const name = sessionData.user?.user_metadata.first_name || "User";
+const name = sessionData?.session?.user?.user_metadata?.first_name || "User";
 ---
 
 <Layout title={`Hey, ${name}`} showNav={false} showFooter={false}>

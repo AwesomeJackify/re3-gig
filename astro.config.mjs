@@ -12,7 +12,5 @@ export default defineConfig({
     "/programs": "/",
   },
   output: "server",
-  adapter: netlify({
-    edgeMiddleware: true,
-  }),
+  adapter: netlify(),
 });
