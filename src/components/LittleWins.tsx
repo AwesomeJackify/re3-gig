@@ -41,24 +41,29 @@ const LittleWins = ({ userId, tasks, handleUpdateTask }: Props) => {
   };
 
   // Handle form submission
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     const insertDataDB = async (taskName: string) => {
-      const { error } = await supabase
+      const { data, error } = await supabase
         .from("todos")
-        .insert({ name: taskName, user_id: userId });
+        .insert({ name: taskName, user_id: userId })
+        .select()
+        .single();
+
+      return data;
     };
     e.preventDefault(); // Prevent page refresh
 
+
     if (taskInput.trim()) {
+      const insertedTask = await insertDataDB(taskInput);
+
       // Add the new task to the state
       const newTask = {
-        id: uuidv4(), // Generate a new ID
+        id: insertedTask.id, // Generate a new ID
         name: taskInput,
         is_complete: false, // New tasks start as uncompleted
         created_at: format(new Date(), "yyyy-MM-dd'T'HH:mm:ss.SSSxxx"),
       };
-
-      insertDataDB(taskInput);
 
       handleUpdateTask([...tasks, newTask]); // Update tasks with the new task
       setTaskInput(""); // Clear the input field
@@ -141,7 +146,7 @@ const LittleWins = ({ userId, tasks, handleUpdateTask }: Props) => {
 
   return (
     <div className="bg-base-200 w-full p-8 flex flex-col gap-8 rounded-2xl">
-      <h1 className="text-4xl font-bold text-primary">My Little Wins</h1>
+      <h1 className="text-4xl font-bold text-primary">My Small Wins</h1>
       <ul className="flex flex-col gap-2">
         {tasks
           .filter((task) => {
