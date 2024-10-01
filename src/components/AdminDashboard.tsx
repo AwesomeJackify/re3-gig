@@ -3,6 +3,7 @@ import { supabase_admin } from '../lib/supabase_admin';
 import { Icon } from '@iconify/react';
 import LittleWins from './LittleWins';
 import History from './History';
+import DashboardLayout from '../layouts/DashboardLayout';
 
 interface Props {
     currentUserId: string | undefined;
@@ -55,23 +56,7 @@ const AdminDashboard = ({ currentUserId, name }: Props) => {
     }
 
     return (
-        <div className='flex flex-col gap-16'>
-            <nav
-                className="absolute items-center top-0 left-0 w-full p-8 flex justify-between max-md:p-4"
-            >
-                <a href="#">
-                    <Icon
-                        icon="mdi:account-circle"
-                        className="text-6xl hover:text-primary transition"
-                    />
-                </a>
-                <form action="/api/auth/signout" method="get">
-                    <button type="submit" className="btn btn-primary btn-sm">Sign out</button>
-                </form>
-            </nav>
-            <section className="max-w-screen-xl mx-auto pt-32 flex flex-col gap-16 px-4">
-                <h1 className="font-bold text-6xl max-md:text-center">Hey, {name}!</h1>
-            </section>
+        <DashboardLayout name={name}>
             <section className='max-w-screen-lg mx-auto w-full flex flex-col gap-8 px-4'>
                 <h1 className='text-4xl underline'>My clients</h1>
                 <div className='grid grid-cols-2 max-md:grid-cols-1 gap-8'>
@@ -104,7 +89,7 @@ const AdminDashboard = ({ currentUserId, name }: Props) => {
                     }
                 </div>
             </section>
-        </div>
+        </DashboardLayout>
     )
 }
 
