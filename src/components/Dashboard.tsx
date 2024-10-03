@@ -50,7 +50,7 @@ const Dashboard = ({ currentUserId, name }: Props) => {
                 <a href='/course' className='bg-base-200 font-bold w-full p-8 flex flex-col gap-8 rounded-2xl text-4xl cursor-pointer '>View course</a>
                 <div className='flex flex-col gap-4'>
                     <h1 className="font-bold text-2xl">Past Small Wins</h1>
-                    <History tasks={tasks} />
+                    <History tasks={tasks} timeframe='last7days' />
                 </div>
 
             </div>

@@ -9,7 +9,8 @@ interface Props {
 }
 
 const History = ({ tasks, timeframe, isAdmin }: Props) => {
-  const [groupedTasks, setGroupedTasks] = useState<{ [key: string]: Task[] } | null>(null)
+  const [groupedTasks, setGroupedTasks] = useState<{ [key: string]: { taskList: Task[], completed_tasks_count: number } } | null>(null)
+
   // Function to group tasks by date
   const groupTasksByDate = (tasks: Task[]) => {
     // Get the current date
@@ -63,7 +64,20 @@ const History = ({ tasks, timeframe, isAdmin }: Props) => {
     }, {} as { [key: string]: Task[] });
   };
 
-  useEffect(() => { setGroupedTasks(groupTasksByDate(tasks)) }, [tasks])
+  useEffect(() => { setGroupedTasks(addCompletedTasksCount(groupTasksByDate(tasks))); console.log(addCompletedTasksCount(groupTasksByDate(tasks))) }, [tasks])
+
+  function addCompletedTasksCount(tasks: { [key: string]: Task[] }) {
+    const tasksWithCount: { [key: string]: { taskList: Task[], completed_tasks_count: number } } = {};
+
+    // Loop through the object and count completed tasks per day
+    for (const [date, taskList] of Object.entries(tasks)) {
+      const completedTasks = taskList.filter(task => task.is_complete).length;
+      // Add the count to the new object under each date
+      tasksWithCount[date] = { taskList, completed_tasks_count: completedTasks };
+    }
+
+    return tasksWithCount; // Return the updated object
+  }
 
   return (
     <div className="flex flex-col gap-4">
@@ -93,7 +107,8 @@ const History = ({ tasks, timeframe, isAdmin }: Props) => {
                     {format(new Date(date), "EEEE, do MMM")}
                   </div>
                   <div className="collapse-content">
-                    {groupedTasks[date]
+                    <h1 className={`text-white mb-4 text-lg tracking-widest text-center ${groupedTasks[date].completed_tasks_count == groupedTasks[date].taskList.length && "text-success"}`}>Tasks completed: {groupedTasks[date].completed_tasks_count} / {groupedTasks[date].taskList.length}</h1>
+                    {groupedTasks[date].taskList
                       .sort(
                         (a, b) =>
                           new Date(b.created_at).getTime() -
