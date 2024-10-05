@@ -3,9 +3,10 @@ import React, { type ReactNode } from 'react';
 interface DashboardLayoutProps {
     children: ReactNode;
     name: string;
+    showCourse?: boolean;
 }
 
-const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children, name }) => {
+const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children, name, showCourse }) => {
     return (
         <div>
             <nav
@@ -16,9 +17,15 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children, name }) => 
                 </form>
             </nav>
             <section className="max-w-screen-2xl mx-auto pt-32 flex flex-col gap-16 px-4">
-                <h1 className="font-bold text-6xl max-md:text-center">Hey, {name}!</h1>
+                <div className='flex justify-between w-full items-center'>
+                    <h1 className="font-bold text-6xl max-md:text-center">Hey, {name}!</h1>
+                    {
+                        showCourse && (
+                            <a href='/course' className='btn btn-info btn-md'>View course</a>
+                        )
+                    }
+                </div>
                 {children}
-
             </section>
         </div>
     )

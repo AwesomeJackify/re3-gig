@@ -46,7 +46,7 @@ const Dashboard = ({ currentUserId, name }: Props) => {
     }
 
     return (
-        <DashboardLayout name={name}>
+        <DashboardLayout name={name} showCourse>
             <div className='flex flex-col gap-16'>
                 <div className='grid grid-cols-2 gap-8'>
                     <LittleWins userId={currentUserId} tasks={tasks} handleUpdateTask={updateTasks} />
