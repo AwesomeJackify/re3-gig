@@ -1,4 +1,6 @@
 import React, { type ReactNode } from 'react';
+import { Icon } from '@iconify/react';
+import logo from '../assets/images/logo.png';
 
 interface DashboardLayoutProps {
     children: ReactNode;
@@ -10,8 +12,9 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children, name, showC
     return (
         <div>
             <nav
-                className="absolute items-center top-0 left-0 w-full p-8 flex justify-end max-md:p-4"
+                className="absolute items-center top-0 left-0 w-full p-8 flex justify-between max-md:p-4"
             >
+                <a href="/"><img src={logo.src} width={200} className='w-24 bg-black' /></a>
                 <form action="/api/auth/signout" method="get">
                     <button type="submit" className="btn btn-primary btn-sm">Sign out</button>
                 </form>
