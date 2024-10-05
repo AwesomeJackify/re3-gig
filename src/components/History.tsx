@@ -64,7 +64,7 @@ const History = ({ tasks, timeframe, isAdmin }: Props) => {
     }, {} as { [key: string]: Task[] });
   };
 
-  useEffect(() => { setGroupedTasks(addCompletedTasksCount(groupTasksByDate(tasks))); console.log(addCompletedTasksCount(groupTasksByDate(tasks))) }, [tasks])
+  useEffect(() => { setGroupedTasks(addCompletedTasksCount(groupTasksByDate(tasks))) }, [tasks])
 
   function addCompletedTasksCount(tasks: { [key: string]: Task[] }) {
     const tasksWithCount: { [key: string]: { taskList: Task[], completed_tasks_count: number } } = {};

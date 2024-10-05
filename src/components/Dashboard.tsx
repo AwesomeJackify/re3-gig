@@ -4,6 +4,7 @@ import LittleWins from './LittleWins';
 import { supabase } from "../lib/supabase";
 import History from './History';
 import DashboardLayout from '../layouts/DashboardLayout';
+import Journal from './Journal';
 
 interface Props {
     currentUserId: string | undefined;
@@ -41,18 +42,20 @@ const Dashboard = ({ currentUserId, name }: Props) => {
 
     const updateTasks = (tasks: Task[]) => {
         setTasks(tasks);
+
     }
 
     return (
         <DashboardLayout name={name}>
-            <div className='max-w-screen-sm flex flex-col gap-16'>
-                <LittleWins userId={currentUserId} tasks={tasks} handleUpdateTask={updateTasks} />
-                <a href='/course' className='bg-base-200 font-bold w-full p-8 flex flex-col gap-8 rounded-2xl text-4xl cursor-pointer '>View course</a>
-                <div className='flex flex-col gap-4'>
+            <div className='flex flex-col gap-16'>
+                <div className='grid grid-cols-2 gap-8'>
+                    <LittleWins userId={currentUserId} tasks={tasks} handleUpdateTask={updateTasks} />
+                    <Journal />
+                </div>
+                <div className='flex flex-col gap-4 w-1/2'>
                     <h1 className="font-bold text-2xl">Past Small Wins</h1>
                     <History tasks={tasks} timeframe='last7days' />
                 </div>
-
             </div>
         </DashboardLayout>
     )
