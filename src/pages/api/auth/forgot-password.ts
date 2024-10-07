@@ -11,12 +11,14 @@ export const POST: APIRoute = async ({ request, redirect }) => {
     return redirect("/forgot-password?error=Please fill out email");
   }
 
+  const redirectUrl = import.meta.env.PROD
+    ? "http://rethree.online/login-otp"
+    : "http://localhost:4321/login-otp";
+
   const { data, error } = await supabase.auth.signInWithOtp({
     email: email,
     options: {
-      emailRedirectTo: import.meta.env.PROD
-        ? "http://rethree.online/login-otp"
-        : "http://localhost:4321/login-otp",
+      emailRedirectTo: redirectUrl,
       shouldCreateUser: false,
     },
   });
@@ -25,5 +27,5 @@ export const POST: APIRoute = async ({ request, redirect }) => {
     return redirect("/forgot-password?error=" + error.message);
   }
 
-  return redirect("/login?success=One Time Password sent to your email");
+  return redirect("/login-otp?success=One Time Password sent to your email");
 };
