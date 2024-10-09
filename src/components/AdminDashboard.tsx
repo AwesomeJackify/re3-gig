@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { supabase_admin } from "../lib/supabase_admin";
 import { Icon } from "@iconify/react";
-import History from "./History";
+import History from "./history/History";
 import DashboardLayout from "../layouts/DashboardLayout";
 
 interface Props {

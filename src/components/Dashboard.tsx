@@ -2,17 +2,18 @@ import React, { useEffect, useState } from "react";
 import { Icon } from "@iconify/react";
 import SmallWins from "./SmallWins";
 import { supabase } from "../lib/supabase";
-import History from "./History";
+import History from "./history/History";
 import DashboardLayout from "../layouts/DashboardLayout";
 import Journal from "./Journal";
 
 interface Props {
-  currentUserId: string | undefined;
+  currentUserId: string;
   name: string;
 }
 
 const Dashboard = ({ currentUserId, name }: Props) => {
   const [tasks, setTasks] = useState<Task[]>([]);
+  const [journals, setJournals] = useState<Journal[]>([]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -21,17 +22,35 @@ const Dashboard = ({ currentUserId, name }: Props) => {
         .select()
         .eq("user_id", currentUserId);
 
+      const { data: journalsData, error: journalsError } = await supabase
+        .from("journals")
+        .select()
+        .eq("user_id", currentUserId);
+
       if (todosData) {
         const tasks = todosData.map((task) => {
           return {
             id: task.id,
             name: task.name,
+            user_id: task.user_id,
             is_complete: task.is_complete,
             created_at: task.created_at,
           };
         });
 
         setTasks(tasks);
+      }
+      if (journalsData) {
+        const journals = journalsData.map((journal) => {
+          return {
+            id: journal.id,
+            journal_entry: journal.journal_entry,
+            user_id: journal.user_id,
+            created_at: journal.created_at,
+          };
+        });
+
+        setJournals(journals);
       }
     };
 
@@ -60,7 +79,7 @@ const Dashboard = ({ currentUserId, name }: Props) => {
           </div>
           <div className="flex flex-col gap-4 w-full">
             <h1 className="font-bold text-2xl">Past Journals</h1>
-            <History tasks={tasks} timeframe="last7days" />
+            <History journals={journals} timeframe="last7days" />
           </div>
         </div>
       </div>

@@ -5,7 +5,7 @@ import { supabase } from "../lib/supabase";
 import { format } from "date-fns";
 
 interface Props {
-  userId: string | undefined;
+  userId: string;
   tasks: Task[];
   handleUpdateTask: (tasks: Task[]) => void;
 }
@@ -72,6 +72,7 @@ const SmallWins = ({ userId, tasks, handleUpdateTask }: Props) => {
       const newTask = {
         id: insertedTask.id, // Generate a new ID
         name: taskInput,
+        user_id: userId,
         is_complete: false, // New tasks start as uncompleted
         created_at: format(new Date(), "yyyy-MM-dd'T'HH:mm:ss.SSSxxx"),
       };
@@ -94,6 +95,7 @@ const SmallWins = ({ userId, tasks, handleUpdateTask }: Props) => {
           return {
             id: task.id,
             name: task.name,
+            user_id: task.user_id,
             is_complete: task.is_complete,
             created_at: task.created_at,
           };

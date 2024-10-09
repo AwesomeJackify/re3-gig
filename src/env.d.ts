@@ -12,6 +12,7 @@ interface ImportMeta {
 interface Task {
   id: string;
   name: string;
+  user_id: string;
   is_complete: boolean;
   created_at: string;
 }

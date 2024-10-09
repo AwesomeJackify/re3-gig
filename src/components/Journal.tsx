@@ -40,7 +40,6 @@ const Journal = ({ userId }: Props) => {
 
   const handleBlur = () => {
     if (textArea != journal?.journal_entry) {
-      console.log(textArea, journal?.journal_entry);
       setShowNotSaved(true);
     } else {
       setShowNotSaved(false);
