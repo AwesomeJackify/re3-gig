@@ -14,8 +14,8 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({
   showCourse,
 }) => {
   return (
-    <div>
-      <nav className="absolute items-center top-0 left-0 w-full p-8 pr-4 flex justify-between max-md:p-4">
+    <section className="pb-8">
+      <nav className="absolute items-center top-0 left-0 w-full p-4 flex justify-between">
         <a href="/">
           <img src={logo.src} width={200} className="w-24 bg-black" />
         </a>
@@ -38,7 +38,7 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({
         </div>
         {children}
       </section>
-    </div>
+    </section>
   );
 };
 

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Icon } from "@iconify/react";
-import LittleWins from "./LittleWins";
+import SmallWins from "./SmallWins";
 import { supabase } from "../lib/supabase";
 import History from "./History";
 import DashboardLayout from "../layouts/DashboardLayout";
@@ -46,12 +46,12 @@ const Dashboard = ({ currentUserId, name }: Props) => {
     <DashboardLayout name={name} showCourse>
       <div className="flex flex-col gap-16">
         <div className="grid grid-cols-2 gap-8 max-md:grid-cols-1">
-          <LittleWins
+          <SmallWins
             userId={currentUserId}
             tasks={tasks}
             handleUpdateTask={updateTasks}
           />
-          <Journal />
+          <Journal userId={currentUserId} />
         </div>
         <div className="grid grid-cols-2 max-md:grid-cols-1 gap-8">
           <div className="flex flex-col gap-4 w-full">
