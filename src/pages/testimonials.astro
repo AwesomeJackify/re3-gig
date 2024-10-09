@@ -17,7 +17,6 @@ introVideo.resize(Resize.scale().width(1920));
 const introVideoURL = introVideo.toURL();
 ---
 
-
 <Layout title="Testimonials">
   <section
     class="min-h-screen w-full relative bg-black flex flex-col items-center justify-center py-20"
@@ -25,7 +24,7 @@ const introVideoURL = introVideo.toURL();
     <Image
       src={heroImg}
       alt="hero"
-      class="w-full h-full object-cover absolute top-0 left-0 grayscale opacity-50"
+      class="w-full object-top h-full object-cover absolute top-0 left-0 grayscale opacity-50"
     />
     <div class="flex flex-col relative z-10 text-center items-center">
       <div
@@ -56,19 +55,22 @@ const introVideoURL = introVideo.toURL();
           ))
         }
       </div>
-      <h1 class='text-4xl max-md:text-2xl text-center mt-8 font-light text-primary'>David's thoughts on RE:3
+      <h1
+        class="text-4xl max-md:text-2xl text-center mt-8 font-light text-primary"
+      >
+        David's thoughts on RE:3
       </h1>
       <video
-      id="introVideo"
-      autoplay
-      loop
-      muted
-      controls
-      playsinline
-      class="w-full aspect-video max-md:h-96 object-cover mt-8"
-    >
-      <source src={introVideoURL} type="video/mp4" />
-    </video>
+        id="introVideo"
+        autoplay
+        loop
+        muted
+        controls
+        playsinline
+        class="w-full aspect-video max-md:h-96 object-cover mt-8"
+      >
+        <source src={introVideoURL} type="video/mp4" />
+      </video>
     </div>
   </section>
 </Layout>

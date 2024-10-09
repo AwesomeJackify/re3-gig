@@ -28,6 +28,7 @@ import logoImg from "../assets/images/logo.png";
         />
       </a>
     </div>
+    <a href={config.bookingLink} class="btn btn-primary ml-auto">Book Now</a>
   </div>
   <div
     class="drawer-content-mobile gap-2 w-full flex items-center max-md:p-4 p-1 px-4 -top-full fixed z-50"
@@ -60,11 +61,11 @@ import logoImg from "../assets/images/logo.png";
           </li>
         ))
       }
-      <Image
-        src={logoImg}
-        alt="logo"
-        class="w-32 mt-auto object-contain bg-black"
-      />
+
+      <div class="flex mt-auto w-full items-end justify-between">
+        <Image src={logoImg} alt="logo" class="w-32 object-contain bg-black" />
+        <a href={config.bookingLink} class="btn btn-primary w-fit">Book Now</a>
+      </div>
     </ul>
   </div>
 </div>
@@ -100,7 +101,7 @@ import logoImg from "../assets/images/logo.png";
     }
   }, 5);
 
-  if (window.innerWidth <= 768) {
+  if (window.innerWidth > 768) {
     // Adjust this value based on your mobile breakpoint (e.g., 768px for tablets and below)
     window.addEventListener("scroll", handleScroll);
   }
