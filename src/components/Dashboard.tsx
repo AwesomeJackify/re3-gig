@@ -1,64 +1,71 @@
-import React, { useEffect, useState } from 'react'
-import { Icon } from '@iconify/react';
-import LittleWins from './LittleWins';
+import React, { useEffect, useState } from "react";
+import { Icon } from "@iconify/react";
+import LittleWins from "./LittleWins";
 import { supabase } from "../lib/supabase";
-import History from './History';
-import DashboardLayout from '../layouts/DashboardLayout';
-import Journal from './Journal';
+import History from "./History";
+import DashboardLayout from "../layouts/DashboardLayout";
+import Journal from "./Journal";
 
 interface Props {
-    currentUserId: string | undefined;
-    name: string;
+  currentUserId: string | undefined;
+  name: string;
 }
 
 const Dashboard = ({ currentUserId, name }: Props) => {
-    const [tasks, setTasks] = useState<
-        Task[]
-    >([]);
+  const [tasks, setTasks] = useState<Task[]>([]);
 
-    useEffect(() => {
-        const fetchData = async () => {
-            const { data: todosData, error: todosError } = await supabase
-                .from("todos")
-                .select()
-                .eq("user_id", currentUserId)
+  useEffect(() => {
+    const fetchData = async () => {
+      const { data: todosData, error: todosError } = await supabase
+        .from("todos")
+        .select()
+        .eq("user_id", currentUserId);
 
-            if (todosData) {
-                const tasks = todosData.map((task) => {
-                    return {
-                        id: task.id,
-                        name: task.name,
-                        is_complete: task.is_complete,
-                        created_at: task.created_at,
-                    };
-                });
+      if (todosData) {
+        const tasks = todosData.map((task) => {
+          return {
+            id: task.id,
+            name: task.name,
+            is_complete: task.is_complete,
+            created_at: task.created_at,
+          };
+        });
 
-                setTasks(tasks);
-            }
-        };
-
-        fetchData();
-    }, []);
-
-    const updateTasks = (tasks: Task[]) => {
         setTasks(tasks);
+      }
+    };
 
-    }
+    fetchData();
+  }, []);
 
-    return (
-        <DashboardLayout name={name} showCourse>
-            <div className='flex flex-col gap-16'>
-                <div className='grid grid-cols-2 gap-8'>
-                    <LittleWins userId={currentUserId} tasks={tasks} handleUpdateTask={updateTasks} />
-                    <Journal />
-                </div>
-                <div className='flex flex-col gap-4 w-1/2'>
-                    <h1 className="font-bold text-2xl">Past Small Wins</h1>
-                    <History tasks={tasks} timeframe='last7days' />
-                </div>
-            </div>
-        </DashboardLayout>
-    )
-}
+  const updateTasks = (tasks: Task[]) => {
+    setTasks(tasks);
+  };
 
-export default Dashboard
+  return (
+    <DashboardLayout name={name} showCourse>
+      <div className="flex flex-col gap-16">
+        <div className="grid grid-cols-2 gap-8 max-md:grid-cols-1">
+          <LittleWins
+            userId={currentUserId}
+            tasks={tasks}
+            handleUpdateTask={updateTasks}
+          />
+          <Journal />
+        </div>
+        <div className="grid grid-cols-2 max-md:grid-cols-1 gap-8">
+          <div className="flex flex-col gap-4 w-full">
+            <h1 className="font-bold text-2xl">Past Small Wins</h1>
+            <History tasks={tasks} timeframe="last7days" />
+          </div>
+          <div className="flex flex-col gap-4 w-full">
+            <h1 className="font-bold text-2xl">Past Journals</h1>
+            <History tasks={tasks} timeframe="last7days" />
+          </div>
+        </div>
+      </div>
+    </DashboardLayout>
+  );
+};
+
+export default Dashboard;
