@@ -100,5 +100,8 @@ import logoImg from "../assets/images/logo.png";
     }
   }, 5);
 
-  window.addEventListener("scroll", handleScroll);
+  if (window.innerWidth <= 768) {
+    // Adjust this value based on your mobile breakpoint (e.g., 768px for tablets and below)
+    window.addEventListener("scroll", handleScroll);
+  }
 </script>

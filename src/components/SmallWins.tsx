@@ -5,14 +5,14 @@ import { supabase } from "../lib/supabase";
 import { format } from "date-fns";
 
 interface Props {
-  userId: string | undefined;
+  userId: string;
   tasks: Task[];
   handleUpdateTask: (tasks: Task[]) => void;
 }
 
-const LittleWins = ({ userId, tasks, handleUpdateTask }: Props) => {
+const SmallWins = ({ userId, tasks, handleUpdateTask }: Props) => {
   const [taskInput, setTaskInput] = useState(""); // Manage input value
-  const [todaysTasks, setTodaysTasks] = useState<Task[]>([])
+  const [todaysTasks, setTodaysTasks] = useState<Task[]>([]);
   const inputRef = useRef<HTMLInputElement>(null);
 
   const toggleCompleted = (id: string) => {
@@ -48,8 +48,8 @@ const LittleWins = ({ userId, tasks, handleUpdateTask }: Props) => {
           };
         }
         return task;
-      }
-      ));
+      })
+    );
   };
 
   // Handle form submission
@@ -65,7 +65,6 @@ const LittleWins = ({ userId, tasks, handleUpdateTask }: Props) => {
     };
     e.preventDefault(); // Prevent page refresh
 
-
     if (taskInput.trim()) {
       const insertedTask = await insertDataDB(taskInput);
 
@@ -73,6 +72,7 @@ const LittleWins = ({ userId, tasks, handleUpdateTask }: Props) => {
       const newTask = {
         id: insertedTask.id, // Generate a new ID
         name: taskInput,
+        user_id: userId,
         is_complete: false, // New tasks start as uncompleted
         created_at: format(new Date(), "yyyy-MM-dd'T'HH:mm:ss.SSSxxx"),
       };
@@ -88,30 +88,46 @@ const LittleWins = ({ userId, tasks, handleUpdateTask }: Props) => {
       const { data: todosData, error: todosError } = await supabase
         .from("todos")
         .select()
-        .eq("user_id", userId)
+        .eq("user_id", userId);
 
       if (todosData) {
         const tasks = todosData.map((task) => {
           return {
             id: task.id,
             name: task.name,
+            user_id: task.user_id,
             is_complete: task.is_complete,
             created_at: task.created_at,
           };
         });
 
-        setTodaysTasks(tasks
-          .filter((task) => {
+        setTodaysTasks(
+          tasks.filter((task) => {
             const today = new Date();
-            const todayStart = new Date(today.getFullYear(), today.getMonth(), today.getDate(), 0, 0, 0);
-            const todayEnd = new Date(today.getFullYear(), today.getMonth(), today.getDate(), 23, 59, 59);
+            const todayStart = new Date(
+              today.getFullYear(),
+              today.getMonth(),
+              today.getDate(),
+              0,
+              0,
+              0
+            );
+            const todayEnd = new Date(
+              today.getFullYear(),
+              today.getMonth(),
+              today.getDate(),
+              23,
+              59,
+              59
+            );
 
             // Convert task.created_at to a Date object for comparison
             const taskDate = new Date(task.created_at);
 
             // Compare the taskDate with today's start and end
-            return taskDate >= todayStart && taskDate <= todayEnd
-          }));
+            return taskDate >= todayStart && taskDate <= todayEnd;
+          })
+        );
 
         handleUpdateTask(tasks);
       }
@@ -147,16 +163,12 @@ const LittleWins = ({ userId, tasks, handleUpdateTask }: Props) => {
       })
     );
 
-    setTodaysTasks(todaysTasks.filter((task) => task.id !==
-      id));
+    setTodaysTasks(todaysTasks.filter((task) => task.id !== id));
   };
 
   const editTask = (task: Task) => (e: React.ChangeEvent<HTMLInputElement>) => {
     const updateTaskDB = async (id: string, name: string) => {
-      await supabase
-        .from("todos")
-        .update({ name: name })
-        .eq("id", id);
+      await supabase.from("todos").update({ name: name }).eq("id", id);
     };
 
     const updatedTasks = tasks.map((t) => {
@@ -172,39 +184,48 @@ const LittleWins = ({ userId, tasks, handleUpdateTask }: Props) => {
 
     handleUpdateTask(updatedTasks);
     setTodaysTasks(updatedTasks);
-  }
+  };
 
   return (
     <div className="bg-base-200 w-full p-8 flex flex-col gap-8 rounded-2xl">
       <h1 className="text-4xl font-bold text-primary">My Small Wins</h1>
-      {todaysTasks.length > 0 ? <ul className="flex flex-col gap-2">
-        {todaysTasks.map((task, index) =>
-        (
-          <li
-            key={index}
-            className={`bg-white p-4 w-full rounded-2xl flex items-center transition-all gap-4 ${task.is_complete ? "line-through bg-primary/40 text-black/50" : ""
+      {todaysTasks.length > 0 ? (
+        <ul className="flex flex-col gap-2">
+          {todaysTasks.map((task, index) => (
+            <li
+              key={index}
+              className={`bg-white p-4 w-full rounded-2xl flex items-center transition-all gap-4 ${
+                task.is_complete
+                  ? "line-through bg-primary/40 text-black/50"
+                  : ""
               }`}
-          >
-            <div
-              className={`rounded-full flex justify-center items-center w-6 aspect-square ${task.is_complete ? "bg-primary" : "bg-stone-300"
-                } cursor-pointer`}
-              onClick={() => toggleCompleted(task.id)}
             >
-              <Icon icon="mdi:check" className="text-sm text-white" />
-            </div>
-            <input type="text" value={task.name} onChange={editTask(task)}></input>
-            <Icon
-              icon="mdi:close"
-              className="text-lg ml-auto text-black/80 cursor-pointer hover:text-primary transition"
-              onClick={() => deleteTask(task.id)}
-            />
-          </li>
-        )
-        )}
-      </ul> :
+              <div
+                className={`rounded-full flex justify-center items-center w-6 aspect-square ${
+                  task.is_complete ? "bg-primary" : "bg-stone-300"
+                } cursor-pointer`}
+                onClick={() => toggleCompleted(task.id)}
+              >
+                <Icon icon="mdi:check" className="text-sm text-white" />
+              </div>
+              <input
+                type="text"
+                value={task.name}
+                onChange={editTask(task)}
+              ></input>
+              <Icon
+                icon="mdi:close"
+                className="text-lg ml-auto text-black/80 cursor-pointer hover:text-primary transition"
+                onClick={() => deleteTask(task.id)}
+              />
+            </li>
+          ))}
+        </ul>
+      ) : (
         <div className="h-full flex items-center justify-center">
           <p className="text-center text-2xl">No Tasks Yet...</p>
-        </div>}
+        </div>
+      )}
       <form onSubmit={handleSubmit} className="mt-auto">
         <label className="input input-bordered text-xl flex items-center gap-2 p-4 rounded-2xl">
           <span className="font-bold">+</span>
@@ -225,4 +246,4 @@ const LittleWins = ({ userId, tasks, handleUpdateTask }: Props) => {
   );
 };
 
-export default LittleWins;
+export default SmallWins;
