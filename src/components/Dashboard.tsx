@@ -77,10 +77,6 @@ const Dashboard = ({ currentUserId, name }: Props) => {
             <h1 className="font-bold text-2xl">Past Small Wins</h1>
             <History tasks={tasks} timeframe="last7days" />
           </div>
-          <div className="flex flex-col gap-4 w-full">
-            <h1 className="font-bold text-2xl">Past Journals</h1>
-            <History journals={journals} timeframe="last7days" />
-          </div>
         </div>
       </div>
     </DashboardLayout>
