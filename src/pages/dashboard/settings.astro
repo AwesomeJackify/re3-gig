@@ -1,0 +1,109 @@
+---
+export const prerender = false;
+import DashboardLayout from "../../layouts/DashboardLayout.tsx";
+import { supabase } from "../../lib/supabase";
+import Layout from "../../layouts/Layout.astro";
+
+import Stripe from "stripe";
+
+const stripe = new Stripe(
+  import.meta.env.PROD
+    ? import.meta.env.PUBLIC_STRIPE_SECRET_KEY
+    : import.meta.env.PUBLIC_STRIPE_TEST_SECRET_KEY
+);
+
+const { data: sessionData } = await supabase.auth.getSession();
+const status = Astro.url.searchParams.get("status") || "";
+
+const currentUserId = sessionData?.session?.user?.id || null;
+
+const { data, error } = await supabase
+  .from("stripe_customers")
+  .select("*")
+  .eq("user_id", currentUserId)
+  .single();
+
+let portalSession = null;
+
+if (data) {
+  // Create a billing portal session
+  portalSession = await stripe.billingPortal.sessions.create({
+    customer: data.customer_id,
+    return_url: "http://localhost:4321/dashboard/settings", // Redirect back to your site after the session
+  });
+}
+
+if (Astro.request.method === "POST") {
+  try {
+    if (!currentUserId) {
+      return;
+    }
+
+    // Make the POST request to your API route
+    const response = await fetch(
+      `${Astro.url.origin}/api/checkout/checkout_sessions`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          userId: currentUserId,
+        }),
+      }
+    );
+
+    const data = await response.json();
+
+    // Check if the URL is returned, and redirect the user to Stripe Checkout
+    if (data.url) {
+      return Astro.redirect(data.url); // Redirect to Stripe Checkout
+    }
+  } catch (error) {
+    console.error("Error creating checkout session:", error);
+  }
+}
+---
+
+<Layout title="Settings" showNav={false} showFooter={false}>
+  {
+    status && (
+      <div
+        role="alert"
+        class="alert absolute top-4 left-1/2 -translate-x-1/2 w-fit z-50"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          class="stroke-info h-6 w-6 shrink-0"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+          />
+        </svg>
+        <span>{status}</span>
+      </div>
+    )
+  }
+  <DashboardLayout>
+    <div class="flex flex-col max-md:items-center">
+      {
+        portalSession ? (
+          <a href={portalSession.url} class="btn btn-primary btn-lg w-fit">
+            Manage Course
+          </a>
+        ) : (
+          <form method="POST">
+            <button type="submit" class="btn btn-primary btn-lg w-fit">
+              Purchase course
+            </button>
+          </form>
+        )
+      }
+    </div>
+  </DashboardLayout>
+</Layout>

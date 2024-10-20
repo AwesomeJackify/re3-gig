@@ -5,6 +5,13 @@ export async function onRequest(context, next) {
   const url = new URL(context.request.url);
   const { cookies, request } = context;
 
+  if (url.pathname.startsWith("/course/")) {
+    const { redirect } = await protectCourse(request);
+    if (redirect) {
+      return Response.redirect(new URL(redirect, request.url), 302);
+    }
+  }
+
   // Check if the path requires authentication
   if (shouldAuthenticate(url.pathname)) {
     const accessToken = cookies.get("sb-access-token");
@@ -79,6 +86,35 @@ export async function onRequest(context, next) {
     } catch (error) {
       return true; // Indicate an error occurred
     }
+  }
+
+  async function protectCourse(request) {
+    // Get the current session
+    const { data: sessionData, error: sessionError } =
+      await supabase.auth.getSession();
+
+    if (!sessionData?.session?.user) {
+      return { redirect: "/login" };
+    }
+
+    const currentUserId = sessionData.session.user.id;
+
+    // Check if the user has an active subscription
+    const { data: customerData, error: customerError } = await supabase
+      .from("stripe_customers")
+      .select("*")
+      .eq("user_id", currentUserId)
+      .single();
+
+    if (!customerData) {
+      return {
+        redirect:
+          "/dashboard/settings?status=Please purchase a subscription plan to view courses",
+      }; // Redirect to subscription page
+    }
+
+    // If everything is fine, return null (no redirect needed)
+    return { redirect: null };
   }
 
   // Helper function to handle redirects
