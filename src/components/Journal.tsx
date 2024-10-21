@@ -29,7 +29,36 @@ const Journal = ({ userId }: Props) => {
         .gte("created_at", startOfDay.toISOString()) // created_at >= 12:00 AM today
         .lte("created_at", endOfDay.toISOString()); // created_at <= 11:59 PM today
 
-      if (data) {
+      if (error) {
+        console.error("Error fetching journal data:", error);
+        return;
+      }
+
+      // If there are multiple journal entries for today, delete all but the latest one
+      if (data && data.length > 1) {
+        // Sort the entries by `created_at` (assuming it's the timestamp column)
+        const sortedEntries = data.sort(
+          (a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
+        );
+
+        // The latest entry is the first one in the sorted array
+        setJournal(sortedEntries[0]);
+        setTextArea(sortedEntries[0].journal_entry);
+
+        // Delete the other entries (all but the first one)
+        const oldEntries = sortedEntries.slice(1);
+        const oldEntryIds = oldEntries.map((entry) => entry.id);
+
+        const { error: deleteError } = await supabase
+          .from("journals")
+          .delete()
+          .in("id", oldEntryIds);
+
+        if (deleteError) {
+          console.error("Error deleting old journal entries:", deleteError);
+        }
+      } else if (data && data.length === 1) {
+        // If only one entry exists, just set it
         setJournal(data[0]);
         setTextArea(data[0].journal_entry);
       }

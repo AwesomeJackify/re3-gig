@@ -1,0 +1,42 @@
+---
+import ProgramLayout from "../../layouts/ProgramLayout.astro";
+import { Image } from "astro:assets";
+
+import heroImg from "../../assets/images/hero.jpg";
+---
+
+<ProgramLayout title="Mindset Youth" heroImg={heroImg}>
+  <section class="px-4 flex flex-col py-16">
+    <div class="max-w-screen-xl mx-auto flex flex-col gap-16">
+      <h1 class="text-9xl font-bold max-md:text-7xl">
+        Welcome to the Mindset Youth program.
+      </h1>
+      <div
+        class="max-w-2xl bg-primary text-white p-8 text-xl gap-4 flex flex-col"
+      >
+        <p>
+          If you're a young individual looking to improve your fitness, build
+          self-defense skills, and sharpen your mindset and goal-setting
+          abilities, the Mindset Youth program is for you! With weekly check-ins
+          and structured guidance, this program is designed to help you stay on
+          track and reach your personal development goals.
+        </p>
+
+        <p>
+          We offer a program focused on:
+          <div class="ml-4">
+            <li class="list-item">Fitness</li>
+            <li class="list-item">Self-defense</li>
+            <li class="list-item">Mindset and goal setting</li>
+            <li class="list-item">Weekly check-ins</li>
+          </div>
+        </p>
+        <p>
+          Join our Mindset Youth program to enhance your physical fitness,
+          self-defense skills, and goal-setting mindset with weekly check-ins to
+          track your progress.
+        </p>
+      </div>
+    </div>
+  </section>
+</ProgramLayout>

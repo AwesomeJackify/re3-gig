@@ -7,7 +7,7 @@ interface OutlineItem {
   id: string;
   title: string;
 }
-const { title, showNav, showFooter, outline = [] } = Astro.props;
+const { title, showNav, showFooter, outline } = Astro.props;
 ---
 
 <Layout title={title} showNav={false} showFooter={false}>
@@ -29,24 +29,26 @@ const { title, showNav, showFooter, outline = [] } = Astro.props;
       <!-- Content Grid -->
       <div class="mt-12 grid grid-cols-1 lg:grid-cols-3 gap-8">
         <!-- Outline Sidebar -->
-        <aside class="lg:col-span-1">
-          <div class="sticky top-16 bg-white rounded-lg p-6">
-            <h2 class="text-2xl font-bold mb-4">Outline</h2>
-            <ul class="space-y-2 text-gray-700">
-              {
-                outline.map((item: OutlineItem) => (
-                  <Fragment key={item.id}>
-                    <li>
-                      <a href={`#${item.id}`} class="hover:text-blue-500">
-                        {item.title}
-                      </a>
-                    </li>
-                  </Fragment>
-                ))
-              }
-            </ul>
-          </div>
-        </aside>
+        {
+          outline && (
+            <aside class="lg:col-span-1">
+              <div class="sticky top-16 bg-white rounded-lg p-6">
+                <h2 class="text-2xl font-bold mb-4">Outline</h2>
+                <ul class="space-y-2 text-gray-700">
+                  {outline.map((item: OutlineItem) => (
+                    <Fragment key={item.id}>
+                      <li>
+                        <a href={`#${item.id}`} class="hover:text-blue-500">
+                          {item.title}
+                        </a>
+                      </li>
+                    </Fragment>
+                  ))}
+                </ul>
+              </div>
+            </aside>
+          )
+        }
 
         <!-- Main Content Area -->
         <div class="lg:col-span-2 space-y-12">
