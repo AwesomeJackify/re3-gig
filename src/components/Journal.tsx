@@ -30,7 +30,6 @@ const Journal = ({ userId }: Props) => {
         .lte("created_at", endOfDay.toISOString()); // created_at <= 11:59 PM today
 
       if (data) {
-        console.log(data)
         setJournal(data[0]);
         setTextArea(data[0].journal_entry);
       }
@@ -40,7 +39,6 @@ const Journal = ({ userId }: Props) => {
   }, [userId]);
 
   const handleBlur = () => {
-    console.log(textArea, journal?.journal_entry);
     if (textArea != journal?.journal_entry) {
       setShowNotSaved(true);
     } else {
@@ -51,7 +49,6 @@ const Journal = ({ userId }: Props) => {
   const handleSubmit = async () => {
     if (journal) {
       setIsSaving(true);
-      console.log(journal.id)
       const { data, error } = await supabase
         .from("journals")
         .update({

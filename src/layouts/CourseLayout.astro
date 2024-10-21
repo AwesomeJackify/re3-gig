@@ -1,17 +1,21 @@
 ---
 import Layout from "./Layout.astro";
+import DashboardLayout from "./DashboardLayout";
+import DashboardNav from "../components/DashboardNav";
+
 interface OutlineItem {
   id: string;
   title: string;
 }
-const { title, showNav = true, showFooter = true, outline = [] } = Astro.props;
+const { title, showNav, showFooter, outline = [] } = Astro.props;
 ---
 
-<Layout title={title} showNav={showNav} showFooter={showFooter}>
+<Layout title={title} showNav={false} showFooter={false}>
+  <DashboardNav client:load />
   <main class="bg-black">
     <div class="container mx-auto py-12 px-4 sm:px-6 lg:px-8">
       <!-- Header -->
-      <div class="mt-8 flex items-center justify-center flex-col">
+      <div class="mt-32 flex items-center justify-center flex-col">
         <h1 class="text-5xl font-bold text-white">{title}</h1>
         <p
           class="w-2/3 sm:w-1/2 mt-4 text-lg font-bold text-gray-200 text-center"
@@ -41,22 +45,6 @@ const { title, showNav = true, showFooter = true, outline = [] } = Astro.props;
                 ))
               }
             </ul>
-
-            <!-- Desktop Buttons: Visible on Large Screens -->
-            <div class="mt-8 flex-col gap-4 hidden lg:flex">
-              <a
-                href="/course"
-                class="btn btn-primary uppercase w-full lg:w-auto"
-              >
-                Back to course
-              </a>
-              <a
-                href="/dashboard"
-                class="btn btn-primary uppercase w-full lg:w-auto"
-              >
-                Back to dashboard
-              </a>
-            </div>
           </div>
         </aside>
 
@@ -64,16 +52,6 @@ const { title, showNav = true, showFooter = true, outline = [] } = Astro.props;
         <div class="lg:col-span-2 space-y-12">
           <slot />
         </div>
-      </div>
-
-      <!-- Mobile Buttons: Visible on Small Screens -->
-      <div class="mt-8 flex flex-col gap-4 lg:hidden">
-        <a href="/course" class="btn btn-primary uppercase w-full btn-lg">
-          Back to course
-        </a>
-        <a href="/dashboard" class="btn btn-primary uppercase w-full btn-lg">
-          Back to dashboard
-        </a>
       </div>
     </div>
   </main>

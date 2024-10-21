@@ -36,7 +36,7 @@ if (data) {
 if (Astro.request.method === "POST") {
   try {
     if (!currentUserId) {
-      return;
+      return Astro.redirect("/login");
     }
 
     // Make the POST request to your API route
@@ -89,8 +89,9 @@ if (Astro.request.method === "POST") {
       </div>
     )
   }
-  <DashboardLayout>
-    <div class="flex flex-col max-md:items-center">
+  <DashboardLayout client:load>
+    <div class="flex flex-col items-center gap-8">
+      <h1 class="font-bold text-6xl">Settings</h1>
       {
         portalSession ? (
           <a href={portalSession.url} class="btn btn-primary btn-lg w-fit">

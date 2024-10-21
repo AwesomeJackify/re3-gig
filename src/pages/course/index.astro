@@ -1,8 +1,7 @@
 ---
 export const prerender = false;
 import Layout from "../../layouts/Layout.astro";
-
-import { Icon } from "@iconify/react";
+import DashboardNav from "../../components/DashboardNav";
 
 // Define an array of course modules
 const modules = [
@@ -75,11 +74,12 @@ const modules = [
 ];
 ---
 
-<Layout title="Course" showNav={true} showFooter={true}>
+<Layout title="Course" showNav={false} showFooter={false}>
+  <DashboardNav client:load />
   <section
     class="min-h-screen flex bg-black text-white flex-col items-center justify-center py-12 px-4 sm:px-6 lg:px-8"
   >
-    <div class="max-w-5xl w-full space-y-8">
+    <div class="max-w-5xl w-full space-y-8 mt-32">
       <div class="text-center">
         <h1 class="text-5xl font-bold">
           Welcome to RE:THREE, 12 Week Program!
@@ -99,11 +99,7 @@ const modules = [
                 >
                   <div class="p-6 flex flex-col h-full">
                     <div class="flex items-center">
-                      <Icon
-                        icon={module.icon}
-                        className={`text-4xl ${module.iconColor}`}
-                      />
-                      <h2 class="ml-4 text-2xl font-semibold text-gray-800">
+                      <h2 class="text-2xl font-semibold text-gray-800">
                         {module.title}
                       </h2>
                     </div>
@@ -117,9 +113,6 @@ const modules = [
           }
         </ul>
       </div>
-      <a href="/dashboard" class="btn btn-primary uppercase w-full lg:w-auto"
-        >Back to Dashboard</a
-      >
     </div>
   </section>
 </Layout>

@@ -12,6 +12,14 @@ export async function onRequest(context, next) {
     }
   }
 
+  if (url.pathname.startsWith("/login")) {
+    const { data: sessionData, error: sessionError } =
+      await supabase.auth.getSession();
+    if (sessionData?.session?.user) {
+      return Response.redirect(new URL("/dashboard", request.url), 302);
+    }
+  }
+
   // Check if the path requires authentication
   if (shouldAuthenticate(url.pathname)) {
     const accessToken = cookies.get("sb-access-token");
