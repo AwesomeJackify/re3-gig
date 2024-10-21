@@ -3,6 +3,7 @@ export const prerender = false;
 import DashboardLayout from "../../layouts/DashboardLayout.tsx";
 import { supabase } from "../../lib/supabase";
 import Layout from "../../layouts/Layout.astro";
+import Alert from "../../components/Alert";
 
 import Stripe from "stripe";
 
@@ -14,10 +15,11 @@ const stripe = new Stripe(
 
 const { data: sessionData } = await supabase.auth.getSession();
 const status = Astro.url.searchParams.get("status") || "";
+const error = Astro.url.searchParams.get("error") || "";
 
 const currentUserId = sessionData?.session?.user?.id || null;
 
-const { data, error } = await supabase
+const { data, error: stripeError } = await supabase
   .from("stripe_customers")
   .select("*")
   .eq("user_id", currentUserId)
@@ -59,52 +61,74 @@ if (Astro.request.method === "POST") {
     if (data.url) {
       return Astro.redirect(data.url); // Redirect to Stripe Checkout
     }
-  } catch (error) {
-    console.error("Error creating checkout session:", error);
+  } catch (stripeError) {
+    console.error("Error creating checkout session:", stripeError);
   }
 }
 ---
 
 <Layout title="Settings" showNav={false} showFooter={false}>
-  {
-    status && (
-      <div
-        role="alert"
-        class="alert absolute top-4 left-1/2 -translate-x-1/2 w-fit z-50"
-      >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          fill="none"
-          viewBox="0 0 24 24"
-          class="stroke-info h-6 w-6 shrink-0"
-        >
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="2"
-            d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-          />
-        </svg>
-        <span>{status}</span>
-      </div>
-    )
-  }
+  <Alert status={status} error={error} />
   <DashboardLayout client:load>
-    <div class="flex flex-col items-center gap-8">
+    <div class="flex flex-col items-center gap-16">
       <h1 class="font-bold text-6xl">Settings</h1>
-      {
-        portalSession ? (
-          <a href={portalSession.url} class="btn btn-primary btn-lg w-fit">
-            Manage Course
-          </a>
-        ) : (
-          <form method="POST">
-            <button type="submit" class="btn btn-primary btn-lg w-fit">
-              Purchase course
-            </button>
-          </form>
-        )
-      }
+      <div class="flex flex-col items-center gap-8 max-w-lg">
+        {
+          portalSession ? (
+            <a href={portalSession.url} class="btn btn-primary btn-lg w-full">
+              Manage Course
+            </a>
+          ) : (
+            <form method="POST">
+              <button type="submit" class="btn btn-primary btn-lg w-full">
+                Purchase course
+              </button>
+            </form>
+          )
+        }
+        <button
+          class="btn btn-primary btn-lg w-full"
+          onclick="my_modal_1.showModal()">Change Password</button
+        >
+        <dialog id="my_modal_1" class="modal max-md:modal-bottom">
+          <div class="modal-box flex flex-col gap-8">
+            <h3 class="text-lg font-bold">Change your password</h3>
+            <form
+              method="POST"
+              action="/api/auth/update-password"
+              class="flex flex-col gap-4 max-w-sm w-full mx-auto"
+            >
+              <input
+                type="text"
+                name="password"
+                placeholder="Enter new password"
+                class="input input-bordered w-full"
+                minlength="6"
+                required
+              />
+              <input
+                type="text"
+                name="confirm_password"
+                placeholder="Enter new password"
+                class="input input-bordered w-full"
+                minlength="6"
+                required
+              />
+              <div class="modal-action">
+                <button type="submit" class="btn btn-primary"
+                  >Update Password</button
+                >
+              </div>
+            </form>
+            <div class="modal-action">
+              <form method="dialog">
+                <!-- if there is a button in form, it will close the modal -->
+                <button class="btn">Close</button>
+              </form>
+            </div>
+          </div>
+        </dialog>
+      </div>
     </div>
   </DashboardLayout>
 </Layout>

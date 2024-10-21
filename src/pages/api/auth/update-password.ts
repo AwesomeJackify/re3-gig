@@ -4,22 +4,21 @@ import { supabase } from "../../../lib/supabase";
 
 export const POST: APIRoute = async ({ request, cookies, redirect }) => {
   const formData = await request.formData();
-  const email = formData.get("email")?.toString();
+  const password = formData.get("password")?.toString();
+  const confirm_password = formData.get("confirm_password")?.toString();
 
-  if (!email) {
-    return redirect("/login?error=Email is required");
+  if (password != confirm_password) {
+    return redirect("/dashboard/settings?error=Passwords do not match");
   }
 
-  const { data, error } = await supabase.auth.resetPasswordForEmail(
-    email,
-    {
-      redirectTo: "/update-password",
-    }
-  );
+  const { data: updateData, error: updateError } =
+    await supabase.auth.updateUser({
+      password: password,
+    });
 
-  if (error) {
-    return redirect("/login?error=" + "Error logging in");
+  if (updateError) {
+    return redirect("/dashboard/settings?error=Password update failed");
   }
 
-  return redirect("/login?success=Password reset email sent");
+  return redirect("/dashboard/settings?status=Password updated");
 };

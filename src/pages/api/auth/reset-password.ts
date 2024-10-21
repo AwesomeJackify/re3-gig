@@ -13,9 +13,9 @@ export const POST: APIRoute = async ({ request, cookies, redirect }) => {
   const { data, error } = await supabase.auth.signInWithOtp({
     email: email,
     options: {
-      emailRedirectTo: "/login"
-    }
-  })
+      emailRedirectTo: "/login",
+    },
+  });
 
   if (error) {
     return redirect("/login?error=" + "Error logging in");
