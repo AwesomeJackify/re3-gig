@@ -28,7 +28,16 @@ import logoImg from "../assets/images/logo.png";
         />
       </a>
     </div>
-    <a href={config.bookingLink} class="btn btn-primary ml-auto">Book Now</a>
+    <div class="max-md:hidden">
+      <a href={config.sundayGCBookingLink} target="_blank" class="btn ml-auto"
+        >Join the Chat</a
+      >
+      <a
+        href={config.bookingLink}
+        target="_blank"
+        class="btn btn-primary ml-auto">Book Now</a
+      >
+    </div>
   </div>
   <div
     class="drawer-content-mobile gap-2 w-full flex items-center max-md:p-4 p-1 px-4 -top-full fixed z-50"
@@ -64,7 +73,18 @@ import logoImg from "../assets/images/logo.png";
 
       <div class="flex mt-auto w-full items-end justify-between">
         <Image src={logoImg} alt="logo" class="w-32 object-contain bg-black" />
-        <a href={config.bookingLink} class="btn btn-primary w-fit">Book Now</a>
+        <div class="flex flex-col gap-2">
+          <a
+            href={config.sundayGCBookingLink}
+            target="_blank"
+            class="btn ml-auto btn-primary">Join the Chat</a
+          >
+          <a
+            href={config.bookingLink}
+            target="_blank"
+            class="btn btn-primary ml-auto">Book Now</a
+          >
+        </div>
       </div>
     </ul>
   </div>

@@ -51,7 +51,7 @@ const { title, showNav, showFooter, outline } = Astro.props;
         }
 
         <!-- Main Content Area -->
-        <div class="lg:col-span-2 space-y-12">
+        <div class={`${outline ? "lg:col-span-2" : "lg:col-span-3"} space-y-12`}>
           <slot />
         </div>
       </div>

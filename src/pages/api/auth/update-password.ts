@@ -8,7 +8,7 @@ export const POST: APIRoute = async ({ request, cookies, redirect }) => {
   const confirm_password = formData.get("confirm_password")?.toString();
 
   if (password != confirm_password) {
-    return redirect("/dashboard/settings?error=Passwords do not match");
+    return redirect("/dashboard/settings?error=Passwords don't match");
   }
 
   const { data: updateData, error: updateError } =
