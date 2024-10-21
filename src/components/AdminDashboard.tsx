@@ -60,7 +60,7 @@ const AdminDashboard = ({ currentUserId, name }: Props) => {
   };
 
   return (
-    <DashboardLayout name={name}>
+    <DashboardLayout name={name} showSettings={false}>
       <section className="max-w-screen-lg mx-auto w-full flex flex-col gap-8 px-4">
         <h1 className="text-4xl underline">My clients</h1>
         <div className="grid grid-cols-2 max-md:grid-cols-1 gap-8">

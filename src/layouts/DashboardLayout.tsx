@@ -16,7 +16,7 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({
 }) => {
   return (
     <section className="pb-8">
-      <DashboardNav />
+      <DashboardNav showSettings={showSettings} />
       <section className="max-w-screen-2xl mx-auto pt-44 flex flex-col gap-16 px-4">
         <div className="flex max-md:flex-col max-md:gap-8 justify-between w-full items-center">
           <h1 className="font-bold text-6xl max-md:text-center">

@@ -5,6 +5,9 @@ export async function onRequest(context, next) {
   const url = new URL(context.request.url);
   const { cookies, request } = context;
 
+  const accessToken = cookies.get("sb-access-token");
+  const refreshToken = cookies.get("sb-refresh-token");
+
   if (url.pathname.startsWith("/course/")) {
     const { redirect } = await protectCourse(request);
     if (redirect) {
@@ -13,18 +16,13 @@ export async function onRequest(context, next) {
   }
 
   if (url.pathname.startsWith("/login")) {
-    const { data: sessionData, error: sessionError } =
-      await supabase.auth.getSession();
-    if (sessionData?.session?.user) {
+    if (accessToken && refreshToken) {
       return Response.redirect(new URL("/dashboard", request.url), 302);
     }
   }
 
   // Check if the path requires authentication
   if (shouldAuthenticate(url.pathname)) {
-    const accessToken = cookies.get("sb-access-token");
-    const refreshToken = cookies.get("sb-refresh-token");
-
     // If tokens are missing, redirect to login
     if (!accessToken || !refreshToken) {
       return redirectToLogin();

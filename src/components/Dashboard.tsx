@@ -62,7 +62,7 @@ const Dashboard = ({ currentUserId, name }: Props) => {
   };
 
   return (
-    <DashboardLayout name={name} showCourse showSettings>
+    <DashboardLayout name={name} showCourse>
       <div className="flex flex-col gap-16">
         <div className="grid grid-cols-2 gap-8 max-md:grid-cols-1">
           <SmallWins
@@ -76,7 +76,8 @@ const Dashboard = ({ currentUserId, name }: Props) => {
           <div className="flex flex-col gap-4 w-full">
             <h1 className="font-bold text-2xl">Past Small Wins</h1>
             <History tasks={tasks} timeframe="last7days" />
-          </div><div className="flex flex-col gap-4 w-full">
+          </div>
+          <div className="flex flex-col gap-4 w-full">
             <h1 className="font-bold text-2xl">Past Journal Entries</h1>
             <History journals={journals} timeframe="last7days" />
           </div>
