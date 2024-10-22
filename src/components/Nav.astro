@@ -105,6 +105,7 @@ import logoImg from "../assets/images/logo.png";
   }
 
   const handleScroll = debounce(() => {
+    console.log("hi");
     // Check if the user has scrolled past the height of the viewport
     if (window.scrollY > viewportHeight) {
       gsap.to(".drawer-content-mobile", {
@@ -121,8 +122,9 @@ import logoImg from "../assets/images/logo.png";
     }
   }, 5);
 
-  if (window.innerWidth > 768) {
-    // Adjust this value based on your mobile breakpoint (e.g., 768px for tablets and below)
-    window.addEventListener("scroll", handleScroll);
-  }
+  window.addEventListener("scroll", handleScroll);
+  // if (window.innerWidth < 768) {
+  //   // Adjust this value based on your mobile breakpoint (e.g., 768px for tablets and below)
+  //   window.addEventListener("scroll", handleScroll);
+  // }
 </script>
