@@ -2,12 +2,13 @@
 import { Image } from "astro:assets";
 import { Icon } from "astro-icon/components";
 import config from "../config.json";
+import astroLogo from "../assets/images/AstroMediaLogo.svg";
 
 import logoImg from "../assets/images/logo.png";
 ---
 
-<footer class="footer text-black items-center p-4 pt-16">
-  <aside class="flex flex-col">
+<footer class="footer max-md:gap-8 text-black items-center p-4 pt-16">
+  <aside class="flex flex-col max-md:items-center max-md:mx-auto">
     <Image
       src={logoImg}
       alt="logo"
@@ -15,19 +16,38 @@ import logoImg from "../assets/images/logo.png";
     />
     <p>Copyright © {new Date().getFullYear()} - All right reserved</p>
   </aside>
-  <nav class="grid-flow-col gap-4 md:place-self-center md:justify-self-end">
-    {
-      config.socials.map((social) => (
-        <a href={social.url} target="_blank">
-          <Icon
-            name={social.icon}
-            class="text-4xl hover:text-primary transition"
-          />
-        </a>
-      ))
-    }
-    <a href={`mailto:${config.mail}`}>
-      <Icon name="mdi:email" class="text-4xl hover:text-primary transition" />
-    </a>
-  </nav>
+  <div
+    class="flex flex-col items-end ml-auto max-md:items-center max-md:mx-auto"
+  >
+    <div class="flex gap-1">
+      {
+        config.socials.map((social) => (
+          <a href={social.url} target="_blank">
+            <Icon
+              name={social.icon}
+              class="text-4xl hover:text-primary transition"
+            />
+          </a>
+        ))
+      }
+      <a href={`mailto:${config.mail}`}>
+        <Icon name="mdi:email" class="text-4xl hover:text-primary transition" />
+      </a>
+    </div>
+    <div class="flex flex-col justify-end h-full">
+      <p class="flex items-center gap-1 max-md:self-center">
+        Made possible by <a
+          href="https://astromedia.dev"
+          class="link hover:text-primary transition-colors"
+          target="_blank">Astro Media</a
+        ><Image
+          class="w-5"
+          src={astroLogo}
+          width={10}
+          height={10}
+          alt="digital agency"
+        />
+      </p>
+    </div>
+  </div>
 </footer>

@@ -10,18 +10,20 @@ const status = Astro.url.searchParams.get("status") || "";
 ---
 
 <Layout title="Login">
-  <Alert error={error} status={status}  />
+  <Alert error={error} status={status} />
   <section
     class="h-screen bg-black w-full flex justify-center items-center px-4"
   >
     <form
       action="/api/auth/register"
       method="post"
-      class="max-w-screen-sm mx-auto bg-base-200 p-10 flex flex-col gap-8"
+      class="max-w-sm w-full mx-auto bg-base-200 p-10 flex flex-col gap-8"
     >
       <h1 class="text-center font-bold text-4xl uppercase">Register</h1>
       <div class="flex flex-col gap-1">
-        <label class="input input-bordered flex items-center gap-2">
+        <label
+          class="input input-bordered flex items-center gap-2 max-md:text-sm"
+        >
           First Name
           <input
             id="fname"
@@ -32,7 +34,9 @@ const status = Astro.url.searchParams.get("status") || "";
             placeholder="Alex"
           />
         </label>
-        <label class="input input-bordered flex items-center gap-2">
+        <label
+          class="input input-bordered flex items-center gap-2 max-md:text-sm"
+        >
           Last Name
           <input
             id="lname"
@@ -43,7 +47,9 @@ const status = Astro.url.searchParams.get("status") || "";
             placeholder="Murphy"
           />
         </label>
-        <label class="input input-bordered flex items-center gap-2">
+        <label
+          class="input input-bordered flex items-center gap-2 max-md:text-sm"
+        >
           Email
           <input
             id="email"
@@ -54,7 +60,9 @@ const status = Astro.url.searchParams.get("status") || "";
             placeholder="RoboCop@ocp.com"
           />
         </label>
-        <label class="input input-bordered flex items-center gap-2">
+        <label
+          class="input input-bordered flex items-center gap-2 max-md:text-sm"
+        >
           Password
           <input
             name="password"
