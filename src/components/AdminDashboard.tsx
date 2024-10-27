@@ -42,15 +42,35 @@ const AdminDashboard = ({ currentUserId, name }: Props) => {
 
   useEffect(() => {
     const fetchUsers = async () => {
-      const {
-        data: { users },
-        error,
-      } = await supabase_admin.auth.admin.listUsers();
-      setUsers(users);
+      // Step 1: Fetch user IDs from `stripe_customers`
+      const { data: stripeCustomers, error: stripeError } = await supabase_admin
+        .from("stripe_customers")
+        .select("user_id");
+
+      if (stripeError) throw stripeError;
+
+      // Extract user IDs from the results
+      const userIds =
+        stripeCustomers?.map((customer) => customer.user_id) || [];
+
+      if (userIds.length > 0) {
+        // Step 2: Fetch user details from `auth.users` for the user IDs in `stripe_customers`
+        const { data: users, error: usersError } =
+          await supabase_admin.auth.admin.listUsers();
+
+        if (usersError) throw usersError;
+
+        const usersWithStripe = users.users?.filter((user: any) =>
+          userIds.includes(user.id)
+        );
+
+        // Now you have `users` with details only for those who exist in `stripe_customers`
+        setUsers(usersWithStripe);
+      }
     };
 
     fetchUsers();
-  });
+  }, []);
 
   const handleOnClick = (currentClientId: string, index: number) => {
     setCurrentClientId(currentClientId);
@@ -61,50 +81,56 @@ const AdminDashboard = ({ currentUserId, name }: Props) => {
 
   return (
     <DashboardLayout name={name} showSettings={false}>
-      <section className="max-w-screen-lg mx-auto w-full flex flex-col gap-8 px-4">
+      <section className="max-w-screen-sm mx-auto w-full flex flex-col gap-8 px-4">
         <h1 className="text-4xl underline">My clients</h1>
-        <div className="grid grid-cols-2 max-md:grid-cols-1 gap-8">
-          {users.map(
-            (user: any, index: number) =>
-              user.id != currentUserId && (
-                <div key={index}>
-                  <button
-                    onClick={() => handleOnClick(user.id, index)}
-                    key={user.id}
-                    className="w-full py-8 px-4 pt-4 shadow-2xl rounded-2xl border-black border-4 hover:bg-black transition cursor-pointer hover:text-primary"
-                  >
-                    <h1 className="text-4xl font-bold text-center">
-                      {user.user_metadata.first_name}{" "}
-                      {user.user_metadata.last_name}{" "}
-                    </h1>
-                  </button>
-                  <dialog
-                    id={`my_modal_${index}`}
-                    className="modal max-md:modal-bottom"
-                  >
-                    <div className="modal-box flex flex-col gap-4">
-                      <h3 className="font-bold text-2xl capitalize">
-                        {user.user_metadata.first_name}'s weekly small wins
-                      </h3>
-                      {/* <h1 className='font-medium'>{tasks.filter((task: any) => (task.is_complete)).length} tasks completed</h1> */}
-                      <div>
-                        <History
-                          timeframe="last7days"
-                          tasks={tasks}
-                          isAdmin={true}
-                        />
-                      </div>
-                      <form method="dialog" className="modal-backdrop">
-                        {/* if there is a button in form, it will close the modal */}
-                        <button className="btn">Close</button>
-                      </form>
-                    </div>
-                  </dialog>
-                </div>
-              )
-          )}
+        <div className="overflow-x-auto">
+          <table className="table table-lg">
+            {/* head */}
+            <thead>
+              <tr>
+                <th>No.</th>
+                <th>Name</th>
+              </tr>
+            </thead>
+            <tbody>
+              {users.map((user: any, index: number) => (
+                <tr
+                  key={index}
+                  onClick={() => handleOnClick(user.id, index)}
+                  className="hover:bg-base-200 cursor-pointer transition"
+                >
+                  <td>{index + 1}</td>
+                  <td>
+                    {user.user_metadata.first_name}{" "}
+                    {user.user_metadata.last_name}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
         </div>
       </section>
+      {users.map((user: any, index: number) => (
+        <dialog
+          id={`my_modal_${index}`}
+          className="modal max-md:modal-bottom"
+          key={"modal" + index}
+        >
+          <div className="modal-box flex flex-col gap-4">
+            <h3 className="font-bold text-2xl capitalize">
+              {user.user_metadata.first_name}'s weekly small wins
+            </h3>
+            {/* <h1 className='font-medium'>{tasks.filter((task: any) => (task.is_complete)).length} tasks completed</h1> */}
+            <div>
+              <History timeframe="last7days" tasks={tasks} isAdmin={true} />
+            </div>
+            <form method="dialog" className="modal-backdrop">
+              {/* if there is a button in form, it will close the modal */}
+              <button className="btn">Close</button>
+            </form>
+          </div>
+        </dialog>
+      ))}
     </DashboardLayout>
   );
 };
