@@ -80,7 +80,7 @@ const AdminDashboard = ({ currentUserId, name }: Props) => {
   };
 
   return (
-    <DashboardLayout name={name} showSettings={false}>
+    <DashboardLayout name={name} showSettings={false} showCourse>
       <section className="max-w-screen-sm mx-auto w-full flex flex-col gap-8 px-4">
         <h1 className="text-4xl underline">My clients</h1>
         <div className="overflow-x-auto">
