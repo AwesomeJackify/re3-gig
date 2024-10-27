@@ -15,6 +15,7 @@ const stripe = new Stripe(
 
 const { data: sessionData } = await supabase.auth.getSession();
 const status = Astro.url.searchParams.get("status") || "";
+const success = Astro.url.searchParams.get("success") || "";
 const error = Astro.url.searchParams.get("error") || "";
 
 const currentUserId = sessionData?.session?.user?.id || null;
@@ -68,7 +69,7 @@ if (Astro.request.method === "POST") {
 ---
 
 <Layout title="Settings" showNav={false} showFooter={false}>
-  <Alert status={status} error={error} />
+  <Alert status={status} error={error} success={success} />
   <DashboardLayout client:load>
     <div class="flex flex-col items-center gap-16">
       <h1 class="font-bold text-6xl">Settings</h1>

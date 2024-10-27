@@ -21,7 +21,7 @@ export const POST: APIRoute = async ({ request }) => {
     // Create a new Stripe Checkout session
     const session = await stripe.checkout.sessions.create({
       success_url:
-        "http://localhost:4321/dashboard/settings?status=Payment Successful", // Redirect after successful payment
+        "http://localhost:4321/dashboard/settings?success=Payment Successful", // Redirect after successful payment
       cancel_url: "http://localhost:4321/dashboard/settings", // Redirect if the user cancels
       line_items: [
         {
