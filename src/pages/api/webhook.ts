@@ -1,7 +1,7 @@
 // src/pages/api/webhook.ts
 import type { APIRoute } from "astro";
 import Stripe from "stripe";
-import { supabase } from "../lib/supabase";
+import { supabase } from "../../lib/supabase";
 const { data: sessionData } = await supabase.auth.getSession();
 
 const currentUserId = sessionData?.session?.user?.id || null;
