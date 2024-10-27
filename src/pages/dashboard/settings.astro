@@ -28,7 +28,7 @@ const { data, error: stripeError } = await supabase
 
 let portalSession = null;
 
-if (data) {
+if (data.customer_id) {
   // Create a billing portal session
   portalSession = await stripe.billingPortal.sessions.create({
     customer: data.customer_id,
