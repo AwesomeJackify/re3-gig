@@ -12,7 +12,7 @@ export const POST: APIRoute = async ({ request, redirect }) => {
   }
 
   const redirectUrl = import.meta.env.PROD
-    ? "http://rethree.online/login-otp"
+    ? "https://rethree.online/login-otp"
     : "http://localhost:4321/login-otp";
 
   const { data, error } = await supabase.auth.signInWithOtp({

@@ -13,26 +13,39 @@ const stripe = new Stripe(
     : import.meta.env.PUBLIC_STRIPE_TEST_SECRET_KEY
 );
 
-const { data: sessionData } = await supabase.auth.getSession();
+const { data: sessionData, error: sessionError } =
+  await supabase.auth.getSession();
 const status = Astro.url.searchParams.get("status") || "";
 const success = Astro.url.searchParams.get("success") || "";
 const error = Astro.url.searchParams.get("error") || "";
 
 const currentUserId = sessionData?.session?.user?.id || null;
 
-const { data, error: stripeError } = await supabase
+const { data: rolesData, error: rolesError } = await supabase
+  .from("roles")
+  .select("*")
+  .eq("user_id", currentUserId)
+  .single();
+
+const { data: stripeData, error: stripeError } = await supabase
   .from("stripe_customers")
   .select("*")
   .eq("user_id", currentUserId)
   .single();
 
+console.log(stripeData);
+
 let portalSession = null;
 
-if (data.customer_id) {
+const redirectUrl = import.meta.env.PROD
+  ? "https://rethree.online/dashboard/settings"
+  : "http://localhost:4321/dashboard/settings";
+
+if (stripeData && stripeData.customer_id) {
   // Create a billing portal session
   portalSession = await stripe.billingPortal.sessions.create({
-    customer: data.customer_id,
-    return_url: "http://localhost:4321/dashboard/settings", // Redirect back to your site after the session
+    customer: stripeData.customer_id,
+    return_url: redirectUrl, // Redirect back to your site after the session
   });
 }
 
@@ -75,7 +88,7 @@ if (Astro.request.method === "POST") {
       <h1 class="font-bold text-6xl">Settings</h1>
       <div class="flex flex-col items-center gap-8 max-w-lg">
         {
-          portalSession ? (
+          rolesData?.role === "admin" ? null : portalSession ? (
             <a href={portalSession.url} class="btn btn-primary btn-lg w-full">
               Manage Course
             </a>
