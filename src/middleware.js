@@ -117,7 +117,8 @@ export async function onRequest(context, next) {
         redirect:
           "/dashboard/settings?error=Please purchase a subscription plan to view courses",
       }; // Redirect to subscription page
-    } else if (!customerData.show_courses) {
+    }
+    if (!customerData.show_courses) {
       return {
         redirect:
           "/dashboard/settings?error=Courses are disabled by the admin. Please contact support.",
