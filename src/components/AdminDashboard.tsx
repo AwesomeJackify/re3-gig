@@ -13,6 +13,7 @@ const AdminDashboard = ({ currentUserId, name }: Props) => {
   const [users, setUsers] = useState<any>([]);
   const [currentClientId, setCurrentClientId] = useState<string>("");
   const [tasks, setTasks] = useState<any>([]);
+  const [bigGoals, setBigGoals] = useState<BigGoals>();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -45,13 +46,15 @@ const AdminDashboard = ({ currentUserId, name }: Props) => {
       // Step 1: Fetch user IDs from `stripe_customers`
       const { data: stripeCustomers, error: stripeError } = await supabase_admin
         .from("stripe_customers")
-        .select("user_id");
+        .select();
 
       if (stripeError) throw stripeError;
 
+      const stripeCustomersNonAdmin = stripeCustomers.filter(x => x.customer_id !== null);
+
       // Extract user IDs from the results
       const userIds =
-        stripeCustomers?.map((customer) => customer.user_id) || [];
+        stripeCustomersNonAdmin?.map((customer) => customer.user_id) || [];
 
       if (userIds.length > 0) {
         // Step 2: Fetch user details from `auth.users` for the user IDs in `stripe_customers`
@@ -78,6 +81,25 @@ const AdminDashboard = ({ currentUserId, name }: Props) => {
       document.getElementById(`my_modal_${index}`) as HTMLDialogElement
     ).showModal();
   };
+
+  useEffect(() => {
+    if (!currentClientId) {
+      return;
+    }
+    const fetchBigGoals = async () => {
+      const { data, error } = await supabase_admin
+        .from("big_goals")
+        .select()
+        .eq("user_id", currentClientId)
+        .limit(1);
+
+      if (data && data.length > 0) {
+        setBigGoals(data[0]);
+      }
+    }
+
+    fetchBigGoals();
+  }, [currentClientId])
 
   return (
     <DashboardLayout name={name} showSettings={true} showCourse>
@@ -118,11 +140,28 @@ const AdminDashboard = ({ currentUserId, name }: Props) => {
         >
           <div className="modal-box flex flex-col gap-4">
             <h3 className="font-bold text-2xl capitalize">
-              {user.user_metadata.first_name}'s weekly small wins
+              {user.user_metadata.first_name}'s progress
             </h3>
-            {/* <h1 className='font-medium'>{tasks.filter((task: any) => (task.is_complete)).length} tasks completed</h1> */}
             <div>
+              {
+                bigGoals ? (
+                  <div>
+                    <h4 className="font-medium text-lg">Big Goals</h4>
+                    <p>{bigGoals?.big_goals}</p>
+                  </div>
+                ) : <p>No big goals yet...</p>
+              }
+
+            </div>
+            <hr />
+            <div className="flex flex-col gap-2">
+              {
+                tasks.length > 0 && (
+                  <h4 className="font-medium text-lg">Small Wins</h4>
+                )
+              }
               <History timeframe="last7days" tasks={tasks} isAdmin={true} />
+
             </div>
             <form method="dialog" className="modal-backdrop">
               {/* if there is a button in form, it will close the modal */}

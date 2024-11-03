@@ -24,3 +24,10 @@ interface Journal {
   journal_entry: string;
   created_at: string;
 }
+
+interface BigGoals {
+  id: string;
+  user_id: string;
+  big_goals: string;
+  created_at: string;
+}

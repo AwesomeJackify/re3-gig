@@ -3,6 +3,7 @@ import { Icon } from "@iconify/react";
 import { v4 as uuidv4 } from "uuid";
 import { supabase } from "../lib/supabase";
 import { format } from "date-fns";
+import BigGoals from "./BigGoals";
 
 interface Props {
   userId: string;
@@ -188,22 +189,23 @@ const SmallWins = ({ userId, tasks, handleUpdateTask }: Props) => {
 
   return (
     <div className="bg-base-200 w-full p-8 flex flex-col gap-8 rounded-2xl">
-      <h1 className="text-4xl font-bold text-primary">My Small Wins</h1>
+      <div className="flex justify-between max-md:flex-col max-md:gap-4">
+        <h1 className="text-4xl font-bold text-primary">My Small Wins</h1>
+        <BigGoals userId={userId} />
+      </div>
       {todaysTasks.length > 0 ? (
         <ul className="flex flex-col gap-2">
           {todaysTasks.map((task, index) => (
             <li
               key={index}
-              className={`bg-white p-4 w-full rounded-2xl flex items-center transition-all gap-4 ${
-                task.is_complete
-                  ? "line-through bg-primary/40 text-black/50"
-                  : ""
-              }`}
+              className={`bg-white p-4 w-full rounded-2xl flex items-center transition-all gap-4 ${task.is_complete
+                ? "line-through bg-primary/40 text-black/50"
+                : ""
+                }`}
             >
               <div
-                className={`rounded-full flex justify-center items-center w-6 aspect-square ${
-                  task.is_complete ? "bg-primary" : "bg-stone-300"
-                } cursor-pointer`}
+                className={`rounded-full flex justify-center items-center w-6 aspect-square ${task.is_complete ? "bg-primary" : "bg-stone-300"
+                  } cursor-pointer`}
                 onClick={() => toggleCompleted(task.id)}
               >
                 <Icon icon="mdi:check" className="text-sm text-white" />

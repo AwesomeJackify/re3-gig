@@ -33,8 +33,6 @@ const { data: stripeData, error: stripeError } = await supabase
   .eq("user_id", currentUserId)
   .single();
 
-console.log(stripeData);
-
 let portalSession = null;
 
 const redirectUrl = import.meta.env.PROD
