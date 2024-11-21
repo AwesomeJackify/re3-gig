@@ -30,8 +30,8 @@ export const POST: APIRoute = async ({ request }) => {
       rawBody,
       signature!,
       import.meta.env.PROD
-        ? import.meta.env.STRIPE_WEBHOOK_SECRET
-        : endpointSecret // Add your Stripe webhook signing secret here
+        ? import.meta.env.PUBLIC_STRIPE_WEBHOOK_SECRET
+        : endpointSecret
     );
 
     let session;

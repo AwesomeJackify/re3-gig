@@ -21,8 +21,8 @@ export const POST: APIRoute = async ({ request }) => {
     // Create a new Stripe Checkout session
     const session = await stripe.checkout.sessions.create({
       success_url:
-        "http://localhost:4321/dashboard/settings?success=Payment Successful", // Redirect after successful payment
-      cancel_url: "http://localhost:4321/dashboard/settings", // Redirect if the user cancels
+        "https://rethree.online/dashboard/settings?success=Payment Successful", // Redirect after successful payment
+      cancel_url: "https://rethree.online/dashboard/settings", // Redirect if the user cancels
       line_items: [
         {
           price: "price_1QBk8ZC3780jfgXdTmEL5WNk", // Replace with your Stripe price ID
