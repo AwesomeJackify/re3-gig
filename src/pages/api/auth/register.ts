@@ -11,7 +11,7 @@ export const POST: APIRoute = async ({ request, redirect }) => {
   const password = formData.get("password")?.toString();
 
   if (!email || !password || !fname || !lname) {
-    return redirect("/login?error=Please fill out all fields");
+    return redirect("/register12345?error=Please fill out all fields");
   }
 
   const { error } = await supabase.auth.signUp({
@@ -22,7 +22,7 @@ export const POST: APIRoute = async ({ request, redirect }) => {
         first_name: fname,
         last_name: lname,
       },
-      emailRedirectTo: "/login",
+      emailRedirectTo: "https://rethree.online/login",
     },
   });
 

@@ -13,7 +13,7 @@ export const POST: APIRoute = async ({ request, cookies, redirect }) => {
   const { data, error } = await supabase.auth.signInWithOtp({
     email: email,
     options: {
-      emailRedirectTo: "/login",
+      emailRedirectTo: "https://rethree.online/login-otp",
     },
   });
 
