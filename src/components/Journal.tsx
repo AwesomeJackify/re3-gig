@@ -10,6 +10,7 @@ const Journal = ({ userId }: Props) => {
   const [journal, setJournal] = useState<Journal>();
   const [isSaving, setIsSaving] = useState(false);
   const [showNotSaved, setShowNotSaved] = useState(false);
+  const [showSaved, setShowSaved] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -38,7 +39,8 @@ const Journal = ({ userId }: Props) => {
       if (data && data.length > 1) {
         // Sort the entries by `created_at` (assuming it's the timestamp column)
         const sortedEntries = data.sort(
-          (a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
+          (a, b) =>
+            new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
         );
 
         // The latest entry is the first one in the sorted array
@@ -88,12 +90,14 @@ const Journal = ({ userId }: Props) => {
       await new Promise((resolve) => setTimeout(resolve, 1000));
       setIsSaving(false);
       setShowNotSaved(false);
+      setShowSaved(true);
     } else {
       const { error } = await supabase.from("journals").insert({
         user_id: userId,
         journal_entry: textArea,
       });
       setShowNotSaved(false);
+      setShowSaved(true);
     }
   };
 
@@ -120,6 +124,11 @@ const Journal = ({ userId }: Props) => {
           {showNotSaved && (
             <span className="text-sm font-light">
               Your journal is not saved!
+            </span>
+          )}
+          {showSaved && (
+            <span className="text-sm font-light text-success">
+              Your journal is saved!
             </span>
           )}
         </div>

@@ -10,6 +10,7 @@ export default {
         cmyk: {
           ...require("daisyui/src/theming/themes")["cmyk"],
           primary: "#FF0000",
+          success: "#06c251",
         },
       },
     ],
