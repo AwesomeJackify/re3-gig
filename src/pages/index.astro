@@ -353,7 +353,7 @@ const introVideoURL = introVideo.toURL();
         </div>
         <form
           name="contact"
-          method="POST"
+          method="post"
           data-netlify="true"
           class="w-full max-w-2xl mx-auto bg-white p-6"
         >
@@ -372,6 +372,7 @@ const introVideoURL = introVideo.toURL();
                 </label>
                 {field.name === "message" ? (
                   <textarea
+                    disabled
                     id={field.name}
                     name={field.name}
                     class="w-full px-3 py-2 text-gray-700 border  focus:outline-none focus:border-primary"
@@ -379,6 +380,7 @@ const introVideoURL = introVideo.toURL();
                   />
                 ) : (
                   <input
+                    disabled
                     type={field.name === "email" ? "email" : "text"}
                     id={field.name}
                     name={field.name}
@@ -399,6 +401,7 @@ const introVideoURL = introVideo.toURL();
                 interests.map((interest) => (
                   <label class="inline-flex items-center">
                     <input
+                      disabled
                       type="checkbox"
                       name="interests"
                       value={interest}
@@ -413,6 +416,7 @@ const introVideoURL = introVideo.toURL();
 
           <div class="text-center">
             <button
+              disabled
               type="submit"
               class="bg-primary text-white font-bold py-2 px-4 rounded-lg transition duration-300"
             >
@@ -423,80 +427,80 @@ const introVideoURL = introVideo.toURL();
       </div>
     </div>
   </section>
+
+  <script>
+    import gsap from "gsap";
+    import SplitType from "split-type";
+
+    import { ScrollTrigger } from "gsap/ScrollTrigger";
+    gsap.registerPlugin(ScrollTrigger);
+
+    new SplitType("#introText1", { types: "lines", lineClass: "line1" });
+    new SplitType("#introText2", { types: "lines", lineClass: "line2" });
+    new SplitType("#introText3", { types: "lines", lineClass: "line3" });
+
+    const introTl1 = gsap.timeline();
+    const introTl2 = gsap.timeline();
+    const introTl3 = gsap.timeline();
+
+    introTl1.fromTo(
+      ".line1",
+      {
+        color: "#d1d1d1",
+      },
+      {
+        color: "#000000",
+        scrollTrigger: {
+          trigger: "#introText1",
+          start: "top 50%",
+          end: "bottom 50%",
+          scrub: true,
+        },
+        stagger: 0.1,
+      }
+    );
+    introTl2.fromTo(
+      ".line2",
+      {
+        color: "#d1d1d1",
+      },
+      {
+        color: "#000000",
+        scrollTrigger: {
+          trigger: "#introText2",
+          start: "top 50%",
+          end: "bottom 50%",
+          scrub: true,
+        },
+        stagger: 0.1,
+      }
+    );
+    introTl3.fromTo(
+      ".line3",
+      {
+        color: "#d1d1d1",
+      },
+      {
+        color: "#000000",
+        scrollTrigger: {
+          trigger: "#introText3",
+          start: "top 50%",
+          end: "bottom 50%",
+          scrub: true,
+        },
+        stagger: 0.1,
+      }
+    );
+
+    const introVideoTimeline = gsap.timeline();
+    introVideoTimeline.to("#introVideoCover", {
+      xPercent: -100,
+      scrollTrigger: {
+        trigger: "#introVideo",
+        start: "top 50%",
+        end: "30% 50%",
+        scrub: true,
+      },
+    });
+  </script>
 </Layout>
-
-<script>
-  import gsap from "gsap";
-  import SplitType from "split-type";
-
-  import { ScrollTrigger } from "gsap/ScrollTrigger";
-  gsap.registerPlugin(ScrollTrigger);
-
-  new SplitType("#introText1", { types: "lines", lineClass: "line1" });
-  new SplitType("#introText2", { types: "lines", lineClass: "line2" });
-  new SplitType("#introText3", { types: "lines", lineClass: "line3" });
-
-  const introTl1 = gsap.timeline();
-  const introTl2 = gsap.timeline();
-  const introTl3 = gsap.timeline();
-
-  introTl1.fromTo(
-    ".line1",
-    {
-      color: "#d1d1d1",
-    },
-    {
-      color: "#000000",
-      scrollTrigger: {
-        trigger: "#introText1",
-        start: "top 50%",
-        end: "bottom 50%",
-        scrub: true,
-      },
-      stagger: 0.1,
-    }
-  );
-  introTl2.fromTo(
-    ".line2",
-    {
-      color: "#d1d1d1",
-    },
-    {
-      color: "#000000",
-      scrollTrigger: {
-        trigger: "#introText2",
-        start: "top 50%",
-        end: "bottom 50%",
-        scrub: true,
-      },
-      stagger: 0.1,
-    }
-  );
-  introTl3.fromTo(
-    ".line3",
-    {
-      color: "#d1d1d1",
-    },
-    {
-      color: "#000000",
-      scrollTrigger: {
-        trigger: "#introText3",
-        start: "top 50%",
-        end: "bottom 50%",
-        scrub: true,
-      },
-      stagger: 0.1,
-    }
-  );
-
-  const introVideoTimeline = gsap.timeline();
-  introVideoTimeline.to("#introVideoCover", {
-    xPercent: -100,
-    scrollTrigger: {
-      trigger: "#introVideo",
-      start: "top 50%",
-      end: "30% 50%",
-      scrub: true,
-    },
-  });
-</script>
