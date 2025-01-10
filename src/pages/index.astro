@@ -1,4 +1,6 @@
 ---
+export const prerender = true;
+
 import Layout from "../layouts/Layout.astro";
 import config from "../config.json";
 import { Cloudinary } from "@cloudinary/url-gen";
@@ -372,7 +374,6 @@ const introVideoURL = introVideo.toURL();
                 </label>
                 {field.name === "message" ? (
                   <textarea
-                    disabled
                     id={field.name}
                     name={field.name}
                     class="w-full px-3 py-2 text-gray-700 border  focus:outline-none focus:border-primary"
@@ -380,7 +381,6 @@ const introVideoURL = introVideo.toURL();
                   />
                 ) : (
                   <input
-                    disabled
                     type={field.name === "email" ? "email" : "text"}
                     id={field.name}
                     name={field.name}
@@ -401,7 +401,6 @@ const introVideoURL = introVideo.toURL();
                 interests.map((interest) => (
                   <label class="inline-flex items-center">
                     <input
-                      disabled
                       type="checkbox"
                       name="interests"
                       value={interest}
@@ -416,7 +415,6 @@ const introVideoURL = introVideo.toURL();
 
           <div class="text-center">
             <button
-              disabled
               type="submit"
               class="bg-primary text-white font-bold py-2 px-4 rounded-lg transition duration-300"
             >
