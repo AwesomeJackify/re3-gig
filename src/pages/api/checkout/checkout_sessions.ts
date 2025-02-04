@@ -18,11 +18,15 @@ export const POST: APIRoute = async ({ request }) => {
       return new Response("Missing userId", { status: 400 });
     }
 
+    const domain = import.meta.env.PROD
+      ? "https://rethree.online"
+      : "http://localhost:4321";
+
     // Create a new Stripe Checkout session
     const session = await stripe.checkout.sessions.create({
       success_url:
-        "https://rethree.online/dashboard/settings?success=Payment Successful", // Redirect after successful payment
-      cancel_url: "https://rethree.online/dashboard/settings", // Redirect if the user cancels
+        domain + "/dashboard/settings?success=Payment Successful", // Redirect after successful payment
+      cancel_url: domain + "/dashboard/settings", // Redirect if the user cancels
       line_items: [
         {
           price: "price_1QBk8ZC3780jfgXdTmEL5WNk", // Replace with your Stripe price ID

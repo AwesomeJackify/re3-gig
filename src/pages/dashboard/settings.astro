@@ -1,12 +1,10 @@
 ---
-export const prerender = false;
 import DashboardLayout from "../../layouts/DashboardLayout.tsx";
 import { supabase } from "../../lib/supabase";
 import Layout from "../../layouts/Layout.astro";
 import Alert from "../../components/Alert";
 
 import Stripe from "stripe";
-
 const stripe = new Stripe(
   import.meta.env.PROD
     ? import.meta.env.PUBLIC_STRIPE_SECRET_KEY
@@ -34,7 +32,6 @@ const { data: stripeData, error: stripeError } = await supabase
   .single();
 
 let portalSession = null;
-
 const redirectUrl = import.meta.env.PROD
   ? "https://rethree.online/dashboard/settings"
   : "http://localhost:4321/dashboard/settings";
