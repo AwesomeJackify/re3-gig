@@ -37,6 +37,7 @@ export const POST: APIRoute = async ({ request }) => {
     let session;
     let customerId;
     let userId;
+    let customerName;
     let customerEmail;
 
     // Handle different event types
@@ -54,7 +55,9 @@ export const POST: APIRoute = async ({ request }) => {
         session = event.data.object;
         customerId = session.customer;
         userId = session.metadata?.user_id; // Assuming you are passing user_id in metadata
-        customerEmail = session.customer_email;
+        customerName = session.customer_details?.name;
+        customerEmail = session.customer_details?.email;
+
         if (!userId) {
           console.error("user_id is missing in session metadata.");
           return new Response("user_id is missing in session metadata.", {
@@ -77,7 +80,7 @@ export const POST: APIRoute = async ({ request }) => {
             // If the user doesn't exist, insert a new record
             const { data, error } = await supabase
               .from("stripe_customers")
-              .insert([{ user_id: userId, customer_email: customerEmail, customer_id: customerId }]);
+              .insert([{ user_id: userId, customer_name: customerName, customer_email: customerEmail, customer_id: customerId }]);
 
             if (error) {
               console.error("Error inserting customerId:", error);
