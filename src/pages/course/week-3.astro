@@ -1,111 +1,64 @@
 ---
 export const prerender = false;
-import CourseLayout from '../../layouts/CourseLayout.astro';
-import CourseSection from '../../components/course/CourseSection.astro';
+import CourseLayout from "../../layouts/CourseLayout.astro";
+import CourseSection from "../../components/course/CourseSection.astro";
 
-import NotesList from '../../components/course/NotesList.astro';
-import SubSection from '../../components/course/SubSection.astro';
-import { YouTube } from 'astro-embed';
+import NotesList from "../../components/course/NotesList.astro";
+import SubSection from "../../components/course/SubSection.astro";
+import { YouTube } from "astro-embed";
 
 const outline = [
-  { id: 'meditation', title: 'Meditation' },
-  { id: 'breathwork', title: 'Breathwork' },
-  { id: 'affirmations', title: 'Affirmations' },
+  { id: "meditation", title: "Meditation" },
+  { id: "breathwork", title: "Breathwork" },
 ];
-
 ---
 
 <CourseLayout title="Week 3" showNav={true} showFooter={true} outline={outline}>
   <!-- Introduction Section -->
   <CourseSection id="meditation" title="Meditation">
-    <YouTube
-      id="https://www.youtube.com/watch?v=eVDuQ6PB-Qs"
-    
-    />
+    <YouTube id="https://www.youtube.com/watch?v=eVDuQ6PB-Qs" />
 
     <SubSection title="Key Notes from Meditation">
       <NotesList
         items={[
-          'Meditation is not about shutting thoughts off.',
-          'There is no such thing as being good or bad at meditation.',
-          'Anytime your thoughts wander and you bring yourself back to the present moment, it’s like a mini spiritual awakening.',
-          'You can use our guided meditation available in the eBook.',
-          'Choose a quiet space.',
-          'Sit on the ground or in a chair. If on the ground, it helps to put a firm cushion under your bum to tilt your pelvis forward.',
-          'Take a few deep breaths and return to your natural breath.',
+          "Meditation is not about shutting thoughts off.",
+          "There is no such thing as being good or bad at meditation.",
+          "Anytime your thoughts wander and you bring yourself back to the present moment, it’s like a mini spiritual awakening.",
+          "You can use our guided meditation available in the eBook.",
+          "Choose a quiet space.",
+          "Sit on the ground or in a chair. If on the ground, it helps to put a firm cushion under your bum to tilt your pelvis forward.",
+          "Take a few deep breaths and return to your natural breath.",
         ]}
       />
     </SubSection>
-    
 
     <SubSection title="Tips on Quietening Your Thoughts">
-        <NotesList
-          items={[
-            'Movie screen analogy.',
-            'Cloud analogy.',
-            'Don’t become attached to your thoughts. Let them come and let them go.',
-          ]}
-        />
-      </SubSection>
-      
-
-
+      <NotesList
+        items={[
+          "Movie screen analogy.",
+          "Cloud analogy.",
+          "Don’t become attached to your thoughts. Let them come and let them go.",
+        ]}
+      />
+    </SubSection>
   </CourseSection>
 
   <!-- Food Education Section -->
   <CourseSection id="breathwork" title="Breathwork">
-    <YouTube
-      id="https://www.youtube.com/watch?v=Q81uDiKYnHI"
-    />
+    <YouTube id="https://www.youtube.com/watch?v=Q81uDiKYnHI" />
 
     <SubSection title="Key Notes from Breathwork">
-        <NotesList
-          items={[
-            'Breathwork is having conscious control over your breath.',
-            'Breathwork has been proven to help with anxiety, depression, stress, respiratory issues, and trauma release.',
-            'Anxiety shortens the breath; breathwork lengthens the breath.',
-            'Choose a quiet space, sitting up or laying down.',
-            'Use our breathwork soundtrack and follow guided instructions.',
-            'Anxiety is your soul sending physical symptoms to your body when it needs attention and that attention should be leaned into as your self-care.',
-            'Adding your meditation naturally is the easiest way to get both.',
-          ]}
-        />
-      </SubSection>
-      
-
- 
-  </CourseSection>
-
-  <CourseSection id="affirmations" title="Affirmations">
-    <YouTube
-      id="https://www.youtube.com/watch?v=bINKUIpEzVk"
-    
-    />
-  
-    <SubSection title="Key Notes from Affirmations Video">
       <NotesList
         items={[
-          'Your words have power.',
-          'Our subconscious does not know lies, so watch how you talk about yourself.',
-          'If you want your true desires to come true, you must write your own personalized affirmations.',
-          'Build the head and heart coherence - the affirmation is a thought in your head, but you must believe you are already that with your heart. Put your emotion behind your affirmation.',
-          'You can have as many affirmations on the go at one time as you like.',
-          'Write your affirmations in your notes, set an alarm for 3 times a day. When your alarm goes off, say your affirmations in private.',
-        ]}
-      />
-    </SubSection>
-  
-    <SubSection title="How to Write Your Affirmations">
-      <NotesList
-        items={[
-          'Write down your desires (e.g., better dad).',
-          'Start with the most powerful phrase "I am" (e.g., "I am the best dad to my children").',
-          'Get descriptive (e.g., "I am supportive and attentive to my children\'s needs").',
-          'Full affirmation: "I am the best dad to my children, I am supportive and attentive of my children\'s needs."',
+          "Breathwork is having conscious control over your breath.",
+          "Breathwork has been proven to help with anxiety, depression, stress, respiratory issues, and trauma release.",
+          "Anxiety shortens the breath; breathwork lengthens the breath.",
+          "Choose a quiet space, sitting up or laying down.",
+          "Use our breathwork soundtrack and follow guided instructions.",
+          "Anxiety is your soul sending physical symptoms to your body when it needs attention and that attention should be leaned into as your self-care.",
+          "Adding your meditation naturally is the easiest way to get both.",
         ]}
       />
     </SubSection>
   </CourseSection>
-  
-
 </CourseLayout>
