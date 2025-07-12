@@ -17,6 +17,7 @@ import testimonials from "../data/testimonials.json";
 import myStoryImg from "../assets/images/myStory.jpg";
 
 import { Icon } from "astro-icon/components";
+import { YouTube } from "astro-embed";
 
 const programs = [
   {
@@ -340,6 +341,14 @@ const introVideoURL = introVideo.toURL();
         FAQ and Contact
       </h1>
       <div class="grid grid-cols-2 max-md:grid-cols-1 gap-16">
+        <div class="flex flex-col gap-4">
+          <h1 class="text-4xl font-bold">RE:3's guide to breathwork</h1>
+          <YouTube id="https://www.youtube.com/watch?v=Q81uDiKYnHI" />
+        </div>
+        <div class="flex flex-col gap-4">
+          <h1 class="text-4xl font-bold">RE:3's guide to Meditation</h1>
+          <YouTube id="https://www.youtube.com/watch?v=eVDuQ6PB-Qs" />
+        </div>
         <div class="max-w-screen-md w-full flex flex-col gap-4 mx-auto">
           {
             faq.map((q, index) => (

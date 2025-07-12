@@ -12,9 +12,13 @@ const cld = new Cloudinary({
   },
 });
 
-const introVideo = cld.video("re3/david-testimonial_gsta9h");
-introVideo.resize(Resize.scale().width(1920));
-const introVideoURL = introVideo.toURL();
+const testimonialVideo1 = cld.video("re3/david-testimonial_gsta9h");
+testimonialVideo1.resize(Resize.scale().width(1920)).quality(80);
+const testimonialVideoUrl1 = testimonialVideo1.toURL();
+
+const testimonialVideo2 = cld.video("re3/david-testimonial_gsta9h");
+testimonialVideo2.resize(Resize.scale().width(1920));
+const testimonialVideoUrl2 = testimonialVideo2.toURL();
 ---
 
 <Layout title="Testimonials">
@@ -69,7 +73,7 @@ const introVideoURL = introVideo.toURL();
         playsinline
         class="w-full aspect-video max-md:h-96 object-cover mt-8"
       >
-        <source src={introVideoURL} type="video/mp4" />
+        <source src={testimonialVideoUrl1} type="video/mp4" />
       </video>
     </div>
   </section>
