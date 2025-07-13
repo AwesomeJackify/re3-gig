@@ -5,6 +5,7 @@ import heroImg from "../assets/images/testimonials.jpg";
 import testimonials from "../data/testimonials.json";
 import { Cloudinary } from "@cloudinary/url-gen";
 import { Resize } from "@cloudinary/url-gen/actions";
+import { YouTube } from "astro-embed";
 
 const cld = new Cloudinary({
   cloud: {
@@ -58,23 +59,18 @@ const testimonialVideoUrl2 = testimonialVideo2.toURL();
             </div>
           ))
         }
+        <video
+          id="introVideo"
+          loop
+          muted
+          controls
+          playsinline
+          class="aspect-square"
+        >
+          <source src={testimonialVideoUrl1} type="video/mp4" />
+        </video>
+        <YouTube id="https://www.youtube.com/watch?v=x1wfB0N5D5I" />
       </div>
-      <h1
-        class="text-4xl max-md:text-2xl text-center mt-8 font-light text-primary"
-      >
-        David's thoughts on RE:3
-      </h1>
-      <video
-        id="introVideo"
-        autoplay
-        loop
-        muted
-        controls
-        playsinline
-        class="w-full aspect-video max-md:h-96 object-cover mt-8"
-      >
-        <source src={testimonialVideoUrl1} type="video/mp4" />
-      </video>
     </div>
   </section>
 </Layout>
