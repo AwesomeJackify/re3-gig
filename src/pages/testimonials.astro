@@ -16,10 +16,6 @@ const cld = new Cloudinary({
 const testimonialVideo1 = cld.video("re3/david-testimonial_gsta9h");
 testimonialVideo1.resize(Resize.scale().width(1920)).quality(80);
 const testimonialVideoUrl1 = testimonialVideo1.toURL();
-
-const testimonialVideo2 = cld.video("re3/david-testimonial_gsta9h");
-testimonialVideo2.resize(Resize.scale().width(1920));
-const testimonialVideoUrl2 = testimonialVideo2.toURL();
 ---
 
 <Layout title="Testimonials">
