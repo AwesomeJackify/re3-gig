@@ -63,6 +63,6 @@
     "vitest": "^4.0.18"
   },
   "lint-staged": {
-    "*.{js,ts,jsx,tsx,astro}": "eslint src --fix"
+    "*.{js,ts,jsx,tsx,astro}": "eslint --fix"
   }
 }

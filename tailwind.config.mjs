@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-require-imports */
 /** @type {import('tailwindcss').Config} */
 export default {
   content: ["./src/**/*.{astro,html,js,jsx,md,mdx,svelte,ts,tsx,vue}"],
@@ -8,6 +9,7 @@ export default {
     themes: [
       {
         cmyk: {
+          // eslint-disable-next-line no-undef
           ...require("daisyui/src/theming/themes")["cmyk"],
           primary: "#FF0000",
           success: "#06c251",
@@ -15,5 +17,6 @@ export default {
       },
     ],
   },
+  // eslint-disable-next-line no-undef
   plugins: [require("daisyui")],
 };
