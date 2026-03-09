@@ -1,5 +1,6 @@
 import { supabase } from "./lib/supabase";
-import { URL, Response } from "node:url";
+import { URL } from "node:url";
+import { Response } from "undici";
 import { setFlash } from "./lib/flash";
 
 export async function onRequest(context, next) {
