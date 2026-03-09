@@ -1,6 +1,6 @@
-import React from "react";
 import TaskHistory from "./TaskHistory";
 import JournalHistory from "./JournalHistory";
+import type { Journal, Task } from "../../types";
 
 interface Props {
   tasks?: Task[];

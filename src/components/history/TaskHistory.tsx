@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Icon } from "@iconify/react";
 import { format } from "date-fns";
+import type { Task } from "../../types";
 
 interface TaskHistoryProps {
   tasks?: Task[];
@@ -15,50 +16,53 @@ const TaskHistory = ({ tasks, timeframe, isAdmin }: TaskHistoryProps) => {
 
   // Function to group tasks by date
   const groupTasksByDate = (tasks: Task[]) => {
-    return tasks.reduce((acc: { [key: string]: Task[] }, task) => {
-      const taskDate = new Date(task.created_at);
-      const date = taskDate.toISOString().split("T")[0];
+    return tasks.reduce(
+      (acc: { [key: string]: Task[] }, task) => {
+        const taskDate = new Date(task.created_at);
+        const date = taskDate.toISOString().split("T")[0];
 
-      // Get the current date
-      const today = new Date();
+        // Get the current date
+        const today = new Date();
 
-      // Calculate the most recent Monday (start of the week)
-      const currentDayOfWeek = today.getDay(); // Sunday = 0, Monday = 1, ..., Saturday = 6
-      const daysSinceMonday = (currentDayOfWeek + 6) % 7; // Offset for Monday (getDay() is 0-indexed from Sunday)
-      const monday = new Date(today);
-      monday.setDate(today.getDate() - daysSinceMonday); // Go back to the most recent Monday
-      monday.setHours(0, 0, 0, 0); // Set time to start of the day
+        // Calculate the most recent Monday (start of the week)
+        const currentDayOfWeek = today.getDay(); // Sunday = 0, Monday = 1, ..., Saturday = 6
+        const daysSinceMonday = (currentDayOfWeek + 6) % 7; // Offset for Monday (getDay() is 0-indexed from Sunday)
+        const monday = new Date(today);
+        monday.setDate(today.getDate() - daysSinceMonday); // Go back to the most recent Monday
+        monday.setHours(0, 0, 0, 0); // Set time to start of the day
 
-      // Calculate the upcoming Sunday (end of the week)
-      const sunday = new Date(monday);
-      sunday.setDate(monday.getDate() + 6); // Add 6 days to get Sunday
-      sunday.setHours(23, 59, 59, 999); // Set time to the end of the day
+        // Calculate the upcoming Sunday (end of the week)
+        const sunday = new Date(monday);
+        sunday.setDate(monday.getDate() + 6); // Add 6 days to get Sunday
+        sunday.setHours(23, 59, 59, 999); // Set time to the end of the day
 
-      // Calculate the date 7 days ago
-      const sevenDaysAgo = new Date(today);
-      sevenDaysAgo.setDate(today.getDate() - 7); // Go back 7 days
-      sevenDaysAgo.setHours(0, 0, 0, 0); // Set time to start of the day
+        // Calculate the date 7 days ago
+        const sevenDaysAgo = new Date(today);
+        sevenDaysAgo.setDate(today.getDate() - 7); // Go back 7 days
+        sevenDaysAgo.setHours(0, 0, 0, 0); // Set time to start of the day
 
-      // Handle different timeframes
-      if (timeframe === "weekly") {
-        // Filter tasks for the current week (Monday to Sunday)
-        if (taskDate < monday || taskDate > sunday) {
-          return acc; // Skip tasks outside of this week
+        // Handle different timeframes
+        if (timeframe === "weekly") {
+          // Filter tasks for the current week (Monday to Sunday)
+          if (taskDate < monday || taskDate > sunday) {
+            return acc; // Skip tasks outside of this week
+          }
+        } else if (timeframe === "last7days") {
+          // Filter tasks for the last 7 days
+          if (taskDate < sevenDaysAgo || taskDate > today) {
+            return acc; // Skip tasks outside of the last 7 days
+          }
         }
-      } else if (timeframe === "last7days") {
-        // Filter tasks for the last 7 days
-        if (taskDate < sevenDaysAgo || taskDate > today) {
-          return acc; // Skip tasks outside of the last 7 days
+
+        if (!acc[date]) {
+          acc[date] = [];
         }
-      }
+        acc[date].push(task);
 
-      if (!acc[date]) {
-        acc[date] = [];
-      }
-      acc[date].push(task);
-
-      return acc;
-    }, {} as { [key: string]: Task[] });
+        return acc;
+      },
+      {} as { [key: string]: Task[] },
+    );
   };
 
   const addCompletedTasksCount = (tasks: { [key: string]: Task[] }) => {
@@ -135,7 +139,7 @@ const TaskHistory = ({ tasks, timeframe, isAdmin }: TaskHistoryProps) => {
                       .sort(
                         (a, b) =>
                           new Date(b.created_at).getTime() -
-                          new Date(a.created_at).getTime()
+                          new Date(a.created_at).getTime(),
                       )
                       .map((task, index) => (
                         <li
