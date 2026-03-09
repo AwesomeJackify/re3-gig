@@ -1,4 +1,6 @@
 import { supabase } from "./lib/supabase";
+import { URL, Response } from "node:url";
+import { setFlash } from "./lib/flash";
 
 export async function onRequest(context, next) {
   // Get the URL of the incoming request
@@ -7,13 +9,6 @@ export async function onRequest(context, next) {
 
   const accessToken = cookies.get("sb-access-token");
   const refreshToken = cookies.get("sb-refresh-token");
-
-  if (url.pathname.startsWith("/course/")) {
-    const { redirect } = await protectCourse(request);
-    if (redirect) {
-      return Response.redirect(new URL(redirect, request.url), 302);
-    }
-  }
 
   if (url.pathname.startsWith("/login")) {
     if (accessToken && refreshToken) {
@@ -31,7 +26,7 @@ export async function onRequest(context, next) {
     // Validate the tokens and set the Supabase session
     const sessionError = await validateSession(
       accessToken.value,
-      refreshToken.value
+      refreshToken.value,
     );
 
     if (sessionError) {
@@ -40,6 +35,13 @@ export async function onRequest(context, next) {
       cookies.delete("sb-refresh-token", { path: "/" });
       return redirectToLogin();
     }
+
+    if (url.pathname.startsWith("/course/")) {
+      const { redirect } = await protectCourse(request);
+      if (redirect) {
+        return Response.redirect(new URL(redirect, request.url), 302);
+      }
+    }
   }
 
   // Continue to the next middleware or the final handler
@@ -47,12 +49,9 @@ export async function onRequest(context, next) {
 
   // Utility function to determine if authentication is required for a route
   function shouldAuthenticate(pathname) {
-    // Define routes that require authentication
-    const protectedRoutes = ["/dashboard", "/course"];
-    // Check if the current path is exactly '/dashboard' or starts with '/course'
-    return (
-      protectedRoutes.includes(pathname) || pathname.startsWith("/course/")
-    );
+    const protectedPrefixes = ["/dashboard", "/course"];
+
+    return protectedPrefixes.some((prefix) => pathname.startsWith(prefix));
   }
 
   // Helper function to validate the session
@@ -88,40 +87,67 @@ export async function onRequest(context, next) {
         }
       }
 
-      return null; // No errors, session is valid
-    } catch (error) {
-      return true; // Indicate an error occurred
+      return null;
+    } catch {
+      return true;
     }
   }
 
-  async function protectCourse(request) {
+  async function protectCourse() {
     // Get the current session
-    const { data: sessionData, error: sessionError } =
-      await supabase.auth.getSession();
+    const { data: sessionData } = await supabase.auth.getSession();
 
     if (!sessionData?.session?.user) {
+      setFlash(
+        cookies,
+        "error",
+        "Please purchase a subscription plan to view courses.",
+      );
+
       return { redirect: "/login" };
     }
 
     const currentUserId = sessionData.session.user.id;
 
     // Check if the user has an active subscription
-    const { data: customerData, error: customerError } = await supabase
+    const { data: customerData } = await supabase
       .from("stripe_customers")
       .select("*")
       .eq("user_id", currentUserId)
       .single();
 
     if (!customerData) {
+      cookies.set(
+        "flash",
+        JSON.stringify({
+          type: "error",
+          message: "Please purchase a subscription plan to view courses",
+        }),
+        {
+          path: "/",
+          maxAge: 10,
+        },
+      );
+
       return {
-        redirect:
-          "/dashboard/settings?error=Please purchase a subscription plan to view courses",
+        redirect: "/dashboard/settings",
       }; // Redirect to subscription page
     }
     if (!customerData.show_courses) {
+      cookies.set(
+        "flash",
+        JSON.stringify({
+          type: "error",
+          message: "Courses are disabled by the admin. Please contact support.",
+        }),
+        {
+          path: "/",
+          maxAge: 10,
+        },
+      );
+
       return {
-        redirect:
-          "/dashboard/settings?error=Courses are disabled by the admin. Please contact support.",
+        redirect: "/dashboard/settings",
       }; // Redirect to subscription page
     }
 

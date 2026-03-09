@@ -1,6 +1,7 @@
 export const prerender = false;
 import type { APIRoute } from "astro";
 import { supabase } from "../../../lib/supabase";
+import { setFlash } from "../../../lib/flash";
 
 export const POST: APIRoute = async ({ request, cookies, redirect }) => {
   const formData = await request.formData();
@@ -8,7 +9,8 @@ export const POST: APIRoute = async ({ request, cookies, redirect }) => {
   const password = formData.get("password")?.toString();
 
   if (!email || !password) {
-    return redirect("/login?error=Email and password are required");
+    setFlash(cookies, "error", "Email and password are required");
+    return redirect("/login");
   }
 
   const { data, error } = await supabase.auth.signInWithPassword({
@@ -17,15 +19,24 @@ export const POST: APIRoute = async ({ request, cookies, redirect }) => {
   });
 
   if (error) {
-    return redirect("/login?error=" + "Error logging in");
+    setFlash(cookies, "error", "Error logging in");
+    return redirect("/login");
   }
 
   const { access_token, refresh_token } = data.session;
+
   cookies.set("sb-access-token", access_token, {
     path: "/",
+    httpOnly: true,
+    secure: true,
+    sameSite: "lax",
   });
+
   cookies.set("sb-refresh-token", refresh_token, {
     path: "/",
+    httpOnly: true,
+    secure: true,
+    sameSite: "lax",
   });
   return redirect("/dashboard");
 };

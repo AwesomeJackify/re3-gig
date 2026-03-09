@@ -4,6 +4,7 @@ import Layout from "../../layouts/Layout.astro";
 import { supabase } from "../../lib/supabase";
 import DashboardComponent from "../../components/Dashboard";
 import AdminDashboard from "../../components/AdminDashboard";
+import Alert from "../../components/Alert";
 
 // Assuming the middleware has already validated the session
 const { data: sessionData } = await supabase.auth.getSession();
@@ -29,9 +30,10 @@ const name = sessionData?.session?.user?.user_metadata?.first_name || "User";
 ---
 
 <Layout title={`Hey, ${name}`} showNav={false} showFooter={false}>
+  <Alert client:only="react" />
   {
     roleData?.role === "admin" ? (
-      <AdminDashboard client:load currentUserId={currentUserId} name={name} />
+      <AdminDashboard client:load name={name} />
     ) : (
       <DashboardComponent
         client:load

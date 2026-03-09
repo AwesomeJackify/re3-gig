@@ -1,11 +1,12 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { supabase } from "../lib/supabase";
+import type { BigGoals } from "../types";
 
 interface Props {
   userId: string | undefined;
 }
 
-const BigGoals = ({ userId }: Props) => {
+const BigGoalsComponent = ({ userId }: Props) => {
   const [textArea, setTextArea] = useState("");
   const [bigGoals, setBigGoals] = useState<BigGoals>();
   const [isSaving, setIsSaving] = useState(false);
@@ -14,7 +15,7 @@ const BigGoals = ({ userId }: Props) => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const { data, error } = await supabase
+      const { data } = await supabase
         .from("big_goals")
         .select()
         .eq("user_id", userId)
@@ -42,7 +43,7 @@ const BigGoals = ({ userId }: Props) => {
     setShowNotSaved(false);
 
     if (bigGoals) {
-      const { data, error } = await supabase
+      await supabase
         .from("big_goals")
         .update({
           big_goals: textArea,
@@ -51,7 +52,7 @@ const BigGoals = ({ userId }: Props) => {
 
       await new Promise((resolve) => setTimeout(resolve, 1000));
     } else {
-      const { error } = await supabase.from("big_goals").insert({
+      await supabase.from("big_goals").insert({
         user_id: userId,
         big_goals: textArea,
       });
@@ -128,4 +129,4 @@ const BigGoals = ({ userId }: Props) => {
   );
 };
 
-export default BigGoals;
+export default BigGoalsComponent;

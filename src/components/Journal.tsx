@@ -1,11 +1,12 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { supabase } from "../lib/supabase";
+import type { Journal } from "../types";
 
 interface Props {
   userId: string | undefined;
 }
 
-const Journal = ({ userId }: Props) => {
+const JournalComponent = ({ userId }: Props) => {
   const [textArea, setTextArea] = useState("");
   const [journal, setJournal] = useState<Journal>();
   const [isSaving, setIsSaving] = useState(false);
@@ -40,7 +41,7 @@ const Journal = ({ userId }: Props) => {
         // Sort the entries by `created_at` (assuming it's the timestamp column)
         const sortedEntries = data.sort(
           (a, b) =>
-            new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
+            new Date(b.created_at).getTime() - new Date(a.created_at).getTime(),
         );
 
         // The latest entry is the first one in the sorted array
@@ -80,7 +81,7 @@ const Journal = ({ userId }: Props) => {
   const handleSubmit = async () => {
     if (journal) {
       setIsSaving(true);
-      const { data, error } = await supabase
+      await supabase
         .from("journals")
         .update({
           journal_entry: textArea,
@@ -92,7 +93,7 @@ const Journal = ({ userId }: Props) => {
       setShowNotSaved(false);
       setShowSaved(true);
     } else {
-      const { error } = await supabase.from("journals").insert({
+      await supabase.from("journals").insert({
         user_id: userId,
         journal_entry: textArea,
       });
@@ -148,4 +149,4 @@ const Journal = ({ userId }: Props) => {
   );
 };
 
-export default Journal;
+export default JournalComponent;

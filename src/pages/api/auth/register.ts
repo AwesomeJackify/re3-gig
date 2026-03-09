@@ -1,9 +1,9 @@
-// With `output: 'hybrid'` configured:
 export const prerender = false;
 import type { APIRoute } from "astro";
 import { supabase } from "../../../lib/supabase";
+import { setFlash } from "../../../lib/flash";
 
-export const POST: APIRoute = async ({ request, redirect }) => {
+export const POST: APIRoute = async ({ request, cookies, redirect }) => {
   const formData = await request.formData();
   const fname = formData.get("fname")?.toString();
   const lname = formData.get("lname")?.toString();
@@ -11,7 +11,8 @@ export const POST: APIRoute = async ({ request, redirect }) => {
   const password = formData.get("password")?.toString();
 
   if (!email || !password || !fname || !lname) {
-    return redirect("/register12345?error=Please fill out all fields");
+    setFlash(cookies, "error", "Please fill out all fields");
+    return redirect("/register");
   }
 
   const { error } = await supabase.auth.signUp({
@@ -21,14 +22,15 @@ export const POST: APIRoute = async ({ request, redirect }) => {
       data: {
         first_name: fname,
         last_name: lname,
-      },
-      emailRedirectTo: "https://rethree.online/login",
+      }
     },
   });
 
   if (error) {
-    return redirect("/login?error=" + error.message);
+    setFlash(cookies, "error", error.message);
+    return redirect("/register");
   }
 
-  return redirect("/login?success=Account created. Please verify your email.");
+  setFlash(cookies, "success", "Account created. Please verify your email.");
+  return redirect("/login");
 };

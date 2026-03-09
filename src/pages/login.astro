@@ -3,14 +3,10 @@ export const prerender = false;
 import Layout from "../layouts/Layout.astro";
 
 import Alert from "../components/Alert";
-
-const error = Astro.url.searchParams.get("error") || "";
-const status = Astro.url.searchParams.get("status") || "";
-const success = Astro.url.searchParams.get("success") || "";
 ---
 
 <Layout title="Login">
-  <Alert status={status} error={error} success={success} />
+  <Alert client:only="react" />
   <section
     class="h-screen bg-black w-full flex justify-center items-center px-4"
   >
@@ -49,12 +45,12 @@ const success = Astro.url.searchParams.get("success") || "";
           >ENTER</button
         >
         <div class="flex flex-col gap-1">
-          <!-- <h1 class="flex gap-1 text-sm mx-auto">
+          <h1 class="flex gap-1 text-sm mx-auto">
             <span>Don't have an account?</span><a
               href="/register"
               class="w-fit link link-primary">Sign up here</a
             >
-          </h1> -->
+          </h1>
           <h1 class="flex gap-1 text-sm mx-auto">
             <a href="/forgot-password" class="w-fit link link-primary"
               >Forgot your password?</a

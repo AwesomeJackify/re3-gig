@@ -4,37 +4,40 @@ import { supabase } from "../../lib/supabase";
 import Layout from "../../layouts/Layout.astro";
 import Alert from "../../components/Alert";
 
+export const prerender = false;
+
 import Stripe from "stripe";
 const stripe = new Stripe(
   import.meta.env.PROD
-    ? import.meta.env.PUBLIC_STRIPE_SECRET_KEY
-    : import.meta.env.PUBLIC_STRIPE_TEST_SECRET_KEY
+    ? import.meta.env.PROD_STRIPE_SECRET_KEY
+    : import.meta.env.TEST_STRIPE_SECRET_KEY,
 );
 
-const { data: sessionData, error: sessionError } =
-  await supabase.auth.getSession();
-const status = Astro.url.searchParams.get("status") || "";
-const success = Astro.url.searchParams.get("success") || "";
-const error = Astro.url.searchParams.get("error") || "";
+const { data: sessionData } = await supabase.auth.getSession();
 
-const currentUserId = sessionData?.session?.user?.id || null;
+if (!sessionData.session) {
+  return Astro.redirect("/login");
+}
 
-const { data: rolesData, error: rolesError } = await supabase
+const currentUserId = sessionData.session.user.id;
+
+const { data: rolesData } = await supabase
   .from("roles")
   .select("*")
   .eq("user_id", currentUserId)
   .single();
 
-const { data: stripeData, error: stripeError } = await supabase
+const { data: stripeData } = await supabase
   .from("stripe_customers")
   .select("*")
   .eq("user_id", currentUserId)
   .single();
 
 let portalSession = null;
-const redirectUrl = import.meta.env.PROD
-  ? "https://rethree.online/dashboard/settings"
-  : "http://localhost:4321/dashboard/settings";
+
+const { origin } = Astro.url;
+
+const redirectUrl = `${origin}/dashboard/settings`;
 
 if (stripeData && stripeData.customer_id) {
   // Create a billing portal session
@@ -43,41 +46,10 @@ if (stripeData && stripeData.customer_id) {
     return_url: redirectUrl, // Redirect back to your site after the session
   });
 }
-
-if (Astro.request.method === "POST") {
-  try {
-    if (!currentUserId) {
-      return Astro.redirect("/login");
-    }
-
-    // Make the POST request to your API route
-    const response = await fetch(
-      `${Astro.url.origin}/api/checkout/checkout_sessions`,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          userId: currentUserId,
-        }),
-      }
-    );
-
-    const data = await response.json();
-
-    // Check if the URL is returned, and redirect the user to Stripe Checkout
-    if (data.url) {
-      return Astro.redirect(data.url); // Redirect to Stripe Checkout
-    }
-  } catch (stripeError) {
-    console.error("Error creating checkout session:", stripeError);
-  }
-}
 ---
 
 <Layout title="Settings" showNav={false} showFooter={false}>
-  <Alert status={status} error={error} success={success} />
+  <Alert client:only="react" />
   <DashboardLayout client:load>
     <div class="flex flex-col items-center gap-16">
       <h1 class="font-bold text-6xl">Settings</h1>
@@ -88,7 +60,7 @@ if (Astro.request.method === "POST") {
               Manage Course
             </a>
           ) : (
-            <form method="POST" class="w-full">
+            <form method="POST" class="w-full" action="/dashboard/checkout">
               <button type="submit" class="btn btn-primary btn-lg w-full">
                 Purchase course
               </button>
@@ -131,7 +103,6 @@ if (Astro.request.method === "POST") {
             </form>
             <div class="modal-action">
               <form method="dialog">
-                <!-- if there is a button in form, it will close the modal -->
                 <button class="btn">Close</button>
               </form>
             </div>

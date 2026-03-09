@@ -1,18 +1,25 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { supabase_admin } from "../lib/supabase_admin";
-import { Icon } from "@iconify/react";
 import History from "./history/History";
 import DashboardLayout from "../layouts/DashboardLayout";
+import type { BigGoals, Task } from "../types";
 
 interface Props {
-  currentUserId: string | undefined;
   name: string;
 }
 
-const AdminDashboard = ({ currentUserId, name }: Props) => {
-  const [users, setUsers] = useState<any>([]);
+interface User {
+  id: string;
+  user_metadata: {
+    first_name?: string; // Make optional to match Supabase User type
+    last_name?: string; // Make optional to match Supabase User type
+  };
+}
+
+const AdminDashboard = ({ name }: Props) => {
+  const [users, setUsers] = useState<User[]>([]);
   const [currentClientId, setCurrentClientId] = useState<string>("");
-  const [tasks, setTasks] = useState<any>([]);
+  const [tasks, setTasks] = useState<Task[]>([]);
   const [bigGoals, setBigGoals] = useState<BigGoals>();
 
   useEffect(() => {
@@ -20,7 +27,7 @@ const AdminDashboard = ({ currentUserId, name }: Props) => {
       if (!currentClientId) {
         return;
       }
-      const { data: todosData, error: todosError } = await supabase_admin
+      const { data: todosData } = await supabase_admin
         .from("todos")
         .select()
         .eq("user_id", currentClientId);
@@ -30,6 +37,7 @@ const AdminDashboard = ({ currentUserId, name }: Props) => {
           return {
             id: task.id,
             name: task.name,
+            user_id: task.user_id, // Include user_id
             is_complete: task.is_complete,
             created_at: task.created_at,
           };
@@ -50,7 +58,9 @@ const AdminDashboard = ({ currentUserId, name }: Props) => {
 
       if (stripeError) throw stripeError;
 
-      const stripeCustomersNonAdmin = stripeCustomers.filter(x => x.customer_id !== null);
+      const stripeCustomersNonAdmin = stripeCustomers.filter(
+        (x) => x.customer_id !== null,
+      );
 
       // Extract user IDs from the results
       const userIds =
@@ -63,8 +73,8 @@ const AdminDashboard = ({ currentUserId, name }: Props) => {
 
         if (usersError) throw usersError;
 
-        const usersWithStripe = users.users?.filter((user: any) =>
-          userIds.includes(user.id)
+        const usersWithStripe = users.users?.filter((user: User) =>
+          userIds.includes(user.id),
         );
 
         // Now you have `users` with details only for those who exist in `stripe_customers`
@@ -87,7 +97,7 @@ const AdminDashboard = ({ currentUserId, name }: Props) => {
       return;
     }
     const fetchBigGoals = async () => {
-      const { data, error } = await supabase_admin
+      const { data } = await supabase_admin
         .from("big_goals")
         .select()
         .eq("user_id", currentClientId)
@@ -96,10 +106,10 @@ const AdminDashboard = ({ currentUserId, name }: Props) => {
       if (data && data.length > 0) {
         setBigGoals(data[0]);
       }
-    }
+    };
 
     fetchBigGoals();
-  }, [currentClientId])
+  }, [currentClientId]);
 
   return (
     <DashboardLayout name={name} showSettings={true} showCourse>
@@ -115,7 +125,7 @@ const AdminDashboard = ({ currentUserId, name }: Props) => {
               </tr>
             </thead>
             <tbody>
-              {users.map((user: any, index: number) => (
+              {users.map((user: User, index: number) => (
                 <tr
                   key={index}
                   onClick={() => handleOnClick(user.id, index)}
@@ -132,7 +142,7 @@ const AdminDashboard = ({ currentUserId, name }: Props) => {
           </table>
         </div>
       </section>
-      {users.map((user: any, index: number) => (
+      {users.map((user: User, index: number) => (
         <dialog
           id={`my_modal_${index}`}
           className="modal max-md:modal-bottom"
@@ -143,25 +153,21 @@ const AdminDashboard = ({ currentUserId, name }: Props) => {
               {user.user_metadata.first_name}'s progress
             </h3>
             <div>
-              {
-                bigGoals ? (
-                  <div>
-                    <h4 className="font-medium text-lg">Big Goals</h4>
-                    <p>{bigGoals?.big_goals}</p>
-                  </div>
-                ) : <p>No big goals yet...</p>
-              }
-
+              {bigGoals ? (
+                <div>
+                  <h4 className="font-medium text-lg">Big Goals</h4>
+                  <p>{bigGoals?.big_goals}</p>
+                </div>
+              ) : (
+                <p>No big goals yet...</p>
+              )}
             </div>
             <hr />
             <div className="flex flex-col gap-2">
-              {
-                tasks.length > 0 && (
-                  <h4 className="font-medium text-lg">Small Wins</h4>
-                )
-              }
+              {tasks.length > 0 && (
+                <h4 className="font-medium text-lg">Small Wins</h4>
+              )}
               <History timeframe="last7days" tasks={tasks} isAdmin={true} />
-
             </div>
             <form method="dialog" className="modal-backdrop">
               {/* if there is a button in form, it will close the modal */}
