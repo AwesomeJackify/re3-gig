@@ -30,7 +30,6 @@ const name = sessionData?.session?.user?.user_metadata?.first_name || "User";
 ---
 
 <Layout title={`Hey, ${name}`} showNav={false} showFooter={false}>
-  <Alert client:only="react" />
   {
     roleData?.role === "admin" ? (
       <AdminDashboard client:load name={name} />

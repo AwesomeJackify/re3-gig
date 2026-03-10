@@ -22,7 +22,7 @@ export const POST: APIRoute = async ({ request, cookies, redirect }) => {
       data: {
         first_name: fname,
         last_name: lname,
-      }
+      },
     },
   });
 
