@@ -29,6 +29,7 @@ export const POST: APIRoute = async ({ request, cookies, redirect }) => {
         first_name: fname,
         last_name: lname,
       },
+      emailRedirectTo: `https://rethree.online/login`
     },
   });
 

@@ -74,6 +74,7 @@ describe("register API", () => {
           first_name: "Jack",
           last_name: "Gong",
         },
+        emailRedirectTo: `https://rethree.online/login`
       },
     });
     expect(res.status).toBe(302);
