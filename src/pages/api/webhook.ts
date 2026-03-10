@@ -7,7 +7,7 @@ export const prerender = false;
 // Initialize the Stripe client
 const stripe = new Stripe(
   import.meta.env.PROD
-    ? import.meta.env.STRIPE_SECRET_KEY
+    ? import.meta.env.PROD_STRIPE_SECRET_KEY
     : import.meta.env.TEST_STRIPE_SECRET_KEY
 );
 
