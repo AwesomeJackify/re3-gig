@@ -8,10 +8,12 @@ export const prerender = false;
 const stripe = new Stripe(
   import.meta.env.PROD
     ? import.meta.env.PROD_STRIPE_SECRET_KEY
-    : import.meta.env.TEST_STRIPE_SECRET_KEY
+    : import.meta.env.TEST_STRIPE_SECRET_KEY,
 );
 
-const webhookSecret = import.meta.env.PROD ? import.meta.env.PROD_STRIPE_WEBHOOK_SECRET : import.meta.env.TEST_STRIPE_WEBHOOK_SECRET;
+const webhookSecret = import.meta.env.PROD
+  ? import.meta.env.PROD_STRIPE_WEBHOOK_SECRET
+  : import.meta.env.TEST_STRIPE_WEBHOOK_SECRET;
 
 export const POST: APIRoute = async ({ request }) => {
   const body = await request.text();
@@ -22,7 +24,10 @@ export const POST: APIRoute = async ({ request }) => {
   try {
     event = stripe.webhooks.constructEvent(body, signature!, webhookSecret);
   } catch (err: unknown) {
-    return new Response(`Webhook Error: ${err instanceof Error ? err.message : "Unknown error"}`, { status: 400 });
+    return new Response(
+      `Webhook Error: ${err instanceof Error ? err.message : "Unknown error"}`,
+      { status: 400 },
+    );
   }
 
   if (event.type === "checkout.session.completed") {
