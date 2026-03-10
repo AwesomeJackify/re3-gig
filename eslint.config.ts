@@ -1,6 +1,7 @@
 import js from "@eslint/js";
 import tseslint from "typescript-eslint";
 import unusedImports from "eslint-plugin-unused-imports";
+import globals from "globals";
 
 export default [
   js.configs.recommended,
@@ -18,7 +19,17 @@ export default [
     },
   },
   {
-    files: ["**/*.{ts,tsx,mts,cts,js}"],
+    files: ["**/*.{js,mjs,cjs}"],
+    languageOptions: {
+      globals: {
+        ...globals.node,
+        URL: "readonly",
+        Response: "readonly",
+      },
+    },
+  },
+  {
+    files: ["**/*.{ts,tsx,mts,cts}"],
     rules: {
       "no-undef": "off",
     },
