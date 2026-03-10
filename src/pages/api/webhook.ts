@@ -25,7 +25,7 @@ export const POST: APIRoute = async ({ request }) => {
     event = stripe.webhooks.constructEvent(body, signature!, webhookSecret);
   } catch (err: unknown) {
     return new Response(
-      `Webhook Error: ${err instanceof Error ? signature + ": " + webhookSecret + ": " + err.message : "Unknown error"}`,
+      `Webhook Error: ${err instanceof Error ? err.message : "Unknown error"}`,
       { status: 400 },
     );
   }
