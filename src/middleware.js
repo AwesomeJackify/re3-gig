@@ -6,12 +6,18 @@ export async function onRequest(context, next) {
   const url = new URL(context.request.url);
   const { cookies, request } = context;
 
+  const redirectResponse = (path, status = 302) =>
+    new Response(null, {
+      status,
+      headers: { Location: new URL(path, request.url).toString() },
+    });
+
   const accessToken = cookies.get("sb-access-token");
   const refreshToken = cookies.get("sb-refresh-token");
 
   if (url.pathname.startsWith("/login")) {
     if (accessToken && refreshToken) {
-      return Response.redirect(new URL("/dashboard", request.url), 302);
+      return redirectResponse("/login");
     }
   }
 
@@ -38,7 +44,7 @@ export async function onRequest(context, next) {
     if (url.pathname.startsWith("/course/")) {
       const { redirect } = await protectCourse(request);
       if (redirect) {
-        return Response.redirect(new URL(redirect, request.url), 302);
+        if (redirect) return redirectResponse(redirect);
       }
     }
   }
@@ -156,6 +162,6 @@ export async function onRequest(context, next) {
 
   // Helper function to handle redirects
   function redirectToLogin() {
-    return Response.redirect(new URL("/login", request.url), 302);
+    return redirectResponse("/login");
   }
 }
