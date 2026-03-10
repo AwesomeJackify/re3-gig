@@ -3,8 +3,8 @@ export const prerender = false;
 
 import Layout from "../../layouts/Layout.astro";
 import config from "../../config.json";
-
 import Stripe from "stripe";
+
 const stripe = new Stripe(
   import.meta.env.PROD
     ? import.meta.env.PROD_STRIPE_SECRET_KEY
@@ -29,7 +29,7 @@ if (!session.customer_details) {
   throw new Error("Customer details not found");
 }
 
-const { name, email } = session.customer_details;
+const { name } = session.customer_details;
 ---
 
 <Layout title={config.businessName} showNav={true} showFooter={false}>
@@ -38,7 +38,6 @@ const { name, email } = session.customer_details;
   >
     <div class="flex flex-col">
       <h1>Thank you for your purchase, {name}!</h1>
-      <p>We've sent a receipt to {email}.</p>
     </div>
     <a href="/dashboard/" class="btn btn-primary">Return to Dashboard</a>
   </div>
