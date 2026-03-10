@@ -24,8 +24,8 @@ export default [
       globals: {
         ...globals.browser,
         ...globals.node,
-        Request: "writeable",
-        Response: "writeable",
+        Request: "writable",
+        Response: "writable",
       },
     },
   }
