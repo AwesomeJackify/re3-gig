@@ -40,6 +40,7 @@ describe("register API", () => {
       makeContext({
         email: "test@test.com",
         password: "secret123",
+        confirm_password: "secret123",
         fname: "Jack",
         // lname missing
       }) as never,
@@ -59,6 +60,7 @@ describe("register API", () => {
       makeContext({
         email: "test@test.com",
         password: "secret123",
+        confirm_password: "secret123",
         fname: "Jack",
         lname: "Gong",
       }) as never,
@@ -85,6 +87,7 @@ describe("register API", () => {
       makeContext({
         email: "test@test.com",
         password: "secret123",
+        confirm_password: "secret123",
         fname: "Jack",
         lname: "Gong",
       }) as never,
