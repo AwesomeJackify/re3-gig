@@ -15,6 +15,12 @@ export default [
         "warn",
         { vars: "all", varsIgnorePattern: "^_", argsIgnorePattern: "^_" }
       ]
-    }
-  }
+    },
+  },
+  {
+    files: ["**/*.{ts,tsx,mts,cts,js}"],
+    rules: {
+      "no-undef": "off",
+    },
+  },
 ];
