@@ -5,9 +5,15 @@
   "scripts": {
     "dev": "astro dev",
     "start": "astro dev",
-    "build": "astro check && astro build",
+    "build": "eslint src/ && astro check && astro build",
     "preview": "astro preview",
-    "astro": "astro"
+    "astro": "astro",
+    "prepare": "husky",
+    "test": "vitest",
+    "test:unit": "vitest run",
+    "test:watch": "vitest",
+    "test:e2e": "playwright test",
+    "test:ci": "vitest run && playwright test"
   },
   "dependencies": {
     "@astrojs/check": "^0.9.4",
@@ -16,7 +22,7 @@
     "@astrojs/tailwind": "^5.1.2",
     "@cloudinary/url-gen": "^1.20.0",
     "@iconify-json/mdi": "^1.1.67",
-    "@stripe/stripe-js": "^4.8.0",
+    "@stripe/stripe-js": "^4.10.0",
     "@supabase/supabase-js": "^2.45.1",
     "@types/react": "^18.3.3",
     "@types/react-dom": "^18.3.0",
@@ -24,18 +30,39 @@
     "astro-embed": "^0.7.2",
     "astro-icon": "^1.1.0",
     "date-fns": "^4.0.0-beta.1",
+    "js-cookie": "^3.0.5",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "split-type": "^0.3.4",
-    "stripe": "^17.2.1",
+    "stripe": "^17.7.0",
     "tailwindcss": "^3.4.7",
     "typescript": "^5.5.4",
     "uuid": "^10.0.0"
   },
   "devDependencies": {
+    "@eslint/js": "^9.0.0",
     "@iconify/react": "^5.0.2",
+    "@playwright/test": "^1.58.2",
+    "@types/js-cookie": "^3.0.6",
     "@types/uuid": "^10.0.0",
+    "@typescript-eslint/parser": "^8.56.1",
+    "@vitest/ui": "^4.0.18",
     "daisyui": "^4.12.10",
-    "gsap": "^3.12.5"
+    "eslint": "^9.39.4",
+    "eslint-plugin-astro": "^1.6.0",
+    "eslint-plugin-unused-imports": "^4.4.1",
+    "gsap": "^3.12.5",
+    "husky": "^9.1.7",
+    "jiti": "^2.6.1",
+    "jsdom": "^28.1.0",
+    "lint-staged": "^16.3.2",
+    "playwright": "^1.58.2",
+    "prettier": "^3.8.1",
+    "supertest": "^7.2.2",
+    "typescript-eslint": "^8.56.1",
+    "vitest": "^4.0.18"
+  },
+  "lint-staged": {
+    "*.{js,ts,jsx,tsx,astro}": "eslint --fix"
   }
 }

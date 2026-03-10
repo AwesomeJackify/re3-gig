@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from "react";
-import { Icon } from "@iconify/react";
+import { useEffect, useState } from "react";
 import SmallWins from "./SmallWins";
 import { supabase } from "../lib/supabase";
 import History from "./history/History";
 import DashboardLayout from "../layouts/DashboardLayout";
-import Journal from "./Journal";
+import JournalComponent from "./Journal";
+import type { Task, Journal as JournalType } from "../types";
 
 interface Props {
   currentUserId: string;
@@ -13,16 +13,16 @@ interface Props {
 
 const Dashboard = ({ currentUserId, name }: Props) => {
   const [tasks, setTasks] = useState<Task[]>([]);
-  const [journals, setJournals] = useState<Journal[]>([]);
+  const [journals, setJournals] = useState<JournalType[]>([]);
 
   useEffect(() => {
     const fetchData = async () => {
-      const { data: todosData, error: todosError } = await supabase
+      const { data: todosData } = await supabase
         .from("todos")
         .select()
         .eq("user_id", currentUserId);
 
-      const { data: journalsData, error: journalsError } = await supabase
+      const { data: journalsData } = await supabase
         .from("journals")
         .select()
         .eq("user_id", currentUserId);
@@ -70,7 +70,7 @@ const Dashboard = ({ currentUserId, name }: Props) => {
             tasks={tasks}
             handleUpdateTask={updateTasks}
           />
-          <Journal userId={currentUserId} />
+          <JournalComponent userId={currentUserId} />
         </div>
         <div className="grid grid-cols-2 max-md:grid-cols-1 gap-8">
           <div className="flex flex-col gap-4 w-full">

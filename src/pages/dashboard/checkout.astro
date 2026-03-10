@@ -1,0 +1,69 @@
+---
+export const prerender = false;
+
+import Stripe from "stripe";
+import { supabase } from "../../lib/supabase";
+
+const { data: sessionData } = await supabase.auth.getSession();
+const currentUserId = sessionData?.session?.user?.id || null;
+
+const STRIPE_PUBLIC_KEY = import.meta.env.PROD
+  ? import.meta.env.PROD_STRIPE_PUBLISHABLE_KEY
+  : import.meta.env.TEST_STRIPE_PUBLISHABLE_KEY;
+
+const STRIPE_SECRET_KEY = import.meta.env.PROD
+  ? import.meta.env.PROD_STRIPE_SECRET_KEY
+  : import.meta.env.TEST_STRIPE_SECRET_KEY;
+
+const { origin } = Astro.url;
+
+const stripe = new Stripe(STRIPE_SECRET_KEY);
+const session = await stripe.checkout.sessions.create({
+  ui_mode: "embedded",
+  mode: "subscription",
+  automatic_tax: { enabled: true },
+  return_url: `${origin}/dashboard/return?session_id={CHECKOUT_SESSION_ID}`,
+  metadata: {
+    user_id: currentUserId,
+  },
+  line_items: [
+    {
+      price: "price_1QBk8ZC3780jfgXdTmEL5WNk",
+      quantity: 1,
+    },
+  ],
+});
+
+if (session.url) {
+  throw new Error("Checkout session creation failed");
+}
+---
+
+<div
+  id="checkout"
+  data-public-stripe-key={STRIPE_PUBLIC_KEY}
+  data-client-secret={session.client_secret}
+>
+</div>
+
+<script>
+  import { loadStripe } from "@stripe/stripe-js";
+  const checkoutDiv = document.querySelector("#checkout");
+  if (checkoutDiv) {
+    const stripePublicKey =
+      checkoutDiv.getAttribute("data-public-stripe-key") ?? "";
+    const clientSecret = checkoutDiv.getAttribute("data-client-secret") ?? "";
+
+    if (stripePublicKey != "" && clientSecret != "") {
+      const stripe = await loadStripe(stripePublicKey);
+
+      if (stripe != null) {
+        const checkout = await stripe.initEmbeddedCheckout({
+          fetchClientSecret: () => Promise.resolve(clientSecret),
+        });
+
+        checkout.mount("#checkout");
+      }
+    }
+  }
+</script>

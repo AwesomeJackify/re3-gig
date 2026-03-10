@@ -85,14 +85,11 @@ import logoImg from "../assets/images/logo.png";
   import gsap from "gsap";
   const viewportHeight = window.innerHeight;
 
-  function debounce<T extends (...args: any[]) => void>(
-    func: T,
-    wait: number
-  ): (...args: Parameters<T>) => void {
+  function debounce<T extends () => void>(func: T, wait: number): () => void {
     let timeout: ReturnType<typeof setTimeout>;
-    return (...args: Parameters<T>) => {
+    return () => {
       clearTimeout(timeout);
-      timeout = setTimeout(() => func(...args), wait);
+      timeout = setTimeout(() => func(), wait);
     };
   }
 

@@ -11,6 +11,7 @@ export default defineConfig({
   redirects: {
     "/programs": "/",
   },
-  output: "server",
+  output: "hybrid",
   adapter: netlify(),
+  site: 'https://rethree.online',
 });

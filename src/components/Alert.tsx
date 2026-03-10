@@ -1,12 +1,14 @@
-import React from "react";
+import Cookies from "js-cookie";
 
-interface Props {
-  error?: string;
-  status?: string;
-  success?: string;
-}
+const Alert = () => {
+  const flash = Cookies.get("flash");
 
-const Alert = ({ error, status, success }: Props) => {
+  const error = flash ? JSON.parse(flash)?.type === "error" ? JSON.parse(flash)?.message : null : null;
+  const status = flash ? JSON.parse(flash)?.type === "status" ? JSON.parse(flash)?.message : null : null;
+  const success = flash ? JSON.parse(flash)?.type === "success" ? JSON.parse(flash)?.message : null : null;
+
+  Cookies.remove("flash");
+  
   return (
     <div>
       {error && (
@@ -42,7 +44,7 @@ const Alert = ({ error, status, success }: Props) => {
           >
             <path
               strokeLinecap="round"
-              stroke-linejoin="round"
+              strokeLinejoin="round"
               strokeWidth="2"
               d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
             />
@@ -63,7 +65,7 @@ const Alert = ({ error, status, success }: Props) => {
           >
             <path
               strokeLinecap="round"
-              stroke-linejoin="round"
+              strokeLinejoin="round"
               strokeWidth="2"
               d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
             />

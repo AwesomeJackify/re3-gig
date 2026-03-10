@@ -1,31 +1,29 @@
-// With `output: 'hybrid'` configured:
 export const prerender = false;
 import type { APIRoute } from "astro";
+import { setFlash } from "../../../lib/flash";
 import { supabase } from "../../../lib/supabase";
 
-export const POST: APIRoute = async ({ request, redirect }) => {
+export const POST: APIRoute = async ({ request, cookies, redirect }) => {
   const formData = await request.formData();
   const email = formData.get("email")?.toString();
 
   if (!email) {
-    return redirect("/forgot-password?error=Please fill out email");
+    setFlash(cookies, "error", "Please enter your email address");
+
+    return redirect("/forgot-password");
   }
 
-  const redirectUrl = import.meta.env.PROD
-    ? "https://rethree.online/login-otp"
-    : "http://localhost:4321/login-otp";
-
-  const { data, error } = await supabase.auth.signInWithOtp({
-    email: email,
-    options: {
-      emailRedirectTo: redirectUrl,
-      shouldCreateUser: false,
-    },
+  const { error } = await supabase.auth.resetPasswordForEmail(email, {
+    redirectTo: "https://rethree.online/reset-password",
   });
 
   if (error) {
-    return redirect("/forgot-password?error=" + error.message);
+    setFlash(cookies, "error", "Error sending password reset email. Please try again.");
+
+    return redirect("/forgot-password");
   }
 
-  return redirect("/login-otp?success=One Time Password sent to your email");
+  setFlash(cookies, "success", "Password reset email sent! Please check your inbox.");
+
+  return redirect("/forgot-password");
 };

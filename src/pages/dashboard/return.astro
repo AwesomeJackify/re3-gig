@@ -1,0 +1,44 @@
+---
+export const prerender = false;
+
+import Layout from "../../layouts/Layout.astro";
+import config from "../../config.json";
+import Stripe from "stripe";
+
+const stripe = new Stripe(
+  import.meta.env.PROD
+    ? import.meta.env.PROD_STRIPE_SECRET_KEY
+    : import.meta.env.TEST_STRIPE_SECRET_KEY,
+);
+const sessionID = Astro.url.searchParams.get("session_id");
+
+if (!sessionID) {
+  return Astro.redirect("/checkout");
+}
+
+let session;
+
+try {
+  session = await stripe.checkout.sessions.retrieve(sessionID);
+} catch (e) {
+  // Redirect users back to checkout page if session is invalid
+  return Astro.redirect("/checkout");
+}
+
+if (!session.customer_details) {
+  throw new Error("Customer details not found");
+}
+
+const { name } = session.customer_details;
+---
+
+<Layout title={config.businessName} showNav={true} showFooter={false}>
+  <div
+    class="flex flex-1 flex-col items-center justify-center text-base-100 w-full gap-4 text-center bg-black"
+  >
+    <div class="flex flex-col">
+      <h1>Thank you for your purchase, {name}!</h1>
+    </div>
+    <a href="/dashboard/" class="btn btn-primary">Return to Dashboard</a>
+  </div>
+</Layout>
