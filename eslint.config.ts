@@ -18,5 +18,15 @@ export default [
       ]
     }
   },
-  { files: ["**/*.js"], languageOptions: { globals: globals.browser } }
+  {
+    files: ["**/*.{js,ts}"],
+    languageOptions: {
+      globals: {
+        ...globals.browser,
+        ...globals.node,
+        Request: "readonly",
+        Response: "readonly",
+      },
+    },
+  }
 ];
