@@ -39,10 +39,9 @@ const { origin } = Astro.url;
 const redirectUrl = `${origin}/dashboard/settings`;
 
 if (stripeData && stripeData.customer_id) {
-  // Create a billing portal session
   portalSession = await stripe.billingPortal.sessions.create({
     customer: stripeData.customer_id,
-    return_url: redirectUrl, // Redirect back to your site after the session
+    return_url: redirectUrl,
   });
 }
 ---

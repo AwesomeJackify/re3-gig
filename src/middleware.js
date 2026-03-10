@@ -81,13 +81,13 @@ export async function onRequest(context, next) {
             path: "/",
             httpOnly: true,
             secure: true,
-            sameSite: "Strict",
+            sameSite: "lax",
           });
           cookies.set("sb-refresh-token", newRefreshToken, {
             path: "/",
             httpOnly: true,
             secure: true,
-            sameSite: "Strict",
+            sameSite: "lax",
           });
         }
       }
