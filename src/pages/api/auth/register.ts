@@ -9,9 +9,15 @@ export const POST: APIRoute = async ({ request, cookies, redirect }) => {
   const lname = formData.get("lname")?.toString();
   const email = formData.get("email")?.toString();
   const password = formData.get("password")?.toString();
+  const confirmPassword = formData.get("confirm_password")?.toString();
 
-  if (!email || !password || !fname || !lname) {
+  if (!email || !password || !fname || !lname || !confirmPassword) {
     setFlash(cookies, "error", "Please fill out all fields");
+    return redirect("/register");
+  }
+
+  if (password !== confirmPassword) {
+    setFlash(cookies, "error", "Passwords do not match");
     return redirect("/register");
   }
 
