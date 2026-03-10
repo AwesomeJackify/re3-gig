@@ -1,6 +1,7 @@
 import js from "@eslint/js";
 import tseslint from "typescript-eslint";
 import unusedImports from "eslint-plugin-unused-imports";
+import globals from "globals";
 
 export default [
   js.configs.recommended,
@@ -16,5 +17,6 @@ export default [
         { vars: "all", varsIgnorePattern: "^_", argsIgnorePattern: "^_" }
       ]
     }
-  }
+  },
+  { files: ["**/*.js"], languageOptions: { globals: globals.browser } }
 ];
