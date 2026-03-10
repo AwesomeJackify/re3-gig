@@ -14,8 +14,8 @@ export default [
       "unused-imports/no-unused-imports": "error",
       "unused-imports/no-unused-vars": [
         "warn",
-        { vars: "all", varsIgnorePattern: "^_", argsIgnorePattern: "^_" }
-      ]
+        { vars: "all", varsIgnorePattern: "^_", argsIgnorePattern: "^_" },
+      ],
     },
   },
   {
@@ -29,9 +29,9 @@ export default [
     },
   },
   {
-    files: ["**/*.{ts,tsx,mts,cts}"],
+    files: ["src/env.d.ts"],
     rules: {
-      "no-undef": "off",
+      "@typescript-eslint/triple-slash-reference": "off",
     },
   },
 ];
