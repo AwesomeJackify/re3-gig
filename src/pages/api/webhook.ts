@@ -11,7 +11,7 @@ const stripe = new Stripe(
     : import.meta.env.TEST_STRIPE_SECRET_KEY
 );
 
-const webhookSecret = import.meta.env.PROD ? import.meta.env.STRIPE_WEBHOOK_SECRET : import.meta.env.TEST_STRIPE_WEBHOOK_SECRET;
+const webhookSecret = import.meta.env.PROD ? import.meta.env.PROD_STRIPE_WEBHOOK_SECRET : import.meta.env.TEST_STRIPE_WEBHOOK_SECRET;
 
 export const POST: APIRoute = async ({ request }) => {
   const body = await request.text();
