@@ -4,7 +4,6 @@ import Layout from "../../layouts/Layout.astro";
 import { supabase } from "../../lib/supabase";
 import DashboardComponent from "../../components/Dashboard";
 import AdminDashboard from "../../components/AdminDashboard";
-import Alert from "../../components/Alert";
 
 // Assuming the middleware has already validated the session
 const { data: sessionData } = await supabase.auth.getSession();
